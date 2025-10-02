@@ -1,0 +1,58 @@
+.model-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-width: 200px;
+}
+
+.model-select-field {
+    width: 100%;
+}
+
+.model-select-field .mat-mdc-form-field {
+    .mat-mdc-text-field-wrapper {
+        background-color: var(--bg-secondary);
+    }
+
+    .mat-mdc-input-element {
+        color: var(--text-primary);
+    }
+
+    .mat-mdc-form-field-label {
+        color: var(--text-secondary);
+    }
+}
+
+.model-info-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.model-name {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.model-description {
+    margin: 0 0 0.75rem 0;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .model-selector {
+        min-width: 150px;
+    }
+
+    .model-name {
+        font-size: 0.75rem;
+    }
+
+    .model-description {
+        font-size: 0.625rem;
+    }
+}

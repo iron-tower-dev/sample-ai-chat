@@ -1,1 +1,122 @@
-/* You can add global styles to this file, and also import other style files */
+/* Angular Material and custom theme imports */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import './app/styles/themes.scss';
+
+/* Global KaTeX positioning fixes */
+.katex {
+    font-size: 1.1em !important;
+    line-height: 1.2 !important;
+}
+
+.math-inline .katex {
+    vertical-align: baseline !important;
+    display: inline-block !important;
+}
+
+.math-inline .katex .mfrac {
+    vertical-align: -0.5ex !important;
+}
+
+.math-inline .katex .msupsub {
+    vertical-align: baseline !important;
+}
+
+.math-inline .katex .vlist-t {
+    display: inline-table !important;
+    vertical-align: baseline !important;
+}
+
+.math-inline .katex .vlist-r {
+    display: table-row !important;
+}
+
+.math-inline .katex .vlist {
+    display: table-cell !important;
+    vertical-align: baseline !important;
+}
+
+.math-inline .katex .msupsub .vlist-s {
+    display: table-cell !important;
+    vertical-align: baseline !important;
+    font-size: 0.75em !important;
+}
+
+.math-inline .katex .mfrac .vlist-t {
+    display: inline-table !important;
+    vertical-align: middle !important;
+}
+
+.math-inline .katex .mfrac .vlist-r {
+    display: table-row !important;
+}
+
+.math-inline .katex .mfrac .vlist {
+    display: table-cell !important;
+    vertical-align: middle !important;
+    text-align: center !important;
+}
+
+/* Global styles */
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Material Design overrides */
+.mat-mdc-button {
+    text-transform: none;
+    font-weight: 500;
+}
+
+.mat-mdc-form-field {
+    width: 100%;
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--text-tertiary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+/* Focus styles */
+*:focus {
+    outline: 2px solid var(--mat-primary-500);
+    outline-offset: 2px;
+}
+
+/* Selection styles */
+::selection {
+    background-color: rgba(var(--mat-primary-500-rgb), 0.2);
+    color: var(--text-primary);
+}
+
+/* Cache bust: Wed Oct  1 07:46:46 PM MST 2025 */

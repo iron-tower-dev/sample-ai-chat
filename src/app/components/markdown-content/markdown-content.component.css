@@ -1,0 +1,347 @@
+.markdown-content {
+    line-height: 1.6;
+    color: var(--text-primary);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Headings */
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+    margin: 1.5rem 0 1rem 0;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+}
+
+.markdown-content h1 {
+    font-size: 1.875rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.markdown-content h2 {
+    font-size: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.25rem;
+}
+
+.markdown-content h3 {
+    font-size: 1.25rem;
+}
+
+.markdown-content h4 {
+    font-size: 1.125rem;
+}
+
+.markdown-content h5,
+.markdown-content h6 {
+    font-size: 1rem;
+}
+
+/* Paragraphs */
+.markdown-content p {
+    margin: 1rem 0;
+    line-height: 1.7;
+}
+
+/* Lists */
+.markdown-content ul,
+.markdown-content ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+.markdown-content li {
+    margin: 0.5rem 0;
+    line-height: 1.6;
+}
+
+.markdown-content ul li {
+    list-style-type: disc;
+}
+
+.markdown-content ol li {
+    list-style-type: decimal;
+}
+
+/* Code blocks */
+.markdown-content .code-block {
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.markdown-content .code-block code {
+    background: none;
+    padding: 0;
+    border: none;
+    color: var(--text-primary);
+}
+
+/* Inline code */
+.markdown-content code:not([class*="language-"]) {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    padding: 0.125rem 0.375rem;
+    border-radius: 4px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.875rem;
+    border: 1px solid var(--border-color);
+}
+
+/* Math blocks */
+.markdown-content .math-block {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    text-align: center;
+    overflow-x: auto;
+}
+
+.markdown-content .math-block .katex-display {
+    margin: 0;
+}
+
+/* Inline math */
+.markdown-content .math-inline {
+    display: inline;
+    margin: 0 0.125rem;
+    vertical-align: baseline;
+}
+
+.markdown-content .math-inline .katex {
+    font-size: 1em;
+    line-height: 1;
+}
+
+/* KaTeX positioning fixes with high specificity */
+.markdown-content .katex {
+    font-size: 1.1em !important;
+    line-height: 1.2 !important;
+}
+
+/* Ensure proper baseline alignment for inline math */
+.markdown-content .math-inline .katex {
+    vertical-align: baseline !important;
+    display: inline-block !important;
+}
+
+/* Fix for complex inline math expressions */
+.markdown-content .math-inline .katex .mfrac {
+    vertical-align: -0.5ex !important;
+}
+
+.markdown-content .math-inline .katex .msupsub {
+    vertical-align: baseline !important;
+}
+
+/* Ensure fractions don't break line height */
+.markdown-content .katex .mfrac .vlist-t {
+    vertical-align: middle !important;
+}
+
+/* Fix for square roots in inline math */
+.markdown-content .math-inline .katex .sqrt {
+    vertical-align: baseline !important;
+}
+
+/* Override KaTeX's default positioning with high specificity */
+.markdown-content .math-inline .katex .vlist-t {
+    display: inline-table !important;
+    vertical-align: baseline !important;
+}
+
+.markdown-content .math-inline .katex .vlist-r {
+    display: table-row !important;
+}
+
+.markdown-content .math-inline .katex .vlist {
+    display: table-cell !important;
+    vertical-align: baseline !important;
+}
+
+/* Fix superscript positioning specifically */
+.markdown-content .math-inline .katex .msupsub .vlist-s {
+    display: table-cell !important;
+    vertical-align: baseline !important;
+    font-size: 0.75em !important;
+}
+
+/* Fix fraction positioning specifically */
+.markdown-content .math-inline .katex .mfrac .vlist-t {
+    display: inline-table !important;
+    vertical-align: middle !important;
+}
+
+.markdown-content .math-inline .katex .mfrac .vlist-r {
+    display: table-row !important;
+}
+
+.markdown-content .math-inline .katex .mfrac .vlist {
+    display: table-cell !important;
+    vertical-align: middle !important;
+    text-align: center !important;
+}
+
+/* Math errors */
+.markdown-content .math-error {
+    background-color: var(--error-color);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.875rem;
+}
+
+/* Blockquotes */
+.markdown-content blockquote {
+    margin: 1rem 0;
+    padding: 0.75rem 1rem;
+    border-left: 4px solid var(--mat-primary-500);
+    background-color: var(--bg-secondary);
+    border-radius: 0 6px 6px 0;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.markdown-content blockquote p {
+    margin: 0;
+}
+
+/* Tables */
+.markdown-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.markdown-content th,
+.markdown-content td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.markdown-content th {
+    background-color: var(--bg-secondary);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.markdown-content tr:last-child td {
+    border-bottom: none;
+}
+
+.markdown-content tr:hover {
+    background-color: var(--hover-bg);
+}
+
+/* Links */
+.markdown-content a {
+    color: var(--mat-primary-500);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+.markdown-content a:hover {
+    border-bottom-color: var(--mat-primary-500);
+}
+
+/* Strong and emphasis */
+.markdown-content strong {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.markdown-content em {
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+/* Horizontal rule */
+.markdown-content hr {
+    border: none;
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 2rem 0;
+}
+
+/* Images */
+.markdown-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin: 1rem 0;
+    box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+/* Markdown errors */
+.markdown-content .markdown-error {
+    background-color: var(--error-color);
+    color: white;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin: 1rem 0;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.875rem;
+}
+
+/* Dark mode adjustments */
+.dark-theme .markdown-content .katex {
+    color: var(--text-primary);
+}
+
+.dark-theme .markdown-content .katex .mord {
+    color: var(--text-primary);
+}
+
+.dark-theme .markdown-content .katex .mrel {
+    color: var(--text-secondary);
+}
+
+.dark-theme .markdown-content .katex .mbin {
+    color: var(--text-secondary);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .markdown-content {
+        font-size: 0.875rem;
+    }
+
+    .markdown-content h1 {
+        font-size: 1.5rem;
+    }
+
+    .markdown-content h2 {
+        font-size: 1.25rem;
+    }
+
+    .markdown-content .code-block {
+        padding: 0.75rem;
+        font-size: 0.75rem;
+    }
+
+    .markdown-content .math-block {
+        padding: 0.75rem;
+        margin: 1rem 0;
+    }
+}
