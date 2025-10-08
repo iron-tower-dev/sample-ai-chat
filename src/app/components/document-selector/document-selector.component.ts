@@ -7,26 +7,13 @@ import { DocumentSource } from '../../models/chat.models';
 @Component({
     selector: 'app-document-selector',
     imports: [CommonModule, FormsModule],
-    template: `
+  template: `
     <div class="document-selector">
-      <div class="selector-header">
-        <h3>Document Sources</h3>
-        <button 
-          class="toggle-btn"
-          (click)="isExpanded.set(!isExpanded())"
-          [class.expanded]="isExpanded()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="6,9 12,15 18,9"></polyline>
-          </svg>
-        </button>
-      </div>
-      
-      @if (isExpanded()) {
-        <div class="selector-content">
+      <div class="selector-content">
           <!-- Source Selection -->
           <div class="source-selection">
             <h4>Select Sources</h4>
-            <div class="source-list">
+            <div class="source-grid">
               @for (source of availableSources(); track source.id) {
                 <label class="source-item">
                   <input 
@@ -35,12 +22,14 @@ import { DocumentSource } from '../../models/chat.models';
                     (change)="toggleSource(source.id, $event)"
                     [disabled]="!isSourceAvailable(source)">
                   <div class="source-info">
-                    <span class="source-name">{{ source.name }}</span>
-                    <span class="source-type" [class.internal]="source.type === 'internal'">
-                      {{ source.type === 'internal' ? 'Internal' : 'External' }}
-                    </span>
+                    <div class="source-header">
+                      <span class="source-name">{{ source.name }}</span>
+                      <span class="source-type" [class.internal]="source.type === 'internal'">
+                        {{ source.type === 'internal' ? 'Int' : 'Ext' }}
+                      </span>
+                    </div>
                     @if (source.requiresAuth) {
-                      <span class="auth-required">🔒 Requires Authorization</span>
+                      <span class="auth-required">🔒</span>
                     }
                   </div>
                 </label>
@@ -48,56 +37,51 @@ import { DocumentSource } from '../../models/chat.models';
             </div>
           </div>
           
-          <!-- Metadata Filters -->
+          <!-- Selected Summary + Metadata Filters -->
           @if (selectedSources().length > 0) {
-            <div class="metadata-filters">
-              <h4>Filter by Metadata</h4>
-              <div class="filters-grid">
-                @for (field of availableMetadataFields(); track field) {
-                  <div class="filter-item">
-                    <label class="filter-label">{{ formatFieldName(field) }}</label>
+            <div class="bottom-section">
+              <!-- Selected Summary -->
+              <div class="selection-summary">
+                <h4>Selected</h4>
+                <div class="summary-items">
+                  @for (sourceId of selectedSources(); track sourceId) {
+                    @if (getSourceById(sourceId)) {
+                      <span class="summary-item">
+                        {{ getSourceById(sourceId)!.name }}
+                        <button 
+                          class="remove-source"
+                          (click)="removeSource(sourceId)">
+                          ×
+                        </button>
+                      </span>
+                    }
+                  }
+                </div>
+              </div>
+              
+              <!-- Metadata Filters -->
+              <div class="metadata-filters">
+                <h4>Filters</h4>
+                <div class="filters-row">
+                  @for (field of availableMetadataFields(); track field) {
                     <input 
                       type="text"
-                      [placeholder]="'Filter by ' + formatFieldName(field)"
+                      [placeholder]="formatFieldName(field)"
                       [value]="getFilterValue(field)"
                       (input)="setFilter(field, $event)"
                       class="filter-input">
-                  </div>
-                }
-              </div>
-              <div class="filter-actions">
-                <button class="clear-filters-btn" (click)="clearFilters()">
-                  Clear Filters
-                </button>
+                  }
+                  <button class="clear-filters-btn" (click)="clearFilters()" title="Clear Filters">
+                    Clear
+                  </button>
+                </div>
                 <span class="filter-count">
-                  {{ filteredDocuments().length }} documents available
+                  {{ filteredDocuments().length }} documents
                 </span>
               </div>
             </div>
           }
-          
-          <!-- Selected Summary -->
-          @if (selectedSources().length > 0) {
-            <div class="selection-summary">
-              <h4>Selected Sources</h4>
-              <div class="summary-items">
-                @for (sourceId of selectedSources(); track sourceId) {
-                  @if (getSourceById(sourceId)) {
-                    <span class="summary-item">
-                      {{ getSourceById(sourceId)!.name }}
-                      <button 
-                        class="remove-source"
-                        (click)="removeSource(sourceId)">
-                        ×
-                      </button>
-                    </span>
-                  }
-                }
-              </div>
-            </div>
-          }
-        </div>
-      }
+      </div>
     </div>
   `,
     styleUrls: ['./document-selector.component.css'],
@@ -111,8 +95,6 @@ export class DocumentSelectorComponent {
 
     sourcesChanged = output<string[]>();
     filtersChanged = output<any[]>();
-
-    isExpanded = signal(false);
 
     // Computed signals
     readonly availableSources = this.documentService.availableSources;

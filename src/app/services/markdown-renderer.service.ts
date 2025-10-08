@@ -25,7 +25,6 @@ export class MarkdownRendererService {
             try {
                 // Clean up the math content
                 const cleanMath = mathContent.trim();
-                console.log('Processing inline math:', cleanMath);
                 const html = katex.renderToString(cleanMath, {
                     displayMode: false,
                     throwOnError: false,
@@ -72,7 +71,6 @@ export class MarkdownRendererService {
         if (language === 'inline-math') {
             try {
                 const cleanCode = code.trim();
-                console.log('Processing inline-math block:', cleanCode);
                 const html = katex.renderToString(cleanCode, {
                     displayMode: false,
                     throwOnError: false,
@@ -98,8 +96,6 @@ export class MarkdownRendererService {
 
     async renderMarkdown(markdown: string): Promise<string> {
         try {
-            console.log('Original markdown:', markdown);
-
             // First, protect code blocks from inline math processing
             const codeBlockPlaceholders: string[] = [];
             let processedMarkdown = markdown.replace(/```(\w+)?\n?([\s\S]*?)```/g, (match, language, code) => {
@@ -108,11 +104,8 @@ export class MarkdownRendererService {
                 return placeholder;
             });
 
-            console.log('After code block protection:', processedMarkdown);
-
             // Now process inline math (excluding code blocks)
             processedMarkdown = this.processInlineMath(processedMarkdown);
-            console.log('After inline math processing:', processedMarkdown);
 
             // Restore and process code blocks
             processedMarkdown = processedMarkdown.replace(/__CODE_BLOCK_(\d+)__/g, (match, index) => {
@@ -120,19 +113,14 @@ export class MarkdownRendererService {
                 const codeBlockMatch = originalCodeBlock.match(/```(\w+)?\n?([\s\S]*?)```/);
                 if (codeBlockMatch) {
                     const [, language, code] = codeBlockMatch;
-                    console.log('Processing code block:', { language, code: code.substring(0, 100) + '...' });
                     const result = this.processCodeBlock(code, language);
-                    console.log('Code block result:', result.substring(0, 100) + '...');
                     return result;
                 }
                 return originalCodeBlock;
             });
 
-            console.log('After code block processing:', processedMarkdown);
-
             // Render the markdown
             const result = await marked(processedMarkdown);
-            console.log('Final result:', result);
 
             // Sanitize the HTML with DOMPurify to preserve KaTeX positioning
             const sanitizedResult = DOMPurify.sanitize(result as string, {

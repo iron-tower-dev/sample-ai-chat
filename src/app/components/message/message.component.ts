@@ -1,12 +1,22 @@
 import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ChatMessage, MessageFeedback } from '../../models/chat.models';
 import { RAGDocumentLinkComponent } from '../rag-document-link/rag-document-link.component';
 import { MarkdownContentComponent } from '../markdown-content/markdown-content.component';
 
 @Component({
   selector: 'app-message',
-  imports: [CommonModule, RAGDocumentLinkComponent, MarkdownContentComponent],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    RAGDocumentLinkComponent,
+    MarkdownContentComponent
+  ],
   template: `
     <div class="message" [class.user-message]="message().role === 'user'" [class.assistant-message]="message().role === 'assistant'">
       <div class="message-header">
@@ -64,33 +74,27 @@ import { MarkdownContentComponent } from '../markdown-content/markdown-content.c
       @if (message().role === 'assistant' && !message().feedback) {
         <div class="message-actions">
           <button 
-            class="feedback-btn positive"
+            mat-icon-button
             (click)="submitFeedback('positive')"
-            [class.active]="pendingFeedback() === 'positive'">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M14 9V5a3 3 0 0 0-6 0v4"></path>
-              <rect x="2" y="9" width="20" height="11" rx="2" ry="2"></rect>
-            </svg>
-            <span>Good</span>
+            [class.active]="pendingFeedback() === 'positive'"
+            matTooltip="Good response"
+            class="feedback-btn">
+            <mat-icon>thumb_up_outline</mat-icon>
           </button>
           <button 
-            class="feedback-btn negative"
+            mat-icon-button
             (click)="submitFeedback('negative')"
-            [class.active]="pendingFeedback() === 'negative'">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M10 15v4a3 3 0 0 0 6 0v-4"></path>
-              <rect x="2" y="9" width="20" height="11" rx="2" ry="2"></rect>
-            </svg>
-            <span>Poor</span>
+            [class.active]="pendingFeedback() === 'negative'"
+            matTooltip="Poor response"
+            class="feedback-btn">
+            <mat-icon>thumb_down_outline</mat-icon>
           </button>
         </div>
       }
       
       @if (message().feedback) {
         <div class="feedback-submitted">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="20,6 9,17 4,12"></polyline>
-          </svg>
+          <mat-icon>check_circle</mat-icon>
           <span>Thank you for your feedback!</span>
         </div>
       }

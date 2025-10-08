@@ -1,6 +1,5 @@
-/* Angular Material and custom theme imports */
+/* Angular Material theme */
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
-@import './app/styles/themes.scss';
 
 /* Global KaTeX positioning fixes */
 .katex {
@@ -56,6 +55,83 @@
     text-align: center !important;
 }
 
+/* Open WebUI-inspired Color Theme Variables */
+:root, body.light-theme {
+    /* Primary colors */
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --primary-light: #6366f1;
+    
+    /* Background colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --bg-tertiary: #f3f4f6;
+    --sidebar-bg: #f9fafb;
+    
+    /* Text colors */
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    --text-tertiary: #9ca3af;
+    
+    /* Border colors */
+    --border-color: #e5e7eb;
+    --border-hover: #d1d5db;
+    
+    /* Message colors */
+    --message-user-bg: #f3f4f6;
+    --message-assistant-bg: #ffffff;
+    --message-hover: #f9fafb;
+    
+    /* Accent colors */
+    --accent: #8b5cf6;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    
+    /* Shadow */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+body.dark-theme {
+    /* Primary colors */
+    --primary: #6366f1;
+    --primary-hover: #818cf8;
+    --primary-light: #818cf8;
+    
+    /* Background colors */
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --sidebar-bg: #1e293b;
+    
+    /* Text colors */
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+    
+    /* Border colors */
+    --border-color: #334155;
+    --border-hover: #475569;
+    
+    /* Message colors */
+    --message-user-bg: #1e293b;
+    --message-assistant-bg: #0f172a;
+    --message-hover: #334155;
+    
+    /* Accent colors */
+    --accent: #a78bfa;
+    --success: #34d399;
+    --warning: #fbbf24;
+    --error: #f87171;
+    
+    /* Shadow */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
 /* Global styles */
 * {
     box-sizing: border-box;
@@ -87,24 +163,53 @@ body {
     width: 100%;
 }
 
-/* Custom scrollbar for webkit browsers */
+/* Custom scrollbar for webkit browsers (Chrome, Edge, Safari) */
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
 }
 
+/* Light mode scrollbar */
 ::-webkit-scrollbar-track {
-    background: var(--bg-tertiary);
-    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--text-tertiary);
-    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.12);
+    border-radius: 5px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--text-secondary);
+    background: rgba(0, 0, 0, 0.2);
+    background-clip: padding-box;
+}
+
+/* Dark mode scrollbar */
+body.dark-theme ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-theme ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    background-clip: padding-box;
+}
+
+body.dark-theme ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+    background-clip: padding-box;
+}
+
+/* Custom scrollbar for Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.12) rgba(0, 0, 0, 0.04);
+}
+
+body.dark-theme * {
+    scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
 }
 
 /* Focus styles */
@@ -119,4 +224,54 @@ body {
     color: var(--text-primary);
 }
 
-/* Cache bust: Wed Oct  1 07:46:46 PM MST 2025 */
+/* Material Menu and Select Panel Dark Mode Support */
+.mat-mdc-menu-panel,
+.mat-mdc-select-panel {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.mat-mdc-menu-item,
+.mat-mdc-option {
+    color: var(--text-primary) !important;
+}
+
+.mat-mdc-menu-item:hover,
+.mat-mdc-option:hover {
+    background: var(--bg-tertiary) !important;
+}
+
+.mat-mdc-menu-item .mat-icon,
+.mat-mdc-option .mat-icon {
+    color: var(--text-secondary) !important;
+}
+
+.mat-mdc-option.mat-mdc-option-active,
+.mat-mdc-option.mdc-list-item--selected {
+    background: var(--bg-tertiary) !important;
+}
+
+/* Material Dialog Dark Mode Support */
+.mat-mdc-dialog-container {
+    background: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+.mat-mdc-dialog-title {
+    color: var(--text-primary) !important;
+}
+
+.mat-mdc-dialog-content {
+    color: var(--text-primary) !important;
+}
+
+/* Overlay Backdrop */
+.cdk-overlay-backdrop {
+    background: rgba(0, 0, 0, 0.32);
+}
+
+body.dark-theme .cdk-overlay-backdrop {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+/* Cache bust: 2025-10-08T17:32:00Z - scrollbar update */

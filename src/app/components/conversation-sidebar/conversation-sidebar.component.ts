@@ -24,47 +24,37 @@ import { Conversation } from '../../models/chat.models';
   ],
   template: `
     <div class="conversation-sidebar">
-      <mat-toolbar class="sidebar-header" color="primary">
-        <h2>Conversations</h2>
-        <span class="spacer"></span>
-        <button 
-          mat-icon-button
-          color="accent"
-          (click)="createNewConversation()"
-          matTooltip="New Conversation">
-          <mat-icon>add</mat-icon>
-        </button>
-      </mat-toolbar>
-      
       <div class="conversations-list">
         @if (conversations().length === 0) {
           <div class="empty-state">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-            </svg>
+            <mat-icon class="empty-icon">chat_bubble_outline</mat-icon>
             <p>No conversations yet</p>
             <span>Start a new conversation to begin</span>
           </div>
         } @else {
-          <mat-list>
+          <div class="conversations-container">
             @for (conversation of conversations(); track conversation.id) {
-              <mat-list-item 
+              <div 
                 [class.active]="conversation.id === currentConversationId()"
                 (click)="selectConversation(conversation.id)"
                 class="conversation-item">
                 <div class="conversation-content">
                   <div class="conversation-header">
+                    <mat-icon class="conversation-icon">chat</mat-icon>
                     <h3 class="conversation-title">{{ conversation.title }}</h3>
                     <button 
                       mat-icon-button
                       (click)="deleteConversation(conversation.id, $event)"
                       matTooltip="Delete conversation"
                       class="delete-btn">
-                      <mat-icon>delete</mat-icon>
+                      <mat-icon>delete_outline</mat-icon>
                     </button>
                   </div>
                   <div class="conversation-meta">
-                    <span class="message-count">{{ conversation.messages.length }} messages</span>
+                    <span class="message-count">
+                      <mat-icon>chat_bubble_outline</mat-icon>
+                      {{ conversation.messages.length }}
+                    </span>
                     <span class="last-updated">{{ formatLastUpdated(conversation.updatedAt) }}</span>
                   </div>
                   @if (conversation.messages.length > 0) {
@@ -73,10 +63,9 @@ import { Conversation } from '../../models/chat.models';
                     </div>
                   }
                 </div>
-              </mat-list-item>
-              <mat-divider></mat-divider>
+              </div>
             }
-          </mat-list>
+          </div>
         }
       </div>
     </div>

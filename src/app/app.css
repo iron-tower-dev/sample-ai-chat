@@ -1,44 +1,78 @@
-/* Global styles for the AI Chat Assistant */
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-        sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.app-container {
-    display: flex;
-    height: 100vh;
-    background: var(--bg-primary);
-    transition: background-color 0.3s ease;
-}
-
-.main-content {
-    flex: 1;
+/* Open WebUI-inspired styling with global toolbar */
+.app-layout {
     display: flex;
     flex-direction: column;
+    height: 100vh;
+    width: 100vw;
     overflow: hidden;
-    background: var(--bg-primary);
-    transition: background-color 0.3s ease;
+}
+
+/* Global App Toolbar */
+.app-toolbar {
+    position: relative;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.menu-toggle {
+    margin-right: 0.5rem;
+}
+
+.app-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+
+/* Main container below toolbar */
+.app-container {
+    flex: 1;
+    min-height: 0; /* Critical: allows flex child to be scrollable */
+    overflow: hidden;
+    width: 100%;
+}
+
+.app-sidenav {
+    width: 260px;
+    border-right: none;
+    background: var(--sidebar-bg) !important;
+}
+
+.app-content,
+mat-sidenav-content.app-content {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    min-height: 0 !important; /* Critical: allows flex child to be scrollable */
+    overflow: hidden !important; /* Prevent children from overflowing */
+    background: var(--bg-primary) !important;
 }
 
 /* Responsive design */
-@media (max-width: 768px) {
-    .app-container {
-        flex-direction: column;
+@media (max-width: 960px) {
+    .app-sidenav {
+        width: 240px;
     }
+    
+    .app-title {
+        font-size: 1.125rem;
+    }
+}
 
-    .main-content {
-        height: 60vh;
+@media (max-width: 600px) {
+    .app-toolbar {
+        padding: 0 8px;
+    }
+    
+    .app-title {
+        font-size: 1rem;
+    }
+    
+    .menu-toggle {
+        margin-right: 0.25rem;
     }
 }
