@@ -13,6 +13,12 @@
     padding-bottom: 0 !important;
 }
 
+/* Center the label properly */
+::ng-deep .model-select-field .mat-mdc-form-field-label {
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+}
+
 ::ng-deep .model-select-field .mdc-text-field--outlined .mdc-notched-outline .mdc-notched-outline__leading,
 ::ng-deep .model-select-field .mdc-text-field--outlined .mdc-notched-outline .mdc-notched-outline__notch,
 ::ng-deep .model-select-field .mdc-text-field--outlined .mdc-notched-outline .mdc-notched-outline__trailing {
@@ -20,13 +26,14 @@
 }
 
 ::ng-deep .model-select-field .mat-mdc-form-field-infix {
-    padding-top: 0.625rem !important;
-    padding-bottom: 0.625rem !important;
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
     min-height: auto !important;
 }
 
 ::ng-deep .model-select-field .mat-mdc-form-field-subscript-wrapper {
-    display: none !important; /* Hide hint area to save space */
+    display: none !important;
+    /* Hide hint area to save space */
 }
 
 
@@ -141,11 +148,11 @@
     .model-selector {
         min-width: 180px;
     }
-    
+
     .model-option-name {
         font-size: 0.875rem;
     }
-    
+
     .model-option-desc {
         font-size: 0.6875rem;
     }

@@ -74,7 +74,6 @@ import { MarkdownContentComponent } from '../markdown-content/markdown-content.c
       @if (message().role === 'assistant' && !message().feedback) {
         <div class="message-actions">
           <button 
-            mat-icon-button
             (click)="submitFeedback('positive')"
             [class.active]="pendingFeedback() === 'positive'"
             matTooltip="Good response"
@@ -82,7 +81,6 @@ import { MarkdownContentComponent } from '../markdown-content/markdown-content.c
             <mat-icon>thumb_up_outline</mat-icon>
           </button>
           <button 
-            mat-icon-button
             (click)="submitFeedback('negative')"
             [class.active]="pendingFeedback() === 'negative'"
             matTooltip="Poor response"

@@ -1,6 +1,9 @@
 /* Angular Material theme */
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
+/* Custom theme system */
+@import './app/styles/themes.scss';
+
 /* Global KaTeX positioning fixes */
 .katex {
     font-size: 1.1em !important;
@@ -55,81 +58,16 @@
     text-align: center !important;
 }
 
-/* Open WebUI-inspired Color Theme Variables */
-:root, body.light-theme {
-    /* Primary colors */
+/* Legacy theme variables for backward compatibility */
+:root {
+    /* These will be overridden by the new theme system */
     --primary: #4f46e5;
     --primary-hover: #4338ca;
     --primary-light: #6366f1;
-    
-    /* Background colors */
-    --bg-primary: #ffffff;
-    --bg-secondary: #f9fafb;
-    --bg-tertiary: #f3f4f6;
-    --sidebar-bg: #f9fafb;
-    
-    /* Text colors */
-    --text-primary: #111827;
-    --text-secondary: #6b7280;
-    --text-tertiary: #9ca3af;
-    
-    /* Border colors */
-    --border-color: #e5e7eb;
-    --border-hover: #d1d5db;
-    
-    /* Message colors */
-    --message-user-bg: #f3f4f6;
-    --message-assistant-bg: #ffffff;
-    --message-hover: #f9fafb;
-    
-    /* Accent colors */
     --accent: #8b5cf6;
     --success: #10b981;
     --warning: #f59e0b;
     --error: #ef4444;
-    
-    /* Shadow */
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-body.dark-theme {
-    /* Primary colors */
-    --primary: #6366f1;
-    --primary-hover: #818cf8;
-    --primary-light: #818cf8;
-    
-    /* Background colors */
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-tertiary: #334155;
-    --sidebar-bg: #1e293b;
-    
-    /* Text colors */
-    --text-primary: #f1f5f9;
-    --text-secondary: #cbd5e1;
-    --text-tertiary: #94a3b8;
-    
-    /* Border colors */
-    --border-color: #334155;
-    --border-hover: #475569;
-    
-    /* Message colors */
-    --message-user-bg: #1e293b;
-    --message-assistant-bg: #0f172a;
-    --message-hover: #334155;
-    
-    /* Accent colors */
-    --accent: #a78bfa;
-    --success: #34d399;
-    --warning: #fbbf24;
-    --error: #f87171;
-    
-    /* Shadow */
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
 }
 
 /* Global styles */
@@ -148,8 +86,8 @@ body {
     font-family: 'Roboto', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
+    background-color: var(--md-background);
+    color: var(--md-on-background);
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -163,115 +101,289 @@ body {
     width: 100%;
 }
 
+/* Material Design component theming */
+.mat-mdc-button:not(.mat-mdc-raised-button) {
+    color: var(--md-on-surface) !important;
+}
+
+.mat-mdc-button.mat-mdc-raised-button {
+    background-color: var(--md-primary) !important;
+    color: var(--md-on-primary) !important;
+}
+
+.mat-mdc-form-field .mat-mdc-form-field-label {
+    color: var(--md-on-surface-variant) !important;
+}
+
+.mat-mdc-form-field .mat-mdc-input-element {
+    color: var(--md-on-surface) !important;
+}
+
+.mat-mdc-form-field .mat-mdc-form-field-outline {
+    color: var(--md-outline) !important;
+}
+
+.mat-mdc-form-field.mat-focused .mat-mdc-form-field-outline {
+    color: var(--md-primary) !important;
+}
+
+/* Material Design Radio Button Theming */
+.mat-mdc-radio-button {
+    color: var(--md-on-surface) !important;
+}
+
+.mat-mdc-radio-button .mat-mdc-radio-label {
+    color: var(--md-on-surface) !important;
+}
+
+.mat-mdc-radio-button .mat-mdc-radio-label-content {
+    color: var(--md-on-surface) !important;
+}
+
+.mat-mdc-radio-button .mat-mdc-radio-outer-circle {
+    border-color: var(--md-outline) !important;
+}
+
+.mat-mdc-radio-button.mat-mdc-radio-checked .mat-mdc-radio-outer-circle {
+    border-color: var(--md-primary) !important;
+}
+
+.mat-mdc-radio-button .mat-mdc-radio-inner-circle {
+    background-color: var(--md-primary) !important;
+}
+
+.mat-mdc-radio-button:hover .mat-mdc-radio-outer-circle {
+    border-color: var(--md-primary) !important;
+}
+
+/* More specific radio button styling for better override */
+.mat-mdc-radio-group .mat-mdc-radio-button .mat-mdc-radio-label-content {
+    color: var(--md-on-surface) !important;
+    font-weight: 500 !important;
+}
+
+.mat-mdc-radio-group .mat-mdc-radio-button .mat-mdc-radio-outer-circle {
+    border-color: var(--md-outline) !important;
+    border-width: 2px !important;
+}
+
+.mat-mdc-radio-group .mat-mdc-radio-button.mat-mdc-radio-checked .mat-mdc-radio-outer-circle {
+    border-color: var(--md-primary) !important;
+}
+
+.mat-mdc-radio-group .mat-mdc-radio-button .mat-mdc-radio-inner-circle {
+    background-color: var(--md-primary) !important;
+}
+
+/* Icon button theming */
+.mat-mdc-icon-button {
+    color: var(--md-on-surface) !important;
+}
+
+.mat-mdc-icon-button:hover {
+    background-color: var(--md-surface-variant) !important;
+}
+
+.mat-mdc-icon-button .mat-icon {
+    color: var(--md-on-surface) !important;
+}
+
+/* Material Design Toolbar Theming */
+.mat-mdc-toolbar {
+    background-color: var(--md-primary) !important;
+    color: var(--md-on-primary) !important;
+}
+
+.mat-mdc-toolbar .mat-mdc-button {
+    color: var(--md-on-primary) !important;
+}
+
+.mat-mdc-toolbar .mat-mdc-button .mat-icon {
+    color: var(--md-on-primary) !important;
+}
+
+.mat-mdc-toolbar .mat-mdc-button:hover {
+    background-color: var(--md-primary-container) !important;
+    color: var(--md-on-primary-container) !important;
+}
+
+.mat-mdc-toolbar .mat-mdc-button:hover .mat-icon {
+    color: var(--md-on-primary-container) !important;
+}
+
+/* Global override for mat-icon-no-color in feedback buttons */
+.feedback-btn .mat-icon-no-color {
+    color: #666666 !important;
+}
+
+.feedback-btn:hover .mat-icon-no-color {
+    color: #333333 !important;
+}
+
+.feedback-btn.active .mat-icon-no-color {
+    color: var(--md-on-tertiary-container) !important;
+}
+
+/* Global form field styling for document selector */
+.document-selector .mat-mdc-input-element,
+.document-selector .mdc-text-field__input,
+.document-selector .mat-mdc-form-field-input-control,
+.document-selector .cdk-text-field-autofill-monitored,
+.document-selector input[matinput],
+.document-selector input {
+    color: #ffffff !important;
+    background: transparent !important;
+}
+
+.document-selector .mat-mdc-form-field-label,
+.document-selector .mdc-floating-label,
+.document-selector label {
+    color: #cccccc !important;
+}
+
+/* Global form field outline and label fixes */
+.document-selector .mat-mdc-form-field {
+    --mdc-outlined-text-field-outline-color: #cccccc !important;
+    --mdc-outlined-text-field-focus-outline-color: #1976D2 !important;
+    --mdc-outlined-text-field-label-text-color: #cccccc !important;
+}
+
+.document-selector .mat-mdc-form-field-outline {
+    color: #cccccc !important;
+    opacity: 1 !important;
+}
+
+.document-selector .mdc-notched-outline {
+    border-color: #cccccc !important;
+}
+
+.document-selector .mdc-notched-outline__leading,
+.document-selector .mdc-notched-outline__notch,
+.document-selector .mdc-notched-outline__trailing {
+    border-color: #cccccc !important;
+}
+
+/* Clear filters button and filter count */
+.document-selector .clear-filters-btn {
+    color: #cccccc !important;
+}
+
+.document-selector .filter-count {
+    color: #cccccc !important;
+}
+
+/* Ultra-aggressive override for all mat-icon combinations in feedback buttons */
+.feedback-btn .mat-icon,
+.feedback-btn .mat-icon-no-color,
+.feedback-btn .material-icons,
+.feedback-btn .notranslate,
+.feedback-btn .mat-ligature-font {
+    color: #666666 !important;
+}
+
+.feedback-btn:hover .mat-icon,
+.feedback-btn:hover .mat-icon-no-color,
+.feedback-btn:hover .material-icons,
+.feedback-btn:hover .notranslate,
+.feedback-btn:hover .mat-ligature-font {
+    color: #333333 !important;
+}
+
 /* Custom scrollbar for webkit browsers (Chrome, Edge, Safari) */
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
 }
 
-/* Light mode scrollbar */
+/* Scrollbar styling */
 ::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.04);
+    background: var(--md-surface-variant);
     border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.12);
+    background: var(--md-on-surface-variant);
     border-radius: 5px;
     border: 2px solid transparent;
     background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.2);
-    background-clip: padding-box;
-}
-
-/* Dark mode scrollbar */
-body.dark-theme ::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-}
-
-body.dark-theme ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    background-clip: padding-box;
-}
-
-body.dark-theme ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: var(--md-on-surface);
     background-clip: padding-box;
 }
 
 /* Custom scrollbar for Firefox */
 * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, 0.12) rgba(0, 0, 0, 0.04);
-}
-
-body.dark-theme * {
-    scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
+    scrollbar-color: var(--md-on-surface-variant) var(--md-surface-variant);
 }
 
 /* Focus styles */
 *:focus {
-    outline: 2px solid var(--mat-primary-500);
+    outline: 2px solid var(--md-primary);
     outline-offset: 2px;
 }
 
 /* Selection styles */
 ::selection {
-    background-color: rgba(var(--mat-primary-500-rgb), 0.2);
-    color: var(--text-primary);
+    background-color: var(--md-primary-container);
+    color: var(--md-on-primary-container);
 }
 
-/* Material Menu and Select Panel Dark Mode Support */
+/* Material Menu and Select Panel Support */
 .mat-mdc-menu-panel,
 .mat-mdc-select-panel {
-    background: var(--bg-secondary) !important;
-    border: 1px solid var(--border-color) !important;
+    background: var(--md-surface) !important;
+    border: 1px solid var(--md-outline) !important;
 }
 
 .mat-mdc-menu-item,
 .mat-mdc-option {
-    color: var(--text-primary) !important;
+    color: var(--md-on-surface) !important;
 }
 
 .mat-mdc-menu-item:hover,
 .mat-mdc-option:hover {
-    background: var(--bg-tertiary) !important;
+    background: var(--md-surface-variant) !important;
 }
 
 .mat-mdc-menu-item .mat-icon,
 .mat-mdc-option .mat-icon {
-    color: var(--text-secondary) !important;
+    color: var(--md-on-surface-variant) !important;
 }
 
 .mat-mdc-option.mat-mdc-option-active,
 .mat-mdc-option.mdc-list-item--selected {
-    background: var(--bg-tertiary) !important;
+    background: var(--md-primary-container) !important;
 }
 
-/* Material Dialog Dark Mode Support */
+/* Material Dialog Support */
 .mat-mdc-dialog-container {
-    background: var(--bg-primary) !important;
-    color: var(--text-primary) !important;
+    background: var(--md-surface) !important;
+    color: var(--md-on-surface) !important;
 }
 
 .mat-mdc-dialog-title {
-    color: var(--text-primary) !important;
+    color: var(--md-on-surface) !important;
 }
 
 .mat-mdc-dialog-content {
-    color: var(--text-primary) !important;
+    color: var(--md-on-surface) !important;
 }
 
 /* Overlay Backdrop */
 .cdk-overlay-backdrop {
-    background: rgba(0, 0, 0, 0.32);
+    background: var(--md-scrim);
 }
 
-body.dark-theme .cdk-overlay-backdrop {
-    background: rgba(0, 0, 0, 0.6);
+/* Theme Dialog Backdrop */
+.theme-dialog-backdrop {
+    background: rgba(0, 0, 0, 0.32) !important;
+}
+
+.theme-dialog-backdrop.cdk-overlay-backdrop {
+    background: rgba(0, 0, 0, 0.32) !important;
 }
 
 /* Cache bust: 2025-10-08T17:32:00Z - scrollbar update */

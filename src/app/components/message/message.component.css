@@ -31,7 +31,7 @@
     gap: 0.5rem;
     margin-bottom: 0.5rem;
     font-size: 0.75rem;
-    color: var(--text-tertiary);
+    color: var(--md-on-surface-variant);
     max-width: 80%;
 }
 
@@ -45,7 +45,7 @@
     gap: 0.375rem;
     font-weight: 600;
     font-size: 0.8125rem;
-    color: var(--text-secondary);
+    color: var(--md-on-surface);
 }
 
 .message-role svg {
@@ -65,8 +65,8 @@
 }
 
 .model {
-    background: var(--bg-tertiary);
-    color: var(--text-secondary);
+    background: var(--md-surface-variant);
+    color: var(--md-on-surface-variant);
     padding: 0.125rem 0.5rem;
     border-radius: 6px;
     font-size: 0.625rem;
@@ -79,20 +79,23 @@
     line-height: 1.6;
     padding: 0.875rem 1rem;
     border-radius: 12px;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
 }
 
 .user-message .message-content {
-    background: var(--primary);
-    color: white;
+    background: var(--md-primary);
+    color: var(--md-on-primary);
     border-bottom-right-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .assistant-message .message-content {
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
+    background: var(--md-surface);
+    color: var(--md-on-surface);
+    border: 1px solid var(--md-outline);
     border-bottom-left-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .content-text {
@@ -103,7 +106,7 @@
 /* Override text color for user messages */
 .user-message .message-content,
 .user-message .message-content * {
-    color: white !important;
+    color: var(--md-on-primary) !important;
 }
 
 /* Markdown content styling within messages */
@@ -148,7 +151,7 @@
 }
 
 .assistant-message .rag-documents {
-    border-top-color: var(--border-color);
+    border-top-color: var(--md-outline);
 }
 
 .rag-header {
@@ -158,7 +161,7 @@
     margin-bottom: 0.625rem;
     font-size: 0.75rem;
     font-weight: 600;
-    color: var(--text-secondary);
+    color: var(--md-on-surface);
 }
 
 .user-message .rag-header {
@@ -166,7 +169,7 @@
 }
 
 .rag-header svg {
-    color: var(--text-tertiary);
+    color: var(--md-on-surface-variant);
     width: 16px;
     height: 16px;
 }
@@ -197,24 +200,119 @@
 .feedback-btn {
     width: 28px;
     height: 28px;
-    color: var(--text-tertiary);
+    color: #666666 !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 50% !important;
     transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    min-width: 28px;
+    flex-shrink: 0;
+    cursor: pointer;
 }
 
 .feedback-btn mat-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
+    font-size: 16px !important;
+    width: 16px !important;
+    height: 16px !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: inline-block !important;
+    color: #666666 !important;
+    font-family: 'Material Icons' !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    word-wrap: normal !important;
+    white-space: nowrap !important;
+    direction: ltr !important;
+}
+
+.feedback-btn mat-icon.mat-icon-no-color {
+    color: #666666 !important;
+}
+
+.feedback-btn mat-icon.material-icons {
+    color: #666666 !important;
+}
+
+/* Ultra-specific selectors to override mat-icon-no-color */
+.feedback-btn mat-icon.mat-icon-no-color.material-icons {
+    color: #666666 !important;
+}
+
+.feedback-btn mat-icon.mat-icon-no-color.notranslate {
+    color: #666666 !important;
+}
+
+.feedback-btn mat-icon.mat-icon-no-color.mat-ligature-font {
+    color: #666666 !important;
 }
 
 .feedback-btn:hover {
-    background: var(--bg-tertiary);
-    color: var(--text-secondary);
+    background: var(--md-surface-variant) !important;
+    color: #333333 !important;
+}
+
+.feedback-btn:hover mat-icon {
+    color: #333333 !important;
+}
+
+.feedback-btn:hover mat-icon.mat-icon-no-color {
+    color: #333333 !important;
+}
+
+.feedback-btn:hover mat-icon.material-icons {
+    color: #333333 !important;
+}
+
+/* Ultra-specific hover selectors */
+.feedback-btn:hover mat-icon.mat-icon-no-color.material-icons {
+    color: #333333 !important;
+}
+
+.feedback-btn:hover mat-icon.mat-icon-no-color.notranslate {
+    color: #333333 !important;
+}
+
+.feedback-btn:hover mat-icon.mat-icon-no-color.mat-ligature-font {
+    color: #333333 !important;
 }
 
 .feedback-btn.active {
-    background: var(--bg-tertiary);
-    color: var(--primary);
+    background: var(--md-tertiary-container) !important;
+    color: var(--md-on-tertiary-container) !important;
+}
+
+.feedback-btn.active mat-icon {
+    color: var(--md-on-tertiary-container) !important;
+}
+
+.feedback-btn.active mat-icon.mat-icon-no-color {
+    color: var(--md-on-tertiary-container) !important;
+}
+
+.feedback-btn.active mat-icon.material-icons {
+    color: var(--md-on-tertiary-container) !important;
+}
+
+/* Ultra-specific active selectors */
+.feedback-btn.active mat-icon.mat-icon-no-color.material-icons {
+    color: var(--md-on-tertiary-container) !important;
+}
+
+.feedback-btn.active mat-icon.mat-icon-no-color.notranslate {
+    color: var(--md-on-tertiary-container) !important;
+}
+
+.feedback-btn.active mat-icon.mat-icon-no-color.mat-ligature-font {
+    color: var(--md-on-tertiary-container) !important;
 }
 
 .feedback-submitted {
@@ -223,10 +321,10 @@
     gap: 0.5rem;
     margin-top: 0.5rem;
     padding: 0.5rem 0.75rem;
-    background: var(--bg-tertiary);
+    background: var(--md-surface-variant);
     border-radius: 8px;
     font-size: 0.75rem;
-    color: var(--text-secondary);
+    color: var(--md-on-surface);
     max-width: 80%;
 }
 
@@ -234,13 +332,12 @@
     font-size: 16px;
     width: 16px;
     height: 16px;
-    color: var(--success);
+    color: var(--md-tertiary);
     margin-top: 0.75rem;
     padding: 0.375rem 0.75rem;
-    background: #f0f9ff;
-    border: 1px solid #0ea5e9;
+    background: var(--md-tertiary-container);
+    border: 1px solid var(--md-tertiary);
     border-radius: 6px;
-    color: #0369a1;
     font-size: 0.75rem;
     font-weight: 500;
 }

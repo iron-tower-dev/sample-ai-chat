@@ -1,0 +1,60 @@
+.app-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.menu-toggle {
+    margin-right: 16px;
+}
+
+.app-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    flex: 1;
+}
+
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+
+/* Ensure proper spacing between toolbar items */
+.app-toolbar button {
+    margin: 0 4px;
+}
+
+.app-toolbar button:first-of-type {
+    margin-left: 0;
+}
+
+.app-toolbar button:last-of-type {
+    margin-right: 0;
+}
+
+/* Toolbar theming - Always use light mode primary color */
+.app-toolbar {
+    background-color: var(--toolbar-primary) !important;
+    color: var(--toolbar-on-primary) !important;
+}
+
+.app-toolbar .app-title {
+    color: var(--toolbar-on-primary) !important;
+}
+
+.app-toolbar button {
+    color: var(--toolbar-on-primary) !important;
+}
+
+.app-toolbar button .mat-icon {
+    color: var(--toolbar-on-primary) !important;
+}
+
+.app-toolbar button:hover {
+    background-color: var(--toolbar-primary-container) !important;
+    color: var(--toolbar-on-primary-container) !important;
+}
+
+.app-toolbar button:hover .mat-icon {
+    color: var(--toolbar-on-primary-container) !important;
+}

@@ -1,74 +1,28 @@
-import { Component, signal } from '@angular/core';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { Component, signal, ViewChild, inject } from '@angular/core';
+import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
+import { MatDialog } from '@angular/material/dialog';
 import { ChatInterfaceComponent } from './components/chat-interface/chat-interface.component';
 import { ConversationSidebarComponent } from './components/conversation-sidebar/conversation-sidebar.component';
-import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
+import { AppToolbarComponent } from './components/app-toolbar/app-toolbar.component';
+import { ThemeSelectorDialogComponent } from './components/theme-selector-dialog/theme-selector-dialog.component';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
   imports: [
     MatSidenavModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatMenuModule,
-    MatTooltipModule,
     ChatInterfaceComponent,
     ConversationSidebarComponent,
-    ThemeToggleComponent
+    AppToolbarComponent
   ],
   template: `
     <div class="app-layout">
       <!-- Global App Toolbar -->
-      <mat-toolbar class="app-toolbar" color="primary">
-        <button 
-          mat-icon-button 
-          (click)="sidenav.toggle()"
-          matTooltip="Toggle Sidebar"
-          class="menu-toggle">
-          <mat-icon>menu</mat-icon>
-        </button>
-        
-        <span class="app-title">{{ title() }}</span>
-        
-        <span class="toolbar-spacer"></span>
-        
-        <!-- Future navigation items -->
-        <button 
-          mat-icon-button 
-          [matMenuTriggerFor]="appMenu"
-          matTooltip="Application Menu">
-          <mat-icon>apps</mat-icon>
-        </button>
-        
-        <mat-menu #appMenu="matMenu">
-          <button mat-menu-item disabled>
-            <mat-icon>dashboard</mat-icon>
-            <span>Dashboard</span>
-          </button>
-          <button mat-menu-item disabled>
-            <mat-icon>admin_panel_settings</mat-icon>
-            <span>Admin</span>
-          </button>
-          <button mat-menu-item disabled>
-            <mat-icon>settings</mat-icon>
-            <span>Settings</span>
-          </button>
-        </mat-menu>
-        
-        <app-theme-toggle></app-theme-toggle>
-        
-        <button 
-          mat-icon-button 
-          matTooltip="User Profile">
-          <mat-icon>account_circle</mat-icon>
-        </button>
-      </mat-toolbar>
+      <app-app-toolbar 
+        [title]="title()"
+        (toggleSidebar)="sidenav.toggle()"
+        (openThemeSelector)="openThemeSelector()">
+      </app-app-toolbar>
       
       <!-- Main Content Area -->
       <mat-sidenav-container class="app-container">
@@ -91,5 +45,21 @@ import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.com
   styleUrl: './app.css'
 })
 export class App {
+  @ViewChild('sidenav') sidenav!: MatSidenav;
+
+  private dialog = inject(MatDialog);
+  private themeService = inject(ThemeService); // Ensure theme service is initialized
+
   protected readonly title = signal('AI Chat Assistant');
+
+  openThemeSelector(): void {
+    this.dialog.open(ThemeSelectorDialogComponent, {
+      width: '600px',
+      maxWidth: '90vw',
+      disableClose: false,
+      autoFocus: false,
+      hasBackdrop: true,
+      backdropClass: 'theme-dialog-backdrop'
+    });
+  }
 }

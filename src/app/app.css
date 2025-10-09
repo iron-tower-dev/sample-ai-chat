@@ -31,7 +31,8 @@
 /* Main container below toolbar */
 .app-container {
     flex: 1;
-    min-height: 0; /* Critical: allows flex child to be scrollable */
+    min-height: 0;
+    /* Critical: allows flex child to be scrollable */
     overflow: hidden;
     width: 100%;
 }
@@ -39,7 +40,7 @@
 .app-sidenav {
     width: 260px;
     border-right: none;
-    background: var(--sidebar-bg) !important;
+    background: var(--md-surface) !important;
 }
 
 .app-content,
@@ -47,9 +48,11 @@ mat-sidenav-content.app-content {
     display: flex !important;
     flex-direction: column !important;
     height: 100% !important;
-    min-height: 0 !important; /* Critical: allows flex child to be scrollable */
-    overflow: hidden !important; /* Prevent children from overflowing */
-    background: var(--bg-primary) !important;
+    min-height: 0 !important;
+    /* Critical: allows flex child to be scrollable */
+    overflow: hidden !important;
+    /* Prevent children from overflowing */
+    background: var(--md-background) !important;
 }
 
 /* Responsive design */
@@ -57,7 +60,7 @@ mat-sidenav-content.app-content {
     .app-sidenav {
         width: 240px;
     }
-    
+
     .app-title {
         font-size: 1.125rem;
     }
@@ -67,11 +70,11 @@ mat-sidenav-content.app-content {
     .app-toolbar {
         padding: 0 8px;
     }
-    
+
     .app-title {
         font-size: 1rem;
     }
-    
+
     .menu-toggle {
         margin-right: 0.25rem;
     }

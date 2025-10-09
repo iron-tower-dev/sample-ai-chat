@@ -1,250 +1,309 @@
-// Custom CSS variables for theming
+/* Material Design 3 Theme System */
+
+/* Default fallback colors */
 :root {
-    // Light theme colors
-    --bg-primary: #ffffff;
-    --bg-secondary: #f8fafc;
-    --bg-tertiary: #f1f5f9;
-    --text-primary: #1e293b;
-    --text-secondary: #64748b;
-    --text-tertiary: #94a3b8;
-    --border-color: #e2e8f0;
+    /* Legacy theme variables for backward compatibility */
+    --primary-color: #1976D2;
+    --accent-color: #7B1FA2;
+    --bg-primary: #FAFAFA;
+    --bg-secondary: #FFFFFF;
+    --text-primary: #212121;
+    --text-secondary: #424242;
+    --border-color: #E0E0E0;
     --shadow-color: rgba(0, 0, 0, 0.1);
-    --hover-bg: #f1f5f9;
+    --hover-bg: #F5F5F5;
     --success-color: #10b981;
     --warning-color: #f59e0b;
     --error-color: #ef4444;
     --info-color: #3b82f6;
-
-    // Material Design colors
-    --mat-primary-500: #2196f3;
-    --mat-primary-500-rgb: 33, 150, 243;
-    --mat-accent-500: #9c27b0;
-    --mat-accent-500-rgb: 156, 39, 176;
 }
 
-.dark-theme {
-    // Dark theme colors
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-tertiary: #334155;
-    --text-primary: #f8fafc;
-    --text-secondary: #cbd5e1;
-    --text-tertiary: #94a3b8;
-    --border-color: #475569;
-    --shadow-color: rgba(0, 0, 0, 0.3);
-    --hover-bg: #334155;
-    --success-color: #34d399;
-    --warning-color: #fbbf24;
-    --error-color: #f87171;
-    --info-color: #60a5fa;
+/* Material Design 3 Color System - Default Light Theme */
+:root {
+    /* Primary colors */
+    --md-primary: #1976D2;
+    --md-on-primary: #FFFFFF;
+    --md-primary-container: #BBDEFB;
+    --md-on-primary-container: #0D47A1;
+
+    /* Secondary colors */
+    --md-secondary: #7B1FA2;
+    --md-on-secondary: #FFFFFF;
+    --md-secondary-container: #E1BEE7;
+    --md-on-secondary-container: #4A148C;
+
+    /* Tertiary colors */
+    --md-tertiary: #388E3C;
+    --md-on-tertiary: #FFFFFF;
+    --md-tertiary-container: #C8E6C9;
+    --md-on-tertiary-container: #1B5E20;
+
+    /* Error colors */
+    --md-error: #D32F2F;
+    --md-on-error: #FFFFFF;
+    --md-error-container: #FFCDD2;
+    --md-on-error-container: #B71C1C;
+
+    /* Background colors */
+    --md-background: #FAFAFA;
+    --md-on-background: #212121;
+    --md-surface: #FFFFFF;
+    --md-on-surface: #212121;
+    --md-surface-variant: #F5F5F5;
+    --md-on-surface-variant: #424242;
+
+    /* Outline colors */
+    --md-outline: #BDBDBD;
+    --md-outline-variant: #E0E0E0;
+
+    /* Shadow and scrim */
+    --md-shadow: #000000;
+    --md-scrim: #000000;
+
+    /* Inverse colors */
+    --md-inverse-surface: #2F2F2F;
+    --md-inverse-on-surface: #FFFFFF;
+    --md-inverse-primary: #90CAF9;
 }
 
-// Global styles using CSS variables
+/* Global styles using CSS variables */
 body {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
+    background-color: var(--md-background);
+    color: var(--md-on-background);
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-// Custom component styles
+/* Custom component styles */
 .chat-interface {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
+    background-color: var(--md-background);
+    color: var(--md-on-background);
 }
 
 .chat-header {
-    background: linear-gradient(135deg, var(--mat-primary-500) 0%, var(--mat-accent-500) 100%);
-    color: white;
-    border-bottom: 1px solid var(--border-color);
+    background: linear-gradient(135deg, var(--md-primary) 0%, var(--md-secondary) 100%);
+    color: var(--md-on-primary);
+    border-bottom: 1px solid var(--md-outline);
 }
 
 .messages-container {
-    background-color: var(--bg-primary);
+    background-color: var(--md-background);
 }
 
 .message-content {
-    background-color: var(--bg-secondary);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
+    background-color: var(--md-surface);
+    color: var(--md-on-surface);
+    border: 1px solid var(--md-outline);
 }
 
 .user-message .message-content {
-    background: var(--mat-primary-500);
-    color: white;
+    background: var(--md-primary);
+    color: var(--md-on-primary);
 }
 
 .input-area {
-    background-color: var(--bg-primary);
-    border-top: 1px solid var(--border-color);
+    background-color: var(--md-background);
+    border-top: 1px solid var(--md-outline);
 }
 
 .input-container textarea {
-    background-color: var(--bg-secondary);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
+    background-color: var(--md-surface);
+    color: var(--md-on-surface);
+    border: 1px solid var(--md-outline);
 }
 
 .input-container textarea:focus {
-    border-color: var(--mat-primary-500);
-    box-shadow: 0 0 0 3px rgba(var(--mat-primary-500-rgb), 0.1);
+    border-color: var(--md-primary);
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
 }
 
 .conversation-sidebar {
-    background-color: var(--bg-secondary);
-    border-right: 1px solid var(--border-color);
+    background-color: var(--md-surface);
+    border-right: 1px solid var(--md-outline);
 }
 
 .conversation-item {
-    background-color: var(--bg-primary);
-    border: 1px solid var(--border-color);
+    background-color: var(--md-background);
+    border: 1px solid var(--md-outline);
 }
 
 .conversation-item:hover {
-    background-color: var(--hover-bg);
+    background-color: var(--md-surface-variant);
 }
 
 .conversation-item.active {
-    border-color: var(--mat-primary-500);
-    background-color: rgba(var(--mat-primary-500-rgb), 0.1);
+    border-color: var(--md-primary);
+    background-color: var(--md-primary-container);
 }
 
 .document-selector {
-    background-color: var(--bg-primary);
-    border: 1px solid var(--border-color);
+    background-color: var(--md-background);
+    border: 1px solid var(--md-outline);
 }
 
 .selector-header {
-    background-color: var(--bg-secondary);
-    border-bottom: 1px solid var(--border-color);
+    background-color: var(--md-surface);
+    border-bottom: 1px solid var(--md-outline);
 }
 
-// Material Design component overrides
+/* Material Design component overrides */
 .mat-mdc-card {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
+    background-color: var(--md-surface) !important;
+    color: var(--md-on-surface) !important;
 }
 
 .mat-mdc-button {
     &.mat-primary {
-        background-color: var(--mat-primary-500);
-        color: white;
+        background-color: var(--md-primary) !important;
+        color: var(--md-on-primary) !important;
     }
 
     &.mat-accent {
-        background-color: var(--mat-accent-500);
-        color: white;
+        background-color: var(--md-secondary) !important;
+        color: var(--md-on-secondary) !important;
     }
 }
 
+/* Toolbar theming */
+.mat-toolbar {
+    background-color: var(--md-primary) !important;
+    color: var(--md-on-primary) !important;
+}
+
+/* Form field theming */
 .mat-mdc-form-field {
+    --mdc-theme-primary: var(--md-primary) !important;
+    --mdc-theme-on-primary: var(--md-on-primary) !important;
+    --mdc-theme-surface: var(--md-surface) !important;
+    --mdc-theme-on-surface: var(--md-on-surface) !important;
+    --mdc-theme-outline: var(--md-outline) !important;
+
     .mat-mdc-text-field-wrapper {
-        background-color: var(--bg-secondary) !important;
+        background-color: var(--md-surface) !important;
     }
 
     .mat-mdc-form-field-label {
-        color: var(--text-secondary) !important;
+        color: var(--md-on-surface-variant) !important;
     }
 
     .mat-mdc-input-element {
-        color: var(--text-primary) !important;
+        color: var(--md-on-surface) !important;
         background-color: transparent !important;
     }
 
     .mat-mdc-form-field-outline {
-        color: var(--border-color) !important;
+        color: var(--md-outline) !important;
     }
 
     .mat-mdc-form-field-outline-thick {
-        color: var(--mat-primary-500) !important;
+        color: var(--md-primary) !important;
     }
 
     .mat-mdc-form-field-hint {
-        color: var(--text-tertiary) !important;
+        color: var(--md-on-surface-variant) !important;
     }
 }
 
 .mat-mdc-form-field.mat-focused {
     .mat-mdc-form-field-label {
-        color: var(--mat-primary-500) !important;
+        color: var(--md-primary) !important;
     }
 }
 
-.mat-mdc-form-field.mat-form-field-appearance-outline {
-    .mat-mdc-text-field-wrapper {
-        background-color: var(--bg-secondary) !important;
-    }
-}
-
+/* Select theming */
 .mat-mdc-select {
+    --mdc-theme-primary: var(--md-primary) !important;
+    --mdc-theme-on-primary: var(--md-on-primary) !important;
+    --mdc-theme-surface: var(--md-surface) !important;
+    --mdc-theme-on-surface: var(--md-on-surface) !important;
+    --mdc-theme-outline: var(--md-outline) !important;
+
     .mat-mdc-select-value {
-        color: var(--text-primary) !important;
+        color: var(--md-on-surface) !important;
     }
 
     .mat-mdc-select-trigger {
-        background-color: var(--bg-secondary) !important;
+        background-color: var(--md-surface) !important;
     }
 }
 
 .mat-mdc-option {
-    background-color: var(--bg-primary) !important;
-    color: var(--text-primary) !important;
+    background-color: var(--md-surface) !important;
+    color: var(--md-on-surface) !important;
 
     &:hover {
-        background-color: var(--hover-bg) !important;
+        background-color: var(--md-surface-variant) !important;
     }
 
     &.mat-mdc-option-active {
-        background-color: rgba(var(--mat-primary-500-rgb), 0.1) !important;
+        background-color: var(--md-primary-container) !important;
     }
 }
 
 .mat-mdc-select-panel {
-    background-color: var(--bg-primary) !important;
+    background-color: var(--md-surface) !important;
 }
 
-// Additional overrides for text visibility
-.mat-mdc-input-element::placeholder {
-    color: var(--text-tertiary) !important;
-}
-
-.mat-mdc-form-field.mat-focused .mat-mdc-input-element {
-    color: var(--text-primary) !important;
-}
-
-// Material List overrides
+/* List theming */
 .mat-mdc-list {
     background-color: transparent !important;
 }
 
 .mat-mdc-list-item {
-    color: var(--text-primary) !important;
+    color: var(--md-on-surface) !important;
     background-color: transparent !important;
+
+    &:hover {
+        background-color: var(--md-surface-variant) !important;
+    }
 }
 
-.mat-mdc-list-item:hover {
-    background-color: var(--hover-bg) !important;
+/* Dialog theming */
+.mat-mdc-dialog-container {
+    background-color: var(--md-surface) !important;
+    color: var(--md-on-surface) !important;
 }
 
-// Scrollbar styling
+/* Button theming */
+.mat-mdc-raised-button {
+    --mdc-theme-primary: var(--md-primary) !important;
+    --mdc-theme-on-primary: var(--md-on-primary) !important;
+}
+
+.mat-mdc-outlined-button {
+    --mdc-theme-primary: var(--md-primary) !important;
+    --mdc-theme-on-primary: var(--md-on-primary) !important;
+    --mdc-theme-outline: var(--md-outline) !important;
+}
+
+/* Additional overrides for text visibility */
+.mat-mdc-input-element::placeholder {
+    color: var(--md-on-surface-variant) !important;
+}
+
+.mat-mdc-form-field.mat-focused .mat-mdc-input-element {
+    color: var(--md-on-surface) !important;
+}
+
+/* Scrollbar styling */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--bg-tertiary);
+    background: var(--md-surface-variant);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--text-tertiary);
+    background: var(--md-on-surface-variant);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--text-secondary);
+    background: var(--md-on-surface);
 }
 
-// Animation for theme transitions
+/* Animation for theme transitions */
 * {
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
