@@ -1,0 +1,14 @@
+@use 'base-theme' as base;
+@use 'green-theme-colors' as colors;
+
+// Green Light Theme
+.green-light-theme {
+    @include base.create-light-theme(colors.$primary-palette, colors.$tertiary-palette);
+    @include base.add-light-theme-variables(colors.$primary-palette, colors.$tertiary-palette);
+}
+
+// Green Dark Theme
+.green-dark-theme {
+    @include base.create-dark-theme(colors.$primary-palette, colors.$tertiary-palette);
+    @include base.add-dark-theme-variables(colors.$primary-palette, colors.$tertiary-palette);
+}

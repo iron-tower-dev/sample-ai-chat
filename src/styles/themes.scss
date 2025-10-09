@@ -1,0 +1,59 @@
+// Modern Angular Material Theming System
+// Import individual theme files
+@use 'themes/blue-purple-theme';
+@use 'themes/green-theme';
+@use 'themes/blue-theme';
+@use 'themes/purple-theme';
+
+// Default theme (blue-purple-light)
+body {
+    @extend .blue-purple-light-theme;
+}
+
+// Global styles
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.5;
+}
+
+// Scrollbar styling
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+// Focus styles
+*:focus {
+    outline: 2px solid var(--mat-primary);
+    outline-offset: 2px;
+}
+
+// Selection styles
+::selection {
+    background: var(--mat-primary-container);
+    color: var(--mat-on-primary-container);
+}

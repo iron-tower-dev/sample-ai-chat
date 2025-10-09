@@ -32,29 +32,66 @@
     margin-right: 0;
 }
 
-/* Toolbar theming - Always use light mode primary color */
+/* Toolbar theming - Use theme primary colors */
 .app-toolbar {
-    background-color: var(--toolbar-primary) !important;
-    color: var(--toolbar-on-primary) !important;
+    background-color: var(--mat-primary) !important;
+    color: var(--mat-on-primary) !important;
 }
 
 .app-toolbar .app-title {
-    color: var(--toolbar-on-primary) !important;
+    color: var(--mat-on-primary) !important;
 }
 
 .app-toolbar button {
-    color: var(--toolbar-on-primary) !important;
+    color: var(--mat-on-primary) !important;
 }
 
 .app-toolbar button .mat-icon {
-    color: var(--toolbar-on-primary) !important;
+    color: var(--mat-on-primary) !important;
 }
 
 .app-toolbar button:hover {
-    background-color: var(--toolbar-primary-container) !important;
-    color: var(--toolbar-on-primary-container) !important;
+    background-color: var(--mat-primary-container) !important;
+    color: var(--mat-on-primary-container) !important;
 }
 
 .app-toolbar button:hover .mat-icon {
-    color: var(--toolbar-on-primary-container) !important;
+    color: var(--mat-on-primary-container) !important;
+}
+
+/* Menu styling to ensure visibility */
+::ng-deep .mat-mdc-menu-panel {
+    background: var(--mat-surface) !important;
+    color: var(--mat-on-surface) !important;
+    border: 1px solid var(--mat-outline) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+    min-width: 200px !important;
+}
+
+::ng-deep .mat-mdc-menu-item {
+    color: var(--mat-on-surface) !important;
+    background: transparent !important;
+    min-height: 48px !important;
+    padding: 0 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+::ng-deep .mat-mdc-menu-item:hover {
+    background: var(--mat-state-hover) !important;
+    color: var(--mat-on-surface) !important;
+}
+
+::ng-deep .mat-mdc-menu-item .mat-icon {
+    color: var(--mat-on-surface-variant) !important;
+    font-size: 20px !important;
+    width: 20px !important;
+    height: 20px !important;
+}
+
+::ng-deep .mat-mdc-menu-item span {
+    color: var(--mat-on-surface) !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
 }

@@ -1,8 +1,5 @@
-/* Angular Material theme */
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
-
-/* Custom theme system */
-@import './app/styles/themes.scss';
+/* Angular Material theming */
+@import './styles/themes.scss';
 
 /* Global KaTeX positioning fixes */
 .katex {
@@ -86,8 +83,8 @@ body {
     font-family: 'Roboto', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: var(--md-background);
-    color: var(--md-on-background);
+    background-color: var(--mat-background);
+    color: var(--mat-on-background);
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -103,112 +100,112 @@ body {
 
 /* Material Design component theming */
 .mat-mdc-button:not(.mat-mdc-raised-button) {
-    color: var(--md-on-surface) !important;
+    color: var(--mat-on-surface) !important;
 }
 
 .mat-mdc-button.mat-mdc-raised-button {
-    background-color: var(--md-primary) !important;
-    color: var(--md-on-primary) !important;
+    background-color: var(--mat-primary) !important;
+    color: var(--mat-on-primary) !important;
 }
 
 .mat-mdc-form-field .mat-mdc-form-field-label {
-    color: var(--md-on-surface-variant) !important;
+    color: var(--mat-on-surface-variant) !important;
 }
 
 .mat-mdc-form-field .mat-mdc-input-element {
-    color: var(--md-on-surface) !important;
+    color: var(--mat-on-surface) !important;
 }
 
 .mat-mdc-form-field .mat-mdc-form-field-outline {
-    color: var(--md-outline) !important;
+    color: var(--mat-outline) !important;
 }
 
 .mat-mdc-form-field.mat-focused .mat-mdc-form-field-outline {
-    color: var(--md-primary) !important;
+    color: var(--mat-primary) !important;
 }
 
 /* Material Design Radio Button Theming */
 .mat-mdc-radio-button {
-    color: var(--md-on-surface) !important;
+    color: var(--mat-on-surface) !important;
 }
 
 .mat-mdc-radio-button .mat-mdc-radio-label {
-    color: var(--md-on-surface) !important;
+    color: var(--mat-on-surface) !important;
 }
 
 .mat-mdc-radio-button .mat-mdc-radio-label-content {
-    color: var(--md-on-surface) !important;
+    color: var(--mat-on-surface) !important;
 }
 
 .mat-mdc-radio-button .mat-mdc-radio-outer-circle {
-    border-color: var(--md-outline) !important;
+    border-color: var(--mat-outline) !important;
 }
 
 .mat-mdc-radio-button.mat-mdc-radio-checked .mat-mdc-radio-outer-circle {
-    border-color: var(--md-primary) !important;
+    border-color: var(--mat-primary) !important;
 }
 
 .mat-mdc-radio-button .mat-mdc-radio-inner-circle {
-    background-color: var(--md-primary) !important;
+    background-color: var(--mat-primary) !important;
 }
 
 .mat-mdc-radio-button:hover .mat-mdc-radio-outer-circle {
-    border-color: var(--md-primary) !important;
+    border-color: var(--mat-primary) !important;
 }
 
 /* More specific radio button styling for better override */
 .mat-mdc-radio-group .mat-mdc-radio-button .mat-mdc-radio-label-content {
-    color: var(--md-on-surface) !important;
+    color: var(--mat-on-surface) !important;
     font-weight: 500 !important;
 }
 
 .mat-mdc-radio-group .mat-mdc-radio-button .mat-mdc-radio-outer-circle {
-    border-color: var(--md-outline) !important;
+    border-color: var(--mat-outline) !important;
     border-width: 2px !important;
 }
 
 .mat-mdc-radio-group .mat-mdc-radio-button.mat-mdc-radio-checked .mat-mdc-radio-outer-circle {
-    border-color: var(--md-primary) !important;
+    border-color: var(--mat-primary) !important;
 }
 
 .mat-mdc-radio-group .mat-mdc-radio-button .mat-mdc-radio-inner-circle {
-    background-color: var(--md-primary) !important;
+    background-color: var(--mat-primary) !important;
 }
 
 /* Icon button theming */
 .mat-mdc-icon-button {
-    color: var(--md-on-surface) !important;
+    color: var(--mat-on-surface) !important;
 }
 
 .mat-mdc-icon-button:hover {
-    background-color: var(--md-surface-variant) !important;
+    background-color: var(--mat-surface-variant) !important;
 }
 
 .mat-mdc-icon-button .mat-icon {
-    color: var(--md-on-surface) !important;
+    color: var(--mat-on-surface) !important;
 }
 
 /* Material Design Toolbar Theming */
 .mat-mdc-toolbar {
-    background-color: var(--md-primary) !important;
-    color: var(--md-on-primary) !important;
+    background-color: var(--mat-primary) !important;
+    color: var(--mat-on-primary) !important;
 }
 
 .mat-mdc-toolbar .mat-mdc-button {
-    color: var(--md-on-primary) !important;
+    color: var(--mat-on-primary) !important;
 }
 
 .mat-mdc-toolbar .mat-mdc-button .mat-icon {
-    color: var(--md-on-primary) !important;
+    color: var(--mat-on-primary) !important;
 }
 
 .mat-mdc-toolbar .mat-mdc-button:hover {
-    background-color: var(--md-primary-container) !important;
-    color: var(--md-on-primary-container) !important;
+    background-color: var(--mat-primary-container) !important;
+    color: var(--mat-on-primary-container) !important;
 }
 
 .mat-mdc-toolbar .mat-mdc-button:hover .mat-icon {
-    color: var(--md-on-primary-container) !important;
+    color: var(--mat-on-primary-container) !important;
 }
 
 /* Global override for mat-icon-no-color in feedback buttons */
@@ -221,7 +218,7 @@ body {
 }
 
 .feedback-btn.active .mat-icon-no-color {
-    color: var(--md-on-tertiary-container) !important;
+    color: var(--mat-on-tertiary-container) !important;
 }
 
 /* Global form field styling for document selector */
@@ -297,93 +294,207 @@ body {
 
 /* Scrollbar styling */
 ::-webkit-scrollbar-track {
-    background: var(--md-surface-variant);
+    background: var(--mat-surface-variant);
     border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--md-on-surface-variant);
+    background: var(--mat-on-surface-variant);
     border-radius: 5px;
     border: 2px solid transparent;
     background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--md-on-surface);
+    background: var(--mat-on-surface);
     background-clip: padding-box;
 }
 
 /* Custom scrollbar for Firefox */
 * {
     scrollbar-width: thin;
-    scrollbar-color: var(--md-on-surface-variant) var(--md-surface-variant);
+    scrollbar-color: var(--mat-on-surface-variant) var(--mat-surface-variant);
 }
 
 /* Focus styles */
 *:focus {
-    outline: 2px solid var(--md-primary);
+    outline: 2px solid var(--mat-primary);
     outline-offset: 2px;
 }
 
 /* Selection styles */
 ::selection {
-    background-color: var(--md-primary-container);
-    color: var(--md-on-primary-container);
+    background-color: var(--mat-primary-container);
+    color: var(--mat-on-primary-container);
 }
 
 /* Material Menu and Select Panel Support */
 .mat-mdc-menu-panel,
 .mat-mdc-select-panel {
-    background: var(--md-surface) !important;
-    border: 1px solid var(--md-outline) !important;
+    background: var(--mat-surface) !important;
+    border: 1px solid var(--mat-outline) !important;
 }
 
 .mat-mdc-menu-item,
 .mat-mdc-option {
-    color: var(--md-on-surface) !important;
+    color: var(--mat-on-surface) !important;
 }
 
 .mat-mdc-menu-item:hover,
 .mat-mdc-option:hover {
-    background: var(--md-surface-variant) !important;
+    background: var(--mat-surface-variant) !important;
 }
 
 .mat-mdc-menu-item .mat-icon,
 .mat-mdc-option .mat-icon {
-    color: var(--md-on-surface-variant) !important;
+    color: var(--mat-on-surface-variant) !important;
 }
 
 .mat-mdc-option.mat-mdc-option-active,
 .mat-mdc-option.mdc-list-item--selected {
-    background: var(--md-primary-container) !important;
+    background: var(--mat-primary-container) !important;
 }
 
 /* Material Dialog Support */
 .mat-mdc-dialog-container {
-    background: var(--md-surface) !important;
-    color: var(--md-on-surface) !important;
+    background: var(--mat-surface) !important;
+    color: var(--mat-on-surface) !important;
 }
 
 .mat-mdc-dialog-title {
-    color: var(--md-on-surface) !important;
+    color: var(--mat-on-surface) !important;
 }
 
 .mat-mdc-dialog-content {
-    color: var(--md-on-surface) !important;
+    color: var(--mat-on-surface) !important;
 }
 
 /* Overlay Backdrop */
 .cdk-overlay-backdrop {
-    background: var(--md-scrim);
+    background: var(--mat-scrim);
 }
 
 /* Theme Dialog Backdrop */
 .theme-dialog-backdrop {
-    background: rgba(0, 0, 0, 0.32) !important;
+    background: var(--mat-scrim) !important;
 }
 
 .theme-dialog-backdrop.cdk-overlay-backdrop {
-    background: rgba(0, 0, 0, 0.32) !important;
+    background: var(--mat-scrim) !important;
 }
 
-/* Cache bust: 2025-10-08T17:32:00Z - scrollbar update */
+/* Ensure dialogs inherit theme colors */
+.mat-mdc-dialog-container {
+    background-color: var(--mat-surface) !important;
+    color: var(--mat-on-surface) !important;
+}
+
+.mat-mdc-dialog-container .mat-mdc-dialog-title {
+    color: var(--mat-on-surface) !important;
+}
+
+.mat-mdc-dialog-container .mat-mdc-dialog-content {
+    background-color: var(--mat-surface) !important;
+    color: var(--mat-on-surface) !important;
+}
+
+.mat-mdc-dialog-container .mat-mdc-dialog-actions {
+    background-color: var(--mat-surface) !important;
+    border-top: 1px solid var(--mat-outline) !important;
+}
+
+/* Cache bust: 2025-10-09T17:20:00Z - dark mode background update */
+
+/* Dark mode background overrides for consistent darker appearance */
+body.blue-purple-dark-theme,
+body.blue-dark-theme,
+body.purple-dark-theme,
+body.green-dark-theme {
+    --mat-background: #2d3037 !important;
+    --mat-surface: #2d3037 !important;
+    --mat-surface-variant: #44474d !important;
+    --mat-surface-container: #383b42 !important;
+    --mat-outline-variant: #44474d !important;
+}
+
+/* Keep conversation sidebar with lighter background */
+body.blue-purple-dark-theme .mat-mdc-sidenav,
+body.blue-dark-theme .mat-mdc-sidenav,
+body.purple-dark-theme .mat-mdc-sidenav,
+body.green-dark-theme .mat-mdc-sidenav,
+body.blue-purple-dark-theme app-conversation-sidebar,
+body.blue-dark-theme app-conversation-sidebar,
+body.purple-dark-theme app-conversation-sidebar,
+body.green-dark-theme app-conversation-sidebar {
+    --mat-surface: #44474d !important;
+    background-color: #44474d !important;
+    border-radius: 0 !important;
+}
+
+/* Remove border radius from sidenav container and content */
+.mat-mdc-sidenav-container,
+.mat-mdc-sidenav,
+.mat-mdc-sidenav-content,
+.mat-mdc-sidenav .mat-mdc-sidenav-content {
+    border-radius: 0 !important;
+}
+
+.mat-mdc-sidenav-container .mat-mdc-sidenav {
+    border-radius: 0 !important;
+}
+
+/* Remove border radius from conversation list */
+.conversation-list,
+.conversation-item,
+.mat-mdc-list,
+.mat-mdc-list-item,
+.mat-mdc-list-item-content {
+    border-radius: 0 !important;
+}
+
+/* Environment Watermarks - Text Pattern Only */
+body.dev-watermark::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='dev-grid' x='0' y='0' width='200' height='200' patternUnits='userSpaceOnUse'%3E%3Crect width='200' height='200' fill='transparent'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='24' font-weight='bold' fill='%23ff6b6b' fill-opacity='0.08' text-anchor='middle' dominant-baseline='middle' transform='rotate(-45 100 100)'%3EDEV%3C/text%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23dev-grid)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    pointer-events: none;
+    z-index: 1000;
+    user-select: none;
+}
+
+/* Ensure UI components appear above watermark */
+.mat-mdc-card,
+.mat-mdc-dialog-container,
+.mat-mdc-sidenav,
+.mat-mdc-toolbar,
+.document-selector-panel,
+.input-container,
+.message-container,
+.conversation-item,
+.chat-interface,
+app-document-selector,
+app-chat-interface,
+app-conversation-sidebar {
+    position: relative;
+    z-index: 10;
+    background-color: var(--mat-surface);
+}
+
+body.test-watermark::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='test-grid' x='0' y='0' width='200' height='200' patternUnits='userSpaceOnUse'%3E%3Crect width='200' height='200' fill='transparent'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='24' font-weight='bold' fill='%23ffb347' fill-opacity='0.08' text-anchor='middle' dominant-baseline='middle' transform='rotate(-45 100 100)'%3ETEST%3C/text%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23test-grid)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    pointer-events: none;
+    z-index: 1000;
+    user-select: none;
+}

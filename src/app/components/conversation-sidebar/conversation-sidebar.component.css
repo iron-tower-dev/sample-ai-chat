@@ -1,7 +1,7 @@
 .conversation-sidebar {
     width: 100%;
     height: 100%;
-    background: var(--md-surface);
+    background: var(--mat-surface);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -26,7 +26,7 @@
     justify-content: center;
     padding: 3rem 1rem;
     text-align: center;
-    color: var(--md-on-surface-variant);
+    color: var(--mat-on-surface-variant);
 }
 
 .empty-icon {
@@ -35,36 +35,36 @@
     height: 48px;
     margin-bottom: 1rem;
     opacity: 0.3;
-    color: var(--md-on-surface-variant);
+    color: var(--mat-on-surface-variant);
 }
 
 .empty-state p {
     margin: 0 0 0.5rem 0;
     font-weight: 500;
     font-size: 0.9375rem;
-    color: var(--md-on-surface);
+    color: var(--mat-on-surface);
 }
 
 .empty-state span {
     font-size: 0.8125rem;
-    color: var(--md-on-surface-variant);
+    color: var(--mat-on-surface-variant);
 }
 
 .conversation-item {
     cursor: pointer;
     transition: all 0.15s ease;
     border-radius: 10px;
-    background: var(--md-surface);
+    background: var(--mat-surface);
     border: 1px solid transparent;
 }
 
 .conversation-item:hover {
-    background-color: var(--md-surface-variant);
+    background-color: var(--mat-surface-variant);
 }
 
 .conversation-item.active {
-    background-color: var(--md-tertiary-container);
-    border-color: var(--md-tertiary);
+    background-color: var(--mat-tertiary-container);
+    border-color: var(--mat-tertiary);
 }
 
 .conversation-content {
@@ -85,7 +85,7 @@
     font-size: 18px;
     width: 18px;
     height: 18px;
-    color: var(--md-on-surface-variant);
+    color: var(--mat-on-surface-variant);
     flex-shrink: 0;
 }
 
@@ -93,7 +93,7 @@
     margin: 0;
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--md-on-surface);
+    color: var(--mat-on-surface);
     line-height: 1.4;
     flex: 1;
     word-wrap: break-word;
@@ -135,7 +135,7 @@
     justify-content: space-between;
     align-items: center;
     font-size: 0.75rem;
-    color: var(--md-on-surface-variant);
+    color: var(--mat-on-surface-variant);
     padding-left: 24px;
 }
 
@@ -158,7 +158,7 @@
 
 .conversation-preview {
     font-size: 0.8125rem;
-    color: var(--md-on-surface-variant);
+    color: var(--mat-on-surface-variant);
     line-height: 1.4;
     padding-left: 24px;
     white-space: nowrap;
@@ -191,7 +191,7 @@
         height: auto;
         max-height: 40vh;
         border-right: none;
-        border-bottom: 1px solid var(--md-outline);
+        border-bottom: 1px solid var(--mat-outline);
     }
 
     .sidebar-header h2 {

@@ -63,11 +63,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
           <mat-icon>palette</mat-icon>
           <span>Theme Settings</span>
         </button>
-        <button mat-menu-item disabled>
+        <button mat-menu-item (click)="onProfileClick()">
           <mat-icon>person</mat-icon>
           <span>Profile</span>
         </button>
-        <button mat-menu-item disabled>
+        <button mat-menu-item (click)="onSignOutClick()">
           <mat-icon>logout</mat-icon>
           <span>Sign Out</span>
         </button>
@@ -82,4 +82,14 @@ export class AppToolbarComponent {
 
   toggleSidebar = output<void>();
   openThemeSelector = output<void>();
+
+  onProfileClick(): void {
+    console.log('Profile clicked');
+    // TODO: Implement profile functionality
+  }
+
+  onSignOutClick(): void {
+    console.log('Sign out clicked');
+    // TODO: Implement sign out functionality
+  }
 }

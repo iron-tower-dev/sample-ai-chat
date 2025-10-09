@@ -1,0 +1,99 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+// Mixin to create light theme
+@mixin create-light-theme($primary-palette, $tertiary-palette) {
+    $theme: mat.define-theme((color: (theme-type: light,
+                    primary: $primary-palette,
+                    tertiary: $tertiary-palette,
+                ),
+            ));
+
+    @include mat.all-component-themes($theme);
+}
+
+// Mixin to add CSS custom properties for light theme
+@mixin add-light-theme-variables($primary-palette, $tertiary-palette) {
+    // Add CSS custom properties for compatibility using palette values
+    --mat-primary: #{map.get($primary-palette, 50)};
+    --mat-on-primary: #{map.get($primary-palette, 100)};
+    --mat-primary-container: #{map.get($primary-palette, 90)};
+    --mat-on-primary-container: #{map.get($primary-palette, 10)};
+    --mat-secondary: #{map.get($primary-palette, 50)};
+    --mat-on-secondary: #{map.get($primary-palette, 100)};
+    --mat-secondary-container: #{map.get($primary-palette, 90)};
+    --mat-on-secondary-container: #{map.get($primary-palette, 10)};
+    --mat-tertiary: #{map.get($tertiary-palette, 50)};
+    --mat-on-tertiary: #{map.get($tertiary-palette, 100)};
+    --mat-tertiary-container: #{map.get($tertiary-palette, 90)};
+    --mat-on-tertiary-container: #{map.get($tertiary-palette, 10)};
+    --mat-surface: #{map.get($primary-palette, 99)};
+    --mat-on-surface: #{map.get($primary-palette, 10)};
+    --mat-surface-variant: #{map.get($primary-palette, 90)};
+    --mat-on-surface-variant: #{map.get($primary-palette, 30)};
+    --mat-surface-container: #{map.get($primary-palette, 95)};
+    --mat-on-surface-container: #{map.get($primary-palette, 10)};
+    --mat-background: #{map.get($primary-palette, 98)};
+    --mat-on-background: #{map.get($primary-palette, 10)};
+    --mat-outline: #{map.get($primary-palette, 50)};
+    --mat-outline-variant: #{map.get($primary-palette, 80)};
+    --mat-error: #{map.get($primary-palette, 50)};
+    --mat-on-error: #{map.get($primary-palette, 100)};
+    --mat-error-container: #{map.get($primary-palette, 90)};
+    --mat-on-error-container: #{map.get($primary-palette, 10)};
+    --mat-scrim: rgba(0, 0, 0, 0.32);
+    --mat-shadow: rgba(0, 0, 0, 0.3);
+    --mat-state-hover: rgba(0, 0, 0, 0.04);
+    --mat-state-focus: rgba(0, 0, 0, 0.12);
+    --mat-state-pressed: rgba(0, 0, 0, 0.12);
+    --mat-state-dragged: rgba(0, 0, 0, 0.08);
+}
+
+// Mixin to create dark theme
+@mixin create-dark-theme($primary-palette, $tertiary-palette) {
+    $theme: mat.define-theme((color: (theme-type: dark,
+                    primary: $primary-palette,
+                    tertiary: $tertiary-palette,
+                ),
+            ));
+
+    @include mat.all-component-themes($theme);
+}
+
+// Mixin to add CSS custom properties for dark theme
+@mixin add-dark-theme-variables($primary-palette, $tertiary-palette) {
+    // Add CSS custom properties for compatibility using palette values
+    --mat-primary: #{map.get($primary-palette, 80)};
+    --mat-on-primary: #{map.get($primary-palette, 20)};
+    --mat-primary-container: #{map.get($primary-palette, 30)};
+    --mat-on-primary-container: #{map.get($primary-palette, 90)};
+    --mat-secondary: #{map.get($primary-palette, 80)};
+    --mat-on-secondary: #{map.get($primary-palette, 20)};
+    --mat-secondary-container: #{map.get($primary-palette, 30)};
+    --mat-on-secondary-container: #{map.get($primary-palette, 90)};
+    --mat-tertiary: #{map.get($tertiary-palette, 80)};
+    --mat-on-tertiary: #{map.get($tertiary-palette, 20)};
+    --mat-tertiary-container: #{map.get($tertiary-palette, 30)};
+    --mat-on-tertiary-container: #{map.get($tertiary-palette, 90)};
+    // Use neutral palette for lighter, more greyish backgrounds
+    --mat-surface: #{map.get(map.get($primary-palette, neutral), 30)};
+    --mat-on-surface: #{map.get(map.get($primary-palette, neutral), 90)};
+    --mat-surface-variant: #{map.get(map.get($primary-palette, neutral), 40)};
+    --mat-on-surface-variant: #{map.get(map.get($primary-palette, neutral), 80)};
+    --mat-surface-container: #{map.get(map.get($primary-palette, neutral), 35)};
+    --mat-on-surface-container: #{map.get(map.get($primary-palette, neutral), 90)};
+    --mat-background: #{map.get(map.get($primary-palette, neutral), 25)};
+    --mat-on-background: #{map.get(map.get($primary-palette, neutral), 90)};
+    --mat-outline: #{map.get($primary-palette, 60)};
+    --mat-outline-variant: #{map.get(map.get($primary-palette, neutral), 40)};
+    --mat-error: #{map.get($primary-palette, 80)};
+    --mat-on-error: #{map.get($primary-palette, 20)};
+    --mat-error-container: #{map.get($primary-palette, 30)};
+    --mat-on-error-container: #{map.get($primary-palette, 90)};
+    --mat-scrim: rgba(0, 0, 0, 0.32);
+    --mat-shadow: rgba(0, 0, 0, 0.3);
+    --mat-state-hover: rgba(255, 255, 255, 0.08);
+    --mat-state-focus: rgba(255, 255, 255, 0.12);
+    --mat-state-pressed: rgba(255, 255, 255, 0.12);
+    --mat-state-dragged: rgba(255, 255, 255, 0.16);
+}

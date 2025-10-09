@@ -101,7 +101,7 @@ import { Theme } from '../../models/theme.models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThemeSelectorDialogComponent {
-  private themeService = inject(ThemeService);
+  protected themeService = inject(ThemeService);
   private dialogRef = inject(MatDialogRef<ThemeSelectorDialogComponent>);
 
   themeControl = new FormControl(this.themeService.currentThemeId$());

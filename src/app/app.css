@@ -40,7 +40,7 @@
 .app-sidenav {
     width: 260px;
     border-right: none;
-    background: var(--md-surface) !important;
+    background: var(--mat-surface) !important;
 }
 
 .app-content,
@@ -52,7 +52,7 @@ mat-sidenav-content.app-content {
     /* Critical: allows flex child to be scrollable */
     overflow: hidden !important;
     /* Prevent children from overflowing */
-    background: var(--md-background) !important;
+    background: var(--mat-background) !important;
 }
 
 /* Responsive design */

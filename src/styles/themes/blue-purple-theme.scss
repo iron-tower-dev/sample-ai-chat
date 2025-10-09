@@ -1,0 +1,14 @@
+@use 'base-theme' as base;
+@use 'blue-purple-theme-colors' as colors;
+
+// Blue & Purple Light Theme
+.blue-purple-light-theme {
+    @include base.create-light-theme(colors.$primary-palette, colors.$tertiary-palette);
+    @include base.add-light-theme-variables(colors.$primary-palette, colors.$tertiary-palette);
+}
+
+// Blue & Purple Dark Theme
+.blue-purple-dark-theme {
+    @include base.create-dark-theme(colors.$primary-palette, colors.$tertiary-palette);
+    @include base.add-dark-theme-variables(colors.$primary-palette, colors.$tertiary-palette);
+}

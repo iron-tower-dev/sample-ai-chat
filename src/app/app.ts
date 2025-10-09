@@ -54,8 +54,9 @@ export class App {
 
   openThemeSelector(): void {
     this.dialog.open(ThemeSelectorDialogComponent, {
-      width: '600px',
+      width: '500px',
       maxWidth: '90vw',
+      maxHeight: '80vh',
       disableClose: false,
       autoFocus: false,
       hasBackdrop: true,
