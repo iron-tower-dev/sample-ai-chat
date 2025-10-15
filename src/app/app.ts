@@ -1,18 +1,15 @@
-import { Component, signal, ViewChild, inject } from '@angular/core';
-import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
+import { Component, signal, inject } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { ChatInterfaceComponent } from './components/chat-interface/chat-interface.component';
-import { ConversationSidebarComponent } from './components/conversation-sidebar/conversation-sidebar.component';
 import { AppToolbarComponent } from './components/app-toolbar/app-toolbar.component';
 import { ThemeSelectorDialogComponent } from './components/theme-selector-dialog/theme-selector-dialog.component';
 import { ThemeService } from './services/theme.service';
+import { SidebarService } from './services/sidebar.service';
 
 @Component({
   selector: 'app-root',
   imports: [
-    MatSidenavModule,
-    ChatInterfaceComponent,
-    ConversationSidebarComponent,
+    RouterOutlet,
     AppToolbarComponent
   ],
   template: `
@@ -20,37 +17,28 @@ import { ThemeService } from './services/theme.service';
       <!-- Global App Toolbar -->
       <app-app-toolbar 
         [title]="title()"
-        (toggleSidebar)="sidenav.toggle()"
+        (toggleSidebar)="onToggleSidebar()"
         (openThemeSelector)="openThemeSelector()">
       </app-app-toolbar>
       
-      <!-- Main Content Area -->
-      <mat-sidenav-container class="app-container">
-        <mat-sidenav 
-          #sidenav
-          mode="side"
-          opened
-          class="app-sidenav">
-          <app-conversation-sidebar></app-conversation-sidebar>
-        </mat-sidenav>
-        
-        <mat-sidenav-content class="app-content">
-          <div class="content-wrapper" style="display: flex; flex-direction: column; height: 100%; overflow: hidden;">
-            <app-chat-interface></app-chat-interface>
-          </div>
-        </mat-sidenav-content>
-      </mat-sidenav-container>
+      <!-- Router Content -->
+      <div class="app-content">
+        <router-outlet></router-outlet>
+      </div>
     </div>
   `,
   styleUrl: './app.css'
 })
 export class App {
-  @ViewChild('sidenav') sidenav!: MatSidenav;
-
   private dialog = inject(MatDialog);
   private themeService = inject(ThemeService); // Ensure theme service is initialized
+  private sidebarService = inject(SidebarService);
 
   protected readonly title = signal('AI Chat Assistant');
+
+  onToggleSidebar(): void {
+    this.sidebarService.toggleSidebar();
+  }
 
   openThemeSelector(): void {
     this.dialog.open(ThemeSelectorDialogComponent, {
