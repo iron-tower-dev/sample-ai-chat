@@ -62,11 +62,16 @@ export interface LLMModel {
 }
 
 export interface ChatRequest {
-    message: string;
-    conversationId?: string;
-    model: string;
-    documentSources?: string[];
-    documentFilters?: DocumentFilter[];
+    user_id: string;
+    ad_group: string;
+    prompt: string;
+    thread_id: string;
+    session_id: string;
+    system_prompt?: string;
+    persona?: string;
+    tool_override?: 'searchdoc' | 'querydb';
+    filtered_dataset?: any;
+    metadata_filters?: any;
 }
 
 export interface DocumentFilter {
@@ -75,8 +80,34 @@ export interface DocumentFilter {
 }
 
 export interface ChatResponse {
-    message: ChatMessage;
-    ragDocuments: RAGDocument[];
-    model: string;
-    conversationId: string;
+    thread_id: string;
+    tool_call_reasoning: string;
+    generated_reasoning: string;
+    generated_response: string;
+    guardrail_reasoning: string;
+    guardrail_response: string;
+    cited_sources: CitedSource[];
+    retrieved_sources: RetrievedSource[];
+    topic: string;
+    summary: string;
+    retrieval_time: number;
+    generation_time: number;
+    guardrail_time: number;
+}
+
+export interface CitedSource {
+    text: string;
+    metadata: DocumentMetadata;
+}
+
+export interface RetrievedSource {
+    text: string;
+    metadata: DocumentMetadata;
+}
+
+export interface FeedbackRequest {
+    thread_id: string;
+    message_id: string;
+    feedback_sign: 'positive' | 'negative' | 'neutral';
+    feedback_text?: string;
 }

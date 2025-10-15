@@ -1,10 +1,17 @@
-import { Injectable, signal, computed } from '@angular/core';
-import { ChatMessage, Conversation, ChatRequest, ChatResponse, LLMModel, DocumentSource, RAGDocument, MessageFeedback } from '../models/chat.models';
+import { Injectable, signal, computed, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
+import { ChatMessage, Conversation, ChatRequest, ChatResponse, LLMModel, DocumentSource, RAGDocument, MessageFeedback, FeedbackRequest } from '../models/chat.models';
+import { UserConfigService } from './user-config.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ChatService {
+    private http = inject(HttpClient);
+    private userConfig = inject(UserConfigService);
+    
     private conversations = signal<Conversation[]>([]);
     private currentConversationId = signal<string | null>(null);
     private availableModels = signal<LLMModel[]>([]);
@@ -92,20 +99,48 @@ export class ChatService {
             // Add user message to current conversation
             this.addMessageToCurrentConversation(userMessage);
 
+            // Get or create thread_id (conversation ID)
+            let threadId = this.currentConversationId();
+            if (!threadId) {
+                threadId = this.generateId();
+                this.currentConversationId.set(threadId);
+            }
+
             // Create chat request
             const request: ChatRequest = {
-                message,
-                conversationId: this.currentConversationId() || undefined,
-                model,
-                documentSources,
-                documentFilters
+                user_id: this.userConfig.userId$(),
+                ad_group: this.userConfig.adGroup$(),
+                prompt: message,
+                thread_id: threadId,
+                session_id: this.generateId(),
+                system_prompt: '',
+                persona: '',
+                tool_override: documentSources?.length ? 'searchdoc' : undefined,
+                filtered_dataset: documentSources,
+                metadata_filters: documentFilters
             };
 
-            // TODO: Replace with actual API call
-            const response = await this.simulateAPIResponse(request);
+            // Call actual API
+            const response = await this.callChatAPI(request);
+
+            // Convert response to ChatMessage
+            const assistantMessage: ChatMessage = {
+                id: this.generateId(),
+                content: response.generated_response,
+                role: 'assistant',
+                timestamp: new Date(),
+                model,
+                ragDocuments: this.convertToRAGDocuments(response.cited_sources)
+            };
 
             // Add assistant response
-            this.addMessageToCurrentConversation(response.message);
+            this.addMessageToCurrentConversation(assistantMessage);
+
+            // Update conversation title if it's the first message
+            const currentConv = this.currentConversation();
+            if (currentConv && currentConv.messages.length === 2) {
+                this.updateConversationTitle(threadId, response.topic || message.substring(0, 50));
+            }
 
             // Save conversations
             this.saveConversations();
@@ -126,47 +161,47 @@ export class ChatService {
         }
     }
 
-    private async simulateAPIResponse(request: ChatRequest): Promise<ChatResponse> {
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
+    private async callChatAPI(request: ChatRequest): Promise<ChatResponse> {
+        const url = `${environment.apiUrl}/chat`;
+        
+        try {
+            const response = await firstValueFrom(
+                this.http.post<ChatResponse>(url, request, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+            );
+            return response;
+        } catch (error) {
+            console.error('API call failed:', error);
+            throw error;
+        }
+    }
 
-        // Simulate response with RAG documents
-        const ragDocuments: RAGDocument[] = [
-            {
+    private convertToRAGDocuments(citedSources: any[]): RAGDocument[] {
+        if (!citedSources || citedSources.length === 0) {
+            return [];
+        }
+
+        return citedSources.map((source, index) => {
+            const docSource: DocumentSource = {
+                id: source.metadata?.source || 'unknown',
+                name: source.metadata?.documentName || 'Unknown Document',
+                type: 'external',
+                requiresAuth: false
+            };
+
+            return {
                 id: this.generateId(),
-                title: 'Sample Document 1',
-                content: 'This is a sample document content that was used to generate the response.',
-                source: this.documentSources()[0],
-                metadata: {
-                    dateAdded: new Date('2024-01-15'),
-                    documentName: 'API Documentation',
-                    pageNumber: 1,
-                    author: 'John Doe',
-                    category: 'Technical'
-                },
-                pageNumber: 1,
-                relevanceScore: 0.95
-            }
-        ];
-
-        // Generate sample markdown content based on the request
-        const sampleContent = this.generateSampleMarkdownResponse(request.message);
-
-        const response: ChatResponse = {
-            message: {
-                id: this.generateId(),
-                content: sampleContent,
-                role: 'assistant',
-                timestamp: new Date(),
-                model: request.model,
-                ragDocuments
-            },
-            ragDocuments,
-            model: request.model,
-            conversationId: request.conversationId || this.generateId()
-        };
-
-        return response;
+                title: source.metadata?.documentName || `Document ${index + 1}`,
+                content: source.text || '',
+                source: docSource,
+                metadata: source.metadata || {},
+                pageNumber: source.metadata?.pageNumber,
+                relevanceScore: source.metadata?.relevanceScore
+            };
+        });
     }
 
     createNewConversation(title?: string): string {
@@ -201,35 +236,52 @@ export class ChatService {
     }
 
     async submitFeedback(messageId: string, type: 'positive' | 'negative', comment?: string): Promise<void> {
-        // TODO: Implement API call to submit feedback
-        console.log('Submitting feedback:', { messageId, type, comment });
+        try {
+            // Create feedback object
+            const feedback: MessageFeedback = {
+                id: this.generateId(),
+                messageId,
+                type,
+                timestamp: new Date(),
+                comment
+            };
 
-        // Create feedback object
-        const feedback: MessageFeedback = {
-            id: this.generateId(),
-            messageId,
-            type,
-            timestamp: new Date(),
-            comment
-        };
+            // Update the message with feedback
+            this.conversations.update(convs =>
+                convs.map(conv => ({
+                    ...conv,
+                    messages: conv.messages.map(msg =>
+                        msg.id === messageId
+                            ? { ...msg, feedback }
+                            : msg
+                    )
+                }))
+            );
 
-        // Update the message with feedback
-        this.conversations.update(convs =>
-            convs.map(conv => ({
-                ...conv,
-                messages: conv.messages.map(msg =>
-                    msg.id === messageId
-                        ? { ...msg, feedback }
-                        : msg
-                )
-            }))
-        );
+            // Save conversations to localStorage
+            this.saveConversations();
 
-        // Save conversations to localStorage
-        this.saveConversations();
+            // Call feedback API
+            const feedbackRequest: FeedbackRequest = {
+                thread_id: this.currentConversationId() || '',
+                message_id: messageId,
+                feedback_sign: type,
+                feedback_text: comment
+            };
 
-        // In a real implementation, this would call the backend API
-        // await this.http.post('/api/feedback', feedback).toPromise();
+            await firstValueFrom(
+                this.http.post(`${environment.apiUrl}/feedback`, feedbackRequest, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+            );
+
+            console.log('Feedback submitted successfully');
+        } catch (error) {
+            console.error('Error submitting feedback:', error);
+            throw error;
+        }
     }
 
     private addMessageToCurrentConversation(message: ChatMessage): void {
@@ -249,6 +301,16 @@ export class ChatService {
                         messages: [...conv.messages, message],
                         updatedAt: new Date()
                     }
+                    : conv
+            )
+        );
+    }
+
+    private updateConversationTitle(conversationId: string, title: string): void {
+        this.conversations.update(convs =>
+            convs.map(conv =>
+                conv.id === conversationId
+                    ? { ...conv, title: title.substring(0, 50) }
                     : conv
             )
         );
@@ -280,188 +342,6 @@ export class ChatService {
         } catch (error) {
             console.error('Error saving conversations:', error);
         }
-    }
-
-    private generateSampleMarkdownResponse(userMessage: string): string {
-        const lowerMessage = userMessage.toLowerCase();
-
-        if (lowerMessage.includes('math') || lowerMessage.includes('equation') || lowerMessage.includes('formula')) {
-            return `# Mathematical Response
-
-Here's a mathematical explanation with LaTeX rendering:
-
-## Quadratic Formula
-
-The quadratic formula is: $x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$
-
-## Example Calculation
-
-For the equation $x^2 + 5x + 6 = 0$:
-
-\`\`\`latex
-x = \\frac{-5 \\pm \\sqrt{25 - 24}}{2} = \\frac{-5 \\pm 1}{2}
-\`\`\`
-
-This gives us:
-- $x_1 = \\frac{-5 + 1}{2} = -2$
-- $x_2 = \\frac{-5 - 1}{2} = -3$
-
-## Code Example
-
-Here's how you might implement this in Python:
-
-\`\`\`python
-import math
-
-def quadratic_formula(a, b, c):
-    discriminant = b**2 - 4*a*c
-    if discriminant >= 0:
-        x1 = (-b + math.sqrt(discriminant)) / (2*a)
-        x2 = (-b - math.sqrt(discriminant)) / (2*a)
-        return x1, x2
-    else:
-        return None, None
-\`\`\`
-
-The solution is **x = -2** or **x = -3**.`;
-        }
-
-        if (lowerMessage.includes('code') || lowerMessage.includes('programming')) {
-            return `# Code Example
-
-Here's a comprehensive code example with syntax highlighting:
-
-## Algorithm Implementation
-
-\`\`\`typescript
-interface ChatMessage {
-  id: string;
-  content: string;
-  role: 'user' | 'assistant';
-  timestamp: Date;
-}
-
-class ChatService {
-  private messages: ChatMessage[] = [];
-  
-  async sendMessage(content: string): Promise<void> {
-    const message: ChatMessage = {
-      id: this.generateId(),
-      content,
-      role: 'user',
-      timestamp: new Date()
-    };
-    
-    this.messages.push(message);
-    // Process message...
-  }
-  
-  private generateId(): string {
-    return Math.random().toString(36).substr(2, 9);
-  }
-}
-\`\`\`
-
-## Key Features
-
-- **Type Safety**: Full TypeScript support
-- **Async Operations**: Promise-based API
-- **Error Handling**: Robust error management
-- **Performance**: Optimized for real-time chat
-
-> **Note**: This is a simplified example. In production, you'd want to add proper error handling and validation.`;
-        }
-
-        if (lowerMessage.includes('list') || lowerMessage.includes('steps')) {
-            return `# Step-by-Step Guide
-
-Here's a comprehensive guide with multiple sections:
-
-## Prerequisites
-
-Before starting, ensure you have:
-
-1. **Node.js** (version 18 or higher)
-2. **Angular CLI** installed globally
-3. **Git** for version control
-4. **Code editor** (VS Code recommended)
-
-## Installation Steps
-
-### Step 1: Create Project
-\`\`\`bash
-ng new my-chat-app
-cd my-chat-app
-\`\`\`
-
-### Step 2: Install Dependencies
-\`\`\`bash
-npm install @angular/material @angular/cdk
-\`\`\`
-
-### Step 3: Configure Theme
-Add to your \`styles.css\`:
-\`\`\`css
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
-\`\`\`
-
-## Configuration
-
-| Setting | Value | Description |
-|---------|-------|-------------|
-| Theme | Material Design | Professional UI components |
-| State Management | Signals | Reactive state handling |
-| Styling | CSS Variables | Dynamic theming support |
-
-## Next Steps
-
-- [ ] Set up routing
-- [ ] Implement authentication
-- [ ] Add real-time features
-- [ ] Deploy to production
-
-**Important**: Remember to test thoroughly before deployment!`;
-        }
-
-        // Default response with some markdown
-        return `# Response to: "${userMessage}"
-
-This is a **simulated response** that demonstrates markdown rendering capabilities.
-
-## Features Demonstrated
-
-- **Bold text** and *italic text*
-- \`inline code\` formatting
-- Mathematical expressions: $E = mc^2$
-- Lists and structured content
-
-## Code Block Example
-
-\`\`\`javascript
-function greet(name) {
-  return \`Hello, \${name}!\`;
-}
-
-console.log(greet('World'));
-\`\`\`
-
-## LaTeX Math Block
-
-\`\`\`latex
-x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}
-\`\`\`
-
-## Mathematical Formula
-
-The Pythagorean theorem: $a^2 + b^2 = c^2$
-
-## Another Math Example
-
-Quadratic formula: $x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$
-
-> This response includes various markdown elements to showcase the rendering capabilities.
-
-The system is working correctly and ready to handle your API responses with full markdown and LaTeX support!`;
     }
 
     private generateId(): string {
