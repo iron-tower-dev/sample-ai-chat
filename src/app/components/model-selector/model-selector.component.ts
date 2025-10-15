@@ -25,6 +25,9 @@ import { LLMModel } from '../../models/chat.models';
           [matTooltip]="modelTooltip()"
           matTooltipPosition="below"
           matTooltipShowDelay="500">
+          <mat-select-trigger>
+            {{ selectedModel()?.name || 'Select a model' }}
+          </mat-select-trigger>
           @for (model of models(); track model.id) {
             <mat-option 
               [value]="model.id"

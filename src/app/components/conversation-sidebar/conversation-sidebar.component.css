@@ -120,7 +120,7 @@
     font-size: 18px;
     width: 18px;
     height: 18px;
-    color: #666666 !important;
+    color: var(--mat-on-surface-variant);
     line-height: 1;
     margin: 0;
 }

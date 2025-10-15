@@ -44,7 +44,7 @@ import { SidebarService } from '../../services/sidebar.service';
     
     .chat-sidenav {
       width: 300px;
-      border-right: 1px solid var(--mat-divider-color);
+      border-right: 1px solid var(--mat-outline-variant);
     }
     
     .chat-content {
