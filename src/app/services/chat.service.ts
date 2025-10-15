@@ -1,5 +1,5 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { ChatMessage, Conversation, ChatRequest, ChatResponse, LLMModel, DocumentSource, RAGDocument } from '../models/chat.models';
+import { ChatMessage, Conversation, ChatRequest, ChatResponse, LLMModel, DocumentSource, RAGDocument, MessageFeedback } from '../models/chat.models';
 
 @Injectable({
     providedIn: 'root'
@@ -204,8 +204,32 @@ export class ChatService {
         // TODO: Implement API call to submit feedback
         console.log('Submitting feedback:', { messageId, type, comment });
 
-        // For now, just log the feedback
+        // Create feedback object
+        const feedback: MessageFeedback = {
+            id: this.generateId(),
+            messageId,
+            type,
+            timestamp: new Date(),
+            comment
+        };
+
+        // Update the message with feedback
+        this.conversations.update(convs =>
+            convs.map(conv => ({
+                ...conv,
+                messages: conv.messages.map(msg =>
+                    msg.id === messageId
+                        ? { ...msg, feedback }
+                        : msg
+                )
+            }))
+        );
+
+        // Save conversations to localStorage
+        this.saveConversations();
+
         // In a real implementation, this would call the backend API
+        // await this.http.post('/api/feedback', feedback).toPromise();
     }
 
     private addMessageToCurrentConversation(message: ChatMessage): void {

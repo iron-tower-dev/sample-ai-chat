@@ -1,11 +1,13 @@
-import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, output, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
 import { ChatMessage, MessageFeedback } from '../../models/chat.models';
 import { RAGDocumentLinkComponent } from '../rag-document-link/rag-document-link.component';
 import { MarkdownContentComponent } from '../markdown-content/markdown-content.component';
+import { FeedbackDialogComponent, FeedbackDialogData, FeedbackDialogResult } from '../feedback-dialog/feedback-dialog.component';
 
 @Component({
   selector: 'app-message',
@@ -91,9 +93,16 @@ import { MarkdownContentComponent } from '../markdown-content/markdown-content.c
       }
       
       @if (message().feedback) {
-        <div class="feedback-submitted">
-          <mat-icon>check_circle</mat-icon>
-          <span>Thank you for your feedback!</span>
+        <div class="feedback-submitted" [class.positive]="message().feedback!.type === 'positive'" [class.negative]="message().feedback!.type === 'negative'">
+          <mat-icon>{{ message().feedback!.type === 'positive' ? 'thumb_up' : 'thumb_down' }}</mat-icon>
+          <div class="feedback-text">
+            <span class="feedback-message">
+              {{ message().feedback!.type === 'positive' ? 'Thanks for the positive feedback!' : 'Thanks for the feedback!' }}
+            </span>
+            @if (message().feedback!.comment) {
+              <span class="feedback-comment">"{{ message().feedback!.comment }}"</span>
+            }
+          </div>
         </div>
       }
     </div>
@@ -102,6 +111,8 @@ import { MarkdownContentComponent } from '../markdown-content/markdown-content.c
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MessageComponent {
+  private dialog = inject(MatDialog);
+  
   message = input.required<ChatMessage>();
   feedbackSubmitted = output<{ messageId: string; type: 'positive' | 'negative'; comment?: string }>();
 
@@ -129,10 +140,28 @@ export class MessageComponent {
   }
 
   submitFeedback(type: 'positive' | 'negative'): void {
-    this.feedbackSubmitted.emit({
+    const dialogData: FeedbackDialogData = {
       messageId: this.message().id,
-      type,
-      comment: undefined
+      type
+    };
+
+    const dialogRef = this.dialog.open(FeedbackDialogComponent, {
+      data: dialogData,
+      width: '500px',
+      maxWidth: '90vw',
+      disableClose: false,
+      autoFocus: true,
+      restoreFocus: true
+    });
+
+    dialogRef.afterClosed().subscribe((result: FeedbackDialogResult | undefined) => {
+      if (result) {
+        this.feedbackSubmitted.emit({
+          messageId: result.messageId,
+          type: result.type,
+          comment: result.comment
+        });
+      }
     });
   }
 }
