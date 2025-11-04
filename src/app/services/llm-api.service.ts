@@ -1,5 +1,4 @@
-import { Injectable, inject, resource, ResourceRef, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 
 export interface LLMRequest {
@@ -53,6 +52,7 @@ export interface RetrievedSourceMetadata {
 
 export interface StreamingResponse {
   chunks: LLMResponseChunk[];
+  currentChunk: LLMResponseChunk | null;
   isComplete: boolean;
   error?: Error;
 }
@@ -61,91 +61,111 @@ export interface StreamingResponse {
   providedIn: 'root'
 })
 export class LlmApiService {
-  private http = inject(HttpClient);
-  
   private apiUrl = signal(`${environment.apiUrl}/chat`);
 
   /**
-   * Send a message to the LLM API and stream the NDJSON response
-   * using Angular's resource API.
+   * Send a message to the LLM API and stream the NDJSON response.
+   * Returns a signal-based streaming response that updates as chunks arrive.
    */
-  sendMessage(request: LLMRequest): ResourceRef<StreamingResponse | undefined> {
-    return resource({
-      loader: async ({ abortSignal }) => {
-        const chunks: LLMResponseChunk[] = [];
-        let isComplete = false;
-        let error: Error | undefined;
+  async sendMessage(
+    request: LLMRequest,
+    onChunk: (response: StreamingResponse) => void,
+    abortSignal?: AbortSignal
+  ): Promise<void> {
+    const chunks: LLMResponseChunk[] = [];
+    let error: Error | undefined;
 
-        try {
-          const response = await fetch(this.apiUrl(), {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(request),
-            signal: abortSignal,
-          });
+    try {
+      const response = await fetch(this.apiUrl(), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(request),
+        signal: abortSignal,
+      });
 
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-          const reader = response.body?.getReader();
-          if (!reader) {
-            throw new Error('Response body is not readable');
-          }
+      const reader = response.body?.getReader();
+      if (!reader) {
+        throw new Error('Response body is not readable');
+      }
 
-          const decoder = new TextDecoder();
-          let buffer = '';
+      const decoder = new TextDecoder();
+      let buffer = '';
 
-          while (true) {
-            const { done, value } = await reader.read();
-            
-            if (done) {
-              isComplete = true;
-              break;
-            }
-
-            // Decode the chunk and add to buffer
-            buffer += decoder.decode(value, { stream: true });
-
-            // Split by newlines to process complete NDJSON lines
-            const lines = buffer.split('\n');
-            
-            // Keep the last incomplete line in the buffer
-            buffer = lines.pop() || '';
-
-            // Process each complete line
-            for (const line of lines) {
-              const trimmedLine = line.trim();
-              if (trimmedLine) {
-                try {
-                  const chunk = JSON.parse(trimmedLine) as LLMResponseChunk;
-                  chunks.push(chunk);
-                } catch (parseError) {
-                  console.error('Failed to parse NDJSON line:', parseError, 'Line:', trimmedLine);
-                }
-              }
-            }
-          }
-
+      while (true) {
+        const { done, value } = await reader.read();
+        
+        if (done) {
           // Process any remaining data in buffer
           if (buffer.trim()) {
             try {
               const chunk = JSON.parse(buffer) as LLMResponseChunk;
               chunks.push(chunk);
+              onChunk({
+                chunks: [...chunks],
+                currentChunk: chunk,
+                isComplete: true,
+                error
+              });
             } catch (parseError) {
               console.error('Failed to parse final NDJSON line:', parseError);
             }
+          } else {
+            // No more data, just mark as complete
+            onChunk({
+              chunks: [...chunks],
+              currentChunk: chunks[chunks.length - 1] || null,
+              isComplete: true,
+              error
+            });
           }
-        } catch (err) {
-          error = err instanceof Error ? err : new Error(String(err));
-          isComplete = true;
+          break;
         }
 
-        return { chunks, isComplete, error };
-      },
-    });
+        // Decode the chunk and add to buffer
+        buffer += decoder.decode(value, { stream: true });
+
+        // Split by newlines to process complete NDJSON lines
+        const lines = buffer.split('\n');
+        
+        // Keep the last incomplete line in the buffer
+        buffer = lines.pop() || '';
+
+        // Process each complete line
+        for (const line of lines) {
+          const trimmedLine = line.trim();
+          if (trimmedLine) {
+            try {
+              const chunk = JSON.parse(trimmedLine) as LLMResponseChunk;
+              chunks.push(chunk);
+              
+              // Call the callback with the current state
+              onChunk({
+                chunks: [...chunks],
+                currentChunk: chunk,
+                isComplete: false,
+                error
+              });
+            } catch (parseError) {
+              console.error('Failed to parse NDJSON line:', parseError, 'Line:', trimmedLine);
+            }
+          }
+        }
+      }
+    } catch (err) {
+      error = err instanceof Error ? err : new Error(String(err));
+      onChunk({
+        chunks: [...chunks],
+        currentChunk: chunks[chunks.length - 1] || null,
+        isComplete: true,
+        error
+      });
+    }
   }
 
   /**

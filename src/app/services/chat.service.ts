@@ -1,4 +1,4 @@
-import { Injectable, signal, computed, inject, effect } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { ChatMessage, Conversation, ChatRequest, ChatResponse, LLMModel, DocumentSource, RAGDocument, MessageFeedback, FeedbackRequest } from '../models/chat.models';
@@ -128,59 +128,47 @@ export class ChatService {
             };
             this.addMessageToCurrentConversation(assistantMessage);
 
-            // Call streaming API
-            const streamResource = this.llmApi.sendMessage(request);
-
-            // Set up effect to handle streaming updates
-            const cleanupEffect = effect(() => {
-                const streamData = streamResource.value();
+            // Call streaming API with callback
+            await this.llmApi.sendMessage(request, (streamData) => {
+                const { currentChunk, isComplete, error } = streamData;
                 
-                if (streamData) {
-                    const { chunks, isComplete, error } = streamData;
-                    
-                    if (error) {
-                        console.error('Streaming error:', error);
-                        this.updateMessageContent(
+                if (error) {
+                    console.error('Streaming error:', error);
+                    this.updateMessageContent(
+                        assistantMessageId,
+                        'Sorry, I encountered an error processing your request. Please try again.'
+                    );
+                    this.isLoading.set(false);
+                    return;
+                }
+
+                if (currentChunk) {
+                    // Update message content with streaming response
+                    this.updateMessageContent(
+                        assistantMessageId,
+                        currentChunk.generated_response || currentChunk.response || ''
+                    );
+
+                    // Update RAG documents if available
+                    if (currentChunk.cited_sources && currentChunk.cited_sources.length > 0) {
+                        this.updateMessageRAGDocuments(
                             assistantMessageId,
-                            'Sorry, I encountered an error processing your request. Please try again.'
+                            this.convertToRAGDocuments(currentChunk.cited_sources)
                         );
-                        this.isLoading.set(false);
-                        cleanupEffect.destroy();
-                        return;
                     }
 
-                    // Get the latest chunk
-                    const latestChunk = chunks[chunks.length - 1];
-                    
-                    if (latestChunk) {
-                        // Update message content with streaming response
-                        this.updateMessageContent(
-                            assistantMessageId,
-                            latestChunk.generated_response || latestChunk.response || ''
-                        );
-
-                        // Update RAG documents if available
-                        if (latestChunk.cited_sources && latestChunk.cited_sources.length > 0) {
-                            this.updateMessageRAGDocuments(
-                                assistantMessageId,
-                                this.convertToRAGDocuments(latestChunk.cited_sources)
-                            );
-                        }
-
-                        // Update conversation title if it's the first message
-                        if (isComplete && latestChunk.topic) {
-                            const currentConv = this.currentConversation();
-                            if (currentConv && currentConv.messages.length === 2) {
-                                this.updateConversationTitle(threadId, latestChunk.topic);
-                            }
+                    // Update conversation title if it's the first message
+                    if (isComplete && currentChunk.topic) {
+                        const currentConv = this.currentConversation();
+                        if (currentConv && currentConv.messages.length === 2) {
+                            this.updateConversationTitle(threadId, currentChunk.topic);
                         }
                     }
+                }
 
-                    if (isComplete) {
-                        this.isLoading.set(false);
-                        this.saveConversations();
-                        cleanupEffect.destroy();
-                    }
+                if (isComplete) {
+                    this.isLoading.set(false);
+                    this.saveConversations();
                 }
             });
 

@@ -13,7 +13,7 @@ The application now uses a dedicated `LlmApiService` to communicate with the bac
 1. **LlmApiService** (`src/app/services/llm-api.service.ts`)
    - Handles HTTP communication with the LLM backend
    - Processes streaming NDJSON responses
-   - Uses Angular's `resource()` API for reactive data loading
+   - Uses callback-based API for real-time updates
 
 2. **ChatService** (`src/app/services/chat.service.ts`)
    - Orchestrates chat functionality
@@ -109,45 +109,71 @@ const request: LLMRequest = {
 
 ### 3. Streaming Response
 
-The `LlmApiService` uses the Fetch API to stream the response:
+The `LlmApiService` uses the Fetch API to stream the response with a callback:
 
 ```typescript
-const streamResource = this.llmApi.sendMessage(request);
+await this.llmApi.sendMessage(request, (streamData) => {
+  const { currentChunk, isComplete, error } = streamData;
+  
+  if (error) {
+    // Handle error
+    console.error('Streaming error:', error);
+    return;
+  }
+  
+  if (currentChunk) {
+    // Update UI with latest chunk
+    this.updateMessageContent(
+      assistantMessageId,
+      currentChunk.generated_response
+    );
+  }
+  
+  if (isComplete) {
+    // Streaming finished
+    this.isLoading.set(false);
+  }
+});
 ```
 
-The resource API automatically:
+The service automatically:
 - Makes the HTTP POST request
 - Streams the response body
 - Parses NDJSON line by line
-- Provides reactive updates via signals
+- Calls the callback function for each chunk
+- Handles errors gracefully
 
 ### 4. UI Updates
 
-An Angular `effect()` watches the streaming resource and updates the UI in real-time:
+The callback function updates the UI in real-time as chunks arrive:
 
 ```typescript
-effect(() => {
-  const streamData = streamResource.value();
+// Callback receives streaming updates
+(streamData) => {
+  const { currentChunk, isComplete, error } = streamData;
   
-  if (streamData) {
-    const { chunks, isComplete, error } = streamData;
-    const latestChunk = chunks[chunks.length - 1];
-    
-    // Update message content as it streams
+  if (currentChunk) {
+    // Update message content with streaming response
     this.updateMessageContent(
       assistantMessageId,
-      latestChunk.generated_response
+      currentChunk.generated_response || currentChunk.response || ''
     );
     
     // Update RAG documents when available
-    if (latestChunk.cited_sources?.length > 0) {
+    if (currentChunk.cited_sources?.length > 0) {
       this.updateMessageRAGDocuments(
         assistantMessageId,
-        this.convertToRAGDocuments(latestChunk.cited_sources)
+        this.convertToRAGDocuments(currentChunk.cited_sources)
       );
     }
   }
-});
+  
+  if (isComplete) {
+    // Save and cleanup when done
+    this.isLoading.set(false);
+    this.saveConversations();
+  }
+}
 ```
 
 ## Configuration
@@ -179,10 +205,11 @@ llmApiService.setApiUrl('https://api.example.com/llm/chat');
 
 1. **Real-time Streaming**: Users see responses as they're generated, not after completion
 2. **Reactive Updates**: Angular signals ensure UI stays in sync with data
-3. **Cancellation Support**: Resource API provides built-in request cancellation via `AbortSignal`
+3. **Cancellation Support**: Optional `AbortSignal` parameter for request cancellation
 4. **Type Safety**: Full TypeScript typing for request/response payloads
 5. **Error Handling**: Comprehensive error handling with user-friendly messages
 6. **NDJSON Parsing**: Robust line-by-line parsing handles partial chunks correctly
+7. **Callback-based API**: Simple, straightforward API that works in any context
 
 ## Error Handling
 
