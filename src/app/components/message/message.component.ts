@@ -5,7 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { ChatMessage, MessageFeedback } from '../../models/chat.models';
-import { RAGDocumentLinkComponent } from '../rag-document-link/rag-document-link.component';
 import { MarkdownContentComponent } from '../markdown-content/markdown-content.component';
 import { FeedbackDialogComponent, FeedbackDialogData, FeedbackDialogResult } from '../feedback-dialog/feedback-dialog.component';
 
@@ -16,7 +15,6 @@ import { FeedbackDialogComponent, FeedbackDialogData, FeedbackDialogResult } fro
     MatButtonModule,
     MatIconModule,
     MatTooltipModule,
-    RAGDocumentLinkComponent,
     MarkdownContentComponent
   ],
   template: `
@@ -47,29 +45,11 @@ import { FeedbackDialogComponent, FeedbackDialogData, FeedbackDialogResult } fro
       
       <div class="message-content">
         @if (message().role === 'assistant') {
-          <app-markdown-content [content]="message().content"></app-markdown-content>
+          <app-markdown-content 
+            [content]="message().content"
+            [ragDocuments]="message().ragDocuments || []"></app-markdown-content>
         } @else {
           <div class="content-text">{{ message().content }}</div>
-        }
-        
-        @if (message().ragDocuments && message().ragDocuments!.length > 0) {
-          <div class="rag-documents">
-            <div class="rag-header">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14,2 14,8 20,8"></polyline>
-                <line x1="16" y1="13" x2="8" y2="13"></line>
-                <line x1="16" y1="17" x2="8" y2="17"></line>
-                <polyline points="10,9 9,9 8,9"></polyline>
-              </svg>
-              <span>Sources used:</span>
-            </div>
-            <div class="rag-links">
-              @for (doc of message().ragDocuments; track doc.id) {
-                <app-rag-document-link [document]="doc"></app-rag-document-link>
-              }
-            </div>
-          </div>
         }
       </div>
       

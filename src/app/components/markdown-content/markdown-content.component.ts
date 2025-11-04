@@ -2,6 +2,8 @@ import { Component, input, signal, effect, ChangeDetectionStrategy, inject } fro
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { MarkdownRendererService } from '../../services/markdown-renderer.service';
+import { SourceCitationService } from '../../services/source-citation.service';
+import { RAGDocument } from '../../models/chat.models';
 
 @Component({
     selector: 'app-markdown-content',
@@ -19,8 +21,10 @@ import { MarkdownRendererService } from '../../services/markdown-renderer.servic
 export class MarkdownContentComponent {
     private markdownRenderer = inject(MarkdownRendererService);
     private sanitizer = inject(DomSanitizer);
+    private sourceCitation = inject(SourceCitationService);
 
     content = input.required<string>();
+    ragDocuments = input<RAGDocument[]>([]);
 
     renderedContent = signal<SafeHtml>('');
     containsMath = signal<boolean>(false);
@@ -28,8 +32,17 @@ export class MarkdownContentComponent {
     constructor() {
         effect(() => {
             const markdownContent = this.content();
+            const docs = this.ragDocuments();
+            
             if (markdownContent) {
-                this.markdownRenderer.renderMarkdown(markdownContent).then(rendered => {
+                // First, replace inline source citations with document links
+                let processedContent = markdownContent;
+                if (docs && docs.length > 0) {
+                    processedContent = this.sourceCitation.replaceSourceCitationsWithHTML(markdownContent, docs);
+                }
+                
+                // Then render the markdown
+                this.markdownRenderer.renderMarkdown(processedContent).then(rendered => {
                     // Use DomSanitizer to bypass Angular's sanitization since we already sanitized with DOMPurify
                     const safeHtml = this.sanitizer.bypassSecurityTrustHtml(rendered);
                     this.renderedContent.set(safeHtml);

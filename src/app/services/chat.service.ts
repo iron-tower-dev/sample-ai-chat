@@ -147,12 +147,14 @@ export class ChatService {
                     const content = currentChunk.generated_response || '';
                     this.updateMessageContent(assistantMessageId, content);
 
-                    // Update RAG documents if available - use retrieved_sources
+                    // Store RAG documents as a map for inline source references
+                    // Do NOT display them at the bottom of the message
                     if (currentChunk.retrieved_sources && currentChunk.retrieved_sources.length > 0) {
-                        this.updateMessageRAGDocuments(
-                            assistantMessageId,
-                            this.convertToRAGDocuments(currentChunk.retrieved_sources, documentSources?.[0])
+                        const ragDocumentsMap = this.convertToRAGDocumentsMap(
+                            currentChunk.retrieved_sources, 
+                            documentSources?.[0]
                         );
+                        this.updateMessageRAGDocuments(assistantMessageId, ragDocumentsMap);
                     }
 
                     // Update conversation title if it's the first message
@@ -198,17 +200,68 @@ export class ChatService {
         );
     }
 
-    private updateMessageRAGDocuments(messageId: string, ragDocuments: RAGDocument[]): void {
+    private updateMessageRAGDocuments(messageId: string, ragDocuments: RAGDocument[] | Record<string, RAGDocument>): void {
+        // Convert map to array if needed for backward compatibility
+        const docsArray = Array.isArray(ragDocuments) ? ragDocuments : Object.values(ragDocuments);
+        
         this.conversations.update(convs =>
             convs.map(conv => ({
                 ...conv,
                 messages: conv.messages.map(msg =>
                     msg.id === messageId
-                        ? { ...msg, ragDocuments }
+                        ? { ...msg, ragDocuments: docsArray }
                         : msg
                 )
             }))
         );
+    }
+
+    private convertToRAGDocumentsMap(retrievedSources: any[], datasetName?: string): Record<string, RAGDocument> {
+        if (!retrievedSources || retrievedSources.length === 0) {
+            return {};
+        }
+
+        const documentsMap: Record<string, RAGDocument> = {};
+
+        retrievedSources.forEach((source) => {
+            // Determine document title based on dataset type
+            let title: string;
+            const metadata = source.metadata || {};
+            
+            if (datasetName === 'NRCAdams' && metadata.AccessionNumber) {
+                title = metadata.AccessionNumber;
+            } else if (metadata.DocumentTitle) {
+                title = metadata.DocumentTitle;
+            } else if (metadata.documentName) {
+                title = metadata.documentName;
+            } else {
+                title = source.source_id || 'Unknown Document';
+            }
+
+            const docSource: DocumentSource = {
+                id: source.source_id || 'unknown',
+                name: datasetName || 'Unknown Source',
+                type: datasetName === 'NRCAdams' ? 'external' : 'internal',
+                requiresAuth: datasetName !== 'NRCAdams'
+            };
+
+            // Use source_id as the key in the map
+            const sourceId = source.source_id || this.generateId();
+            documentsMap[sourceId] = {
+                id: this.generateId(),
+                title,
+                content: source.text || '',
+                source: docSource,
+                metadata: {
+                    ...metadata,
+                    documentName: title,
+                    dateAdded: new Date()
+                },
+                relevanceScore: metadata.distance ? 1 - metadata.distance : undefined
+            };
+        });
+
+        return documentsMap;
     }
 
     private convertToRAGDocuments(retrievedSources: any[], datasetName?: string): RAGDocument[] {

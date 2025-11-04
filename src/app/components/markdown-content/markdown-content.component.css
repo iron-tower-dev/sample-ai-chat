@@ -321,6 +321,28 @@
     color: var(--text-secondary);
 }
 
+/* Inline source citations */
+.markdown-content .inline-source-citation {
+    display: inline;
+    color: var(--mat-primary-500);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+    font-size: 0.9em;
+    padding: 0 0.125rem;
+    white-space: nowrap;
+}
+
+.markdown-content .inline-source-citation:hover {
+    border-bottom-color: var(--mat-primary-500);
+    color: var(--mat-primary-700);
+}
+
+.dark-theme .markdown-content .inline-source-citation:hover {
+    color: var(--mat-primary-300);
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .markdown-content {
