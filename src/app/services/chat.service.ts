@@ -143,17 +143,15 @@ export class ChatService {
                 }
 
                 if (currentChunk) {
-                    // Update message content with streaming response
-                    this.updateMessageContent(
-                        assistantMessageId,
-                        currentChunk.generated_response || currentChunk.response || ''
-                    );
+                    // Update message content with streaming response - use only generated_response
+                    const content = currentChunk.generated_response || '';
+                    this.updateMessageContent(assistantMessageId, content);
 
-                    // Update RAG documents if available
-                    if (currentChunk.cited_sources && currentChunk.cited_sources.length > 0) {
+                    // Update RAG documents if available - use retrieved_sources
+                    if (currentChunk.retrieved_sources && currentChunk.retrieved_sources.length > 0) {
                         this.updateMessageRAGDocuments(
                             assistantMessageId,
-                            this.convertToRAGDocuments(currentChunk.cited_sources)
+                            this.convertToRAGDocuments(currentChunk.retrieved_sources, documentSources?.[0])
                         );
                     }
 
@@ -213,27 +211,44 @@ export class ChatService {
         );
     }
 
-    private convertToRAGDocuments(citedSources: any[]): RAGDocument[] {
-        if (!citedSources || citedSources.length === 0) {
+    private convertToRAGDocuments(retrievedSources: any[], datasetName?: string): RAGDocument[] {
+        if (!retrievedSources || retrievedSources.length === 0) {
             return [];
         }
 
-        return citedSources.map((source, index) => {
+        return retrievedSources.map((source, index) => {
+            // Determine document title based on dataset type
+            let title: string;
+            const metadata = source.metadata || {};
+            
+            if (datasetName === 'NRCAdams' && metadata.AccessionNumber) {
+                title = metadata.AccessionNumber;
+            } else if (metadata.DocumentTitle) {
+                title = metadata.DocumentTitle;
+            } else if (metadata.documentName) {
+                title = metadata.documentName;
+            } else {
+                title = source.source_id || `Document ${index + 1}`;
+            }
+
             const docSource: DocumentSource = {
-                id: source.metadata?.source || 'unknown',
-                name: source.metadata?.documentName || 'Unknown Document',
-                type: 'external',
-                requiresAuth: false
+                id: source.source_id || 'unknown',
+                name: datasetName || 'Unknown Source',
+                type: datasetName === 'NRCAdams' ? 'external' : 'internal',
+                requiresAuth: datasetName !== 'NRCAdams'
             };
 
             return {
                 id: this.generateId(),
-                title: source.metadata?.documentName || `Document ${index + 1}`,
+                title,
                 content: source.text || '',
                 source: docSource,
-                metadata: source.metadata || {},
-                pageNumber: source.metadata?.pageNumber,
-                relevanceScore: source.metadata?.relevanceScore
+                metadata: {
+                    ...metadata,
+                    documentName: title,
+                    dateAdded: new Date()
+                },
+                relevanceScore: metadata.distance ? 1 - metadata.distance : undefined
             };
         });
     }

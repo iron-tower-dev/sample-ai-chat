@@ -40,14 +40,16 @@ export interface RetrievedSource {
 }
 
 export interface RetrievedSourceMetadata {
-  AccessionNumber: string;
+  AccessionNumber?: string;  // For NRCAdams documents
+  DocumentTitle?: string;     // For eDoc documents
   chunk_id: string;
   text: string;
-  bounding_boxes: string;
-  AuthorName: string;
-  milvus_id: number;
+  bounding_boxes?: string;
+  AuthorName?: string;
+  milvus_id?: number;
   distance: number;
-  rank: number;
+  rank?: number;
+  [key: string]: any;         // Allow additional metadata fields
 }
 
 export interface StreamingResponse {
