@@ -1,9 +1,10 @@
-import { Injectable, signal, computed, inject } from '@angular/core';
+import { Injectable, signal, computed, inject, effect } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { ChatMessage, Conversation, ChatRequest, ChatResponse, LLMModel, DocumentSource, RAGDocument, MessageFeedback, FeedbackRequest } from '../models/chat.models';
 import { UserConfigService } from './user-config.service';
 import { environment } from '../../environments/environment';
+import { LlmApiService, LLMRequest } from './llm-api.service';
 
 @Injectable({
     providedIn: 'root'
@@ -11,6 +12,7 @@ import { environment } from '../../environments/environment';
 export class ChatService {
     private http = inject(HttpClient);
     private userConfig = inject(UserConfigService);
+    private llmApi = inject(LlmApiService);
     
     private conversations = signal<Conversation[]>([]);
     private currentConversationId = signal<string | null>(null);
@@ -106,44 +108,81 @@ export class ChatService {
                 this.currentConversationId.set(threadId);
             }
 
-            // Create chat request
-            const request: ChatRequest = {
+            // Create LLM API request
+            const request: LLMRequest = {
                 user_id: this.userConfig.userId$(),
                 ad_group: this.userConfig.adGroup$(),
                 prompt: message,
                 thread_id: threadId,
-                session_id: this.generateId(),
-                system_prompt: '',
-                persona: '',
-                tool_override: documentSources?.length ? 'searchdoc' : undefined,
-                filtered_dataset: documentSources,
-                metadata_filters: documentFilters
+                filtered_dataset: documentSources?.[0] || ''
             };
 
-            // Call actual API
-            const response = await this.callChatAPI(request);
-
-            // Convert response to ChatMessage
+            // Create placeholder assistant message for streaming
+            const assistantMessageId = this.generateId();
             const assistantMessage: ChatMessage = {
-                id: this.generateId(),
-                content: response.generated_response,
+                id: assistantMessageId,
+                content: '',
                 role: 'assistant',
                 timestamp: new Date(),
-                model,
-                ragDocuments: this.convertToRAGDocuments(response.cited_sources)
+                model
             };
-
-            // Add assistant response
             this.addMessageToCurrentConversation(assistantMessage);
 
-            // Update conversation title if it's the first message
-            const currentConv = this.currentConversation();
-            if (currentConv && currentConv.messages.length === 2) {
-                this.updateConversationTitle(threadId, response.topic || message.substring(0, 50));
-            }
+            // Call streaming API
+            const streamResource = this.llmApi.sendMessage(request);
 
-            // Save conversations
-            this.saveConversations();
+            // Set up effect to handle streaming updates
+            const cleanupEffect = effect(() => {
+                const streamData = streamResource.value();
+                
+                if (streamData) {
+                    const { chunks, isComplete, error } = streamData;
+                    
+                    if (error) {
+                        console.error('Streaming error:', error);
+                        this.updateMessageContent(
+                            assistantMessageId,
+                            'Sorry, I encountered an error processing your request. Please try again.'
+                        );
+                        this.isLoading.set(false);
+                        cleanupEffect.destroy();
+                        return;
+                    }
+
+                    // Get the latest chunk
+                    const latestChunk = chunks[chunks.length - 1];
+                    
+                    if (latestChunk) {
+                        // Update message content with streaming response
+                        this.updateMessageContent(
+                            assistantMessageId,
+                            latestChunk.generated_response || latestChunk.response || ''
+                        );
+
+                        // Update RAG documents if available
+                        if (latestChunk.cited_sources && latestChunk.cited_sources.length > 0) {
+                            this.updateMessageRAGDocuments(
+                                assistantMessageId,
+                                this.convertToRAGDocuments(latestChunk.cited_sources)
+                            );
+                        }
+
+                        // Update conversation title if it's the first message
+                        if (isComplete && latestChunk.topic) {
+                            const currentConv = this.currentConversation();
+                            if (currentConv && currentConv.messages.length === 2) {
+                                this.updateConversationTitle(threadId, latestChunk.topic);
+                            }
+                        }
+                    }
+
+                    if (isComplete) {
+                        this.isLoading.set(false);
+                        this.saveConversations();
+                        cleanupEffect.destroy();
+                    }
+                }
+            });
 
         } catch (error) {
             console.error('Error sending message:', error);
@@ -156,27 +195,34 @@ export class ChatService {
                 model
             };
             this.addMessageToCurrentConversation(errorMessage);
-        } finally {
             this.isLoading.set(false);
         }
     }
 
-    private async callChatAPI(request: ChatRequest): Promise<ChatResponse> {
-        const url = `${environment.apiUrl}/chat`;
-        
-        try {
-            const response = await firstValueFrom(
-                this.http.post<ChatResponse>(url, request, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-            );
-            return response;
-        } catch (error) {
-            console.error('API call failed:', error);
-            throw error;
-        }
+    private updateMessageContent(messageId: string, content: string): void {
+        this.conversations.update(convs =>
+            convs.map(conv => ({
+                ...conv,
+                messages: conv.messages.map(msg =>
+                    msg.id === messageId
+                        ? { ...msg, content }
+                        : msg
+                )
+            }))
+        );
+    }
+
+    private updateMessageRAGDocuments(messageId: string, ragDocuments: RAGDocument[]): void {
+        this.conversations.update(convs =>
+            convs.map(conv => ({
+                ...conv,
+                messages: conv.messages.map(msg =>
+                    msg.id === messageId
+                        ? { ...msg, ragDocuments }
+                        : msg
+                )
+            }))
+        );
     }
 
     private convertToRAGDocuments(citedSources: any[]): RAGDocument[] {

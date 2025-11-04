@@ -1,5 +1,6 @@
 import { Injectable, inject, resource, ResourceRef, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 export interface LLMRequest {
   user_id: string;
@@ -62,16 +63,15 @@ export interface StreamingResponse {
 export class LlmApiService {
   private http = inject(HttpClient);
   
-  private apiUrl = signal('/api/chat'); // Configure this for your actual endpoint
+  private apiUrl = signal(`${environment.apiUrl}/chat`);
 
   /**
    * Send a message to the LLM API and stream the NDJSON response
    * using Angular's resource API.
    */
-  sendMessage(request: LLMRequest): ResourceRef<StreamingResponse> {
-    return resource<StreamingResponse, { request: LLMRequest }>({
-      request: () => ({ request }),
-      loader: async ({ request, abortSignal }) => {
+  sendMessage(request: LLMRequest): ResourceRef<StreamingResponse | undefined> {
+    return resource({
+      loader: async ({ abortSignal }) => {
         const chunks: LLMResponseChunk[] = [];
         let isComplete = false;
         let error: Error | undefined;
@@ -82,7 +82,7 @@ export class LlmApiService {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(request.request),
+            body: JSON.stringify(request),
             signal: abortSignal,
           });
 
