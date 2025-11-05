@@ -132,8 +132,11 @@ export class SourceCitationService {
       const normalizedIdentifiers = identifiers.replace(/;\s*Source\s+/gi, ', ');
       const sourceIds = normalizedIdentifiers.split(/[,;]/).map((id: string) => id.trim()).filter((id: string) => id.length > 0);
       
-      // Process each source ID and create citation spans
-      const citations = sourceIds.map((sourceId: string) => {
+      // Remove duplicate source IDs while preserving order
+      const uniqueSourceIds: string[] = Array.from(new Set(sourceIds));
+      
+      // Process each unique source ID and create citation spans
+      const citations = uniqueSourceIds.map((sourceId) => {
         // Try to find document by source ID
         let document = docBySourceId.get(sourceId) || docByTitle.get(sourceId);
         
