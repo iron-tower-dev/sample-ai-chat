@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
 import { ChatMessage, MessageFeedback } from '../../models/chat.models';
 import { MarkdownContentComponent } from '../markdown-content/markdown-content.component';
@@ -15,6 +16,7 @@ import { FeedbackDialogComponent, FeedbackDialogData, FeedbackDialogResult } fro
     MatButtonModule,
     MatIconModule,
     MatTooltipModule,
+    MatProgressSpinnerModule,
     MarkdownContentComponent
   ],
   template: `
@@ -45,9 +47,16 @@ import { FeedbackDialogComponent, FeedbackDialogData, FeedbackDialogResult } fro
       
       <div class="message-content">
         @if (message().role === 'assistant') {
-          <app-markdown-content 
-            [content]="message().content"
-            [ragDocuments]="message().ragDocuments || []"></app-markdown-content>
+          @if (message().content === 'Thinking' && isLoading()) {
+            <div class="thinking-indicator">
+              <mat-spinner diameter="20"></mat-spinner>
+              <span>Thinking</span>
+            </div>
+          } @else {
+            <app-markdown-content 
+              [content]="message().content"
+              [ragDocuments]="message().ragDocuments || []"></app-markdown-content>
+          }
         } @else {
           <div class="content-text">{{ message().content }}</div>
         }
@@ -94,6 +103,7 @@ export class MessageComponent {
   private dialog = inject(MatDialog);
   
   message = input.required<ChatMessage>();
+  isLoading = input<boolean>(false);
   feedbackSubmitted = output<{ messageId: string; type: 'positive' | 'negative'; comment?: string }>();
 
   pendingFeedback = input<'positive' | 'negative' | null>(null);

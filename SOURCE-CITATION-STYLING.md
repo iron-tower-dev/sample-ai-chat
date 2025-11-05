@@ -279,6 +279,29 @@ Tested on:
 - Check color contrast ratios
 - Test with screen reader (future enhancement)
 
+## Fixes Applied
+
+### Issue 1: Inline Citations Not Showing Styles
+**Problem**: Inline citation HTML was being generated but styles weren't applied.
+
+**Root Cause**: DOMPurify sanitization was stripping the `data-doc` and `data-preview` attributes needed for the citation spans.
+
+**Solution**: Updated `markdown-renderer.service.ts` to allow citation-specific attributes:
+```typescript
+ADD_ATTR: ['style', 'xmlns', 'aria-hidden', 'title', 'data-doc', 'data-preview']
+```
+
+### Issue 2: Separate Loading Indicator
+**Problem**: "Generating response..." with loading circle appeared below the assistant message, separate from the "Thinking..." text inside the message.
+
+**Solution**: 
+1. Changed "*Thinking...*" (italic) to "Thinking" in `chat.service.ts`
+2. Added conditional rendering in `message.component.ts` to show spinner + "Thinking" text together
+3. Removed separate loading message from `chat-interface.component.ts`
+4. Passed `isLoading` input to MessageComponent to conditionally show thinking indicator
+
+**Result**: Clean, unified loading experience with spinner and text inside the message bubble.
+
 ## Related Documentation
 
 - `INLINE-SOURCE-CITATIONS.md` - Complete inline citation system

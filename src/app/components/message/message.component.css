@@ -103,6 +103,20 @@
     white-space: pre-wrap;
 }
 
+/* Thinking indicator */
+.thinking-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--mat-on-surface-variant);
+    font-style: italic;
+    font-size: 0.9375rem;
+}
+
+.thinking-indicator mat-spinner {
+    flex-shrink: 0;
+}
+
 /* Override text color for user messages */
 .user-message .message-content,
 .user-message .message-content * {

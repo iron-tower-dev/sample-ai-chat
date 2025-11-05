@@ -117,11 +117,11 @@ export class ChatService {
                 filtered_dataset: documentSources?.[0] || ''
             };
 
-            // Create placeholder assistant message for streaming with "Thinking..." indicator
+            // Create placeholder assistant message for streaming with "Thinking" indicator
             const assistantMessageId = this.generateId();
             const assistantMessage: ChatMessage = {
                 id: assistantMessageId,
-                content: '*Thinking...*',
+                content: 'Thinking',
                 role: 'assistant',
                 timestamp: new Date(),
                 model

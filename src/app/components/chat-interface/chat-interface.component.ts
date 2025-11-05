@@ -65,15 +65,9 @@ import { ModelSelectorComponent } from '../model-selector/model-selector.compone
         @for (message of currentMessages(); track message.id) {
           <app-message 
             [message]="message"
+            [isLoading]="isLoading()"
             (feedbackSubmitted)="onFeedbackSubmitted($event)">
           </app-message>
-        }
-        
-        @if (isLoading()) {
-          <div class="loading-message">
-            <mat-spinner diameter="32"></mat-spinner>
-            <span>Generating response...</span>
-          </div>
         }
         
         <!-- Scroll to Bottom Button -->

@@ -122,9 +122,9 @@ export class MarkdownRendererService {
             // Render the markdown
             const result = await marked(processedMarkdown);
 
-            // Sanitize the HTML with DOMPurify to preserve KaTeX positioning
+            // Sanitize the HTML with DOMPurify to preserve KaTeX positioning and inline citations
             const sanitizedResult = DOMPurify.sanitize(result as string, {
-                ADD_ATTR: ['style', 'xmlns', 'aria-hidden', 'title'], // Allow inline styles and MathML attributes
+                ADD_ATTR: ['style', 'xmlns', 'aria-hidden', 'title', 'data-doc', 'data-preview'], // Allow inline styles, MathML attributes, and citation data attributes
                 ADD_TAGS: [
                     'math', 'semantics', 'mrow', 'mi', 'mo', 'msup', 'mfrac', 'msqrt', 'annotation',
                     'munder', 'mover', 'msub', 'mtable', 'mtr', 'mtd', 'mtext', 'mspace', 'mstyle',
