@@ -47,7 +47,7 @@ import { FeedbackDialogComponent, FeedbackDialogData, FeedbackDialogResult } fro
       
       <div class="message-content">
         @if (message().role === 'assistant') {
-          @if (message().content === 'Thinking' && isLoading()) {
+          @if (isLoading() && (message().content === 'Thinking' || !message().content || message().content.trim() === '')) {
             <div class="thinking-indicator">
               <mat-spinner diameter="20"></mat-spinner>
               <span>Thinking</span>
