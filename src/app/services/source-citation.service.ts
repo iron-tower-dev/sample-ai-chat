@@ -135,8 +135,11 @@ export class SourceCitationService {
       // Remove duplicate source IDs while preserving order
       const uniqueSourceIds: string[] = Array.from(new Set(sourceIds));
       
-      // Process each unique source ID and create citation spans
-      const citations = uniqueSourceIds.map((sourceId) => {
+      // Map source IDs to documents and track unique titles
+      const seenTitles = new Set<string>();
+      const citations: string[] = [];
+      
+      for (const sourceId of uniqueSourceIds) {
         // Try to find document by source ID
         let document = docBySourceId.get(sourceId) || docByTitle.get(sourceId);
         
@@ -152,18 +155,24 @@ export class SourceCitationService {
         }
         
         if (document) {
-          const docData = encodeURIComponent(JSON.stringify({
-            id: document.id,
-            title: document.title,
-            sourceId: sourceId
-          }));
-          console.log('[SourceCitationService] Found document for', sourceId, ':', document.title);
-          return `<span class="inline-source-citation" data-doc="${docData}">[${document.title}]</span>`;
+          // Only add if we haven't seen this document title before
+          if (!seenTitles.has(document.title)) {
+            seenTitles.add(document.title);
+            const docData = encodeURIComponent(JSON.stringify({
+              id: document.id,
+              title: document.title,
+              sourceId: sourceId
+            }));
+            console.log('[SourceCitationService] Found document for', sourceId, ':', document.title);
+            citations.push(`<span class="inline-source-citation" data-doc="${docData}">[${document.title}]</span>`);
+          } else {
+            console.log('[SourceCitationService] Skipping duplicate title for', sourceId, ':', document.title);
+          }
         } else {
           console.warn('[SourceCitationService] No document found for source:', sourceId);
-          return `[Source: ${sourceId}]`;
+          citations.push(`[Source: ${sourceId}]`);
         }
-      });
+      }
       
       // Join multiple citations with spaces
       return citations.join(' ');
