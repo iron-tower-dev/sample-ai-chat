@@ -127,8 +127,10 @@ export class SourceCitationService {
     const result = content.replace(sourcePattern, (match, identifiers) => {
       console.log('[SourceCitationService] Found citation:', match, 'identifiers:', identifiers);
       
-      // Split by comma to handle multiple sources
-      const sourceIds = identifiers.split(',').map((id: string) => id.trim());
+      // Split by comma AND semicolon to handle multiple sources like "6, 1.1.1; Source 23, 4.11"
+      // First normalize by replacing "; Source" with just ","
+      const normalizedIdentifiers = identifiers.replace(/;\s*Source\s+/gi, ', ');
+      const sourceIds = normalizedIdentifiers.split(/[,;]/).map((id: string) => id.trim()).filter((id: string) => id.length > 0);
       
       // Process each source ID and create citation spans
       const citations = sourceIds.map((sourceId: string) => {
