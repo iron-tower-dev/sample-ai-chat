@@ -34,15 +34,21 @@ export class MarkdownContentComponent {
             const markdownContent = this.content();
             const docs = this.ragDocuments();
             
+            console.log('[MarkdownContent] Content changed:', markdownContent?.substring(0, 100));
+            console.log('[MarkdownContent] RAG docs:', docs?.length || 0);
+            
             if (markdownContent) {
                 // First, replace inline source citations with document links
                 let processedContent = markdownContent;
                 if (docs && docs.length > 0) {
+                    console.log('[MarkdownContent] Processing citations...');
                     processedContent = this.sourceCitation.replaceSourceCitationsWithHTML(markdownContent, docs);
+                    console.log('[MarkdownContent] After citation processing:', processedContent.substring(0, 200));
                 }
                 
                 // Then render the markdown
                 this.markdownRenderer.renderMarkdown(processedContent).then(rendered => {
+                    console.log('[MarkdownContent] After markdown render:', rendered.substring(0, 200));
                     // Use DomSanitizer to bypass Angular's sanitization since we already sanitized with DOMPurify
                     const safeHtml = this.sanitizer.bypassSecurityTrustHtml(rendered);
                     this.renderedContent.set(safeHtml);

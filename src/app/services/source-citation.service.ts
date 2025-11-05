@@ -100,29 +100,71 @@ export class SourceCitationService {
 
   /**
    * Replace inline source citations with HTML for document links
+   * Handles single sources like [Source: 7] and multiple sources like [Source: 7, 26, 38]
    */
   replaceSourceCitationsWithHTML(content: string, ragDocuments: RAGDocument[]): string {
-    const parsed = this.parseInlineSources(content, ragDocuments);
+    console.log('[SourceCitationService] Processing content:', content.substring(0, 200));
+    console.log('[SourceCitationService] RAG documents count:', ragDocuments.length);
     
-    let result = '';
-    parsed.segments.forEach(segment => {
-      if (segment.type === 'text') {
-        result += segment.content;
-      } else if (segment.type === 'source' && segment.document) {
-        // Create a placeholder that will be replaced with the actual component
-        // Use a data attribute to store the document information
-        const docData = encodeURIComponent(JSON.stringify({
-          id: segment.document.id,
-          title: segment.document.title,
-          sourceId: segment.sourceId
-        }));
-        result += `<span class="inline-source-citation" data-doc="${docData}">[${segment.document.title}]</span>`;
-      } else {
-        // Source citation without matching document - keep original
-        result += segment.content;
+    // Create lookup maps for quick access
+    const docByIndex = new Map<number, RAGDocument>();
+    const docBySourceId = new Map<string, RAGDocument>();
+    const docByTitle = new Map<string, RAGDocument>();
+    
+    ragDocuments.forEach((doc, index) => {
+      docByIndex.set(index, doc);
+      if (doc.source?.id) {
+        docBySourceId.set(doc.source.id, doc);
+      }
+      if (doc.title) {
+        docByTitle.set(doc.title, doc);
       }
     });
-
+    
+    // Regex to match [Source: ...] or [Source ...]
+    const sourcePattern = /\[Source:?\s*([^\]]+)\]/gi;
+    
+    const result = content.replace(sourcePattern, (match, identifiers) => {
+      console.log('[SourceCitationService] Found citation:', match, 'identifiers:', identifiers);
+      
+      // Split by comma to handle multiple sources
+      const sourceIds = identifiers.split(',').map((id: string) => id.trim());
+      
+      // Process each source ID and create citation spans
+      const citations = sourceIds.map((sourceId: string) => {
+        // Try to find document by source ID
+        let document = docBySourceId.get(sourceId) || docByTitle.get(sourceId);
+        
+        // If not found and it's a number, try array index lookup
+        if (!document && /^\d+$/.test(sourceId)) {
+          const index = parseInt(sourceId, 10);
+          // Try 1-based indexing first (common for LLM responses)
+          document = docByIndex.get(index - 1);
+          if (!document) {
+            // Try 0-based as fallback
+            document = docByIndex.get(index);
+          }
+        }
+        
+        if (document) {
+          const docData = encodeURIComponent(JSON.stringify({
+            id: document.id,
+            title: document.title,
+            sourceId: sourceId
+          }));
+          console.log('[SourceCitationService] Found document for', sourceId, ':', document.title);
+          return `<span class="inline-source-citation" data-doc="${docData}">[${document.title}]</span>`;
+        } else {
+          console.warn('[SourceCitationService] No document found for source:', sourceId);
+          return `[Source: ${sourceId}]`;
+        }
+      });
+      
+      // Join multiple citations with spaces
+      return citations.join(' ');
+    });
+    
+    console.log('[SourceCitationService] Processed result (first 200 chars):', result.substring(0, 200));
     return result;
   }
 }
