@@ -120,19 +120,42 @@ Located at `src/app/services/source-citation.service.ts`
 
 ## CSS Styling
 
-Inline source citations are styled with:
+Inline source citations use a modern badge-style design for high visibility:
 
+### Visual Design
+- **Badge appearance**: Rounded corners with subtle background and border
+- **Document icon**: 📄 icon prefix for immediate visual recognition
+- **Elevation on hover**: Subtle lift effect with enhanced shadow
+- **Theme-aware**: Adapts to light/dark themes with appropriate opacity
+
+### Base Styles
 ```css
 .inline-source-citation {
-  color: var(--mat-primary-500);
-  cursor: pointer;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s ease, color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 6px;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.85em;
+  font-weight: 500;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
+```
 
-.inline-source-citation:hover {
-  border-bottom-color: var(--mat-primary-500);
-  color: var(--mat-primary-700);
+### Interactive States
+- **Default**: Subtle background with light border, slightly transparent
+- **Hover**: Elevated 1px with stronger colors, enhanced shadow, full icon opacity
+- **Active**: Returns to baseline (pressed effect) for tactile feedback
+- **Focus**: 2px outline for keyboard navigation accessibility
+
+### Dark Theme
+```css
+.dark-theme .inline-source-citation {
+  color: var(--mat-primary-400);
+  background-color: rgba(99, 102, 241, 0.12);
+  border-color: rgba(99, 102, 241, 0.3);
 }
 ```
 
@@ -225,6 +248,8 @@ This regex matches:
 1. Direct `source_id` match in document map
 2. Document `title` match in document map
 3. Numeric index in `ragDocuments` array (if identifier is a number)
+   - Tries 1-based indexing first (e.g., `[Source 1]` → index 0)
+   - Falls back to 0-based indexing if needed
 4. No match → preserve original text
 
 ### HTML Generation
@@ -241,15 +266,62 @@ The `data-doc` attribute contains encoded JSON with:
 - Document title
 - Source identifier
 
+## Streaming Features
+
+### Typing Animation
+
+Responses are animated character-by-character similar to ChatGPT:
+- **Speed**: 20ms per character (configurable via `TYPING_SPEED_MS`)
+- **Progressive Display**: Text appears one character at a time
+- **Smooth Experience**: Creates a natural typing effect
+
+### Thinking Indicator
+
+Before the response starts streaming:
+- Shows `*Thinking...*` in italic within the message bubble
+- Replaced with actual response once `generated_response` arrives
+- No separate loading indicator outside the message
+
+## Prepared for Future Features
+
+The CSS includes pre-built support for upcoming interactive features:
+
+### 1. Hover Previews (Ready)
+```css
+.inline-source-citation-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 400px;
+  /* Styled with background, border, shadow */
+}
+```
+- Tooltip container styled and positioned
+- Fade-in/out transition ready
+- Z-index configured for proper layering
+
+### 2. Click Navigation (Ready)
+- Cursor indicates clickability
+- Focus state prepared for keyboard navigation
+- Active state provides tactile feedback
+- `data-doc` attribute contains document metadata
+
+### 3. Data Attributes
+- `data-preview`: Marks citations with preview capability
+- `data-doc`: Encoded document JSON for click handlers
+
 ## Future Enhancements
 
-Potential improvements:
+Potential improvements not yet implemented:
 
-1. **Hover Previews**: Show document excerpt on hover (like current RAGDocumentLinkComponent)
-2. **Click Actions**: Open full document view when clicked
-3. **Duplicate Detection**: Combine multiple references to the same source
-4. **Custom Formatting**: Support different citation styles (footnotes, superscripts, etc.)
-5. **Accessibility**: Add ARIA labels for screen readers
+1. **Document Preview Component**: Display excerpt/metadata on hover
+2. **Click Handler**: Navigate to full document view
+3. **Duplicate Detection**: Combine multiple references to same source
+4. **Custom Icon Types**: Different icons for different document types (PDF, Word, etc.)
+5. **Accessibility**: ARIA labels and announcements for screen readers
+6. **Adjustable Speed**: User preference for typing animation speed
+7. **Citation Numbering**: Optional superscript numbers like academic citations
 
 ## Files Modified
 

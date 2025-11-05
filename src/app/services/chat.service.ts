@@ -117,11 +117,11 @@ export class ChatService {
                 filtered_dataset: documentSources?.[0] || ''
             };
 
-            // Create placeholder assistant message for streaming
+            // Create placeholder assistant message for streaming with "Thinking..." indicator
             const assistantMessageId = this.generateId();
             const assistantMessage: ChatMessage = {
                 id: assistantMessageId,
-                content: '',
+                content: '*Thinking...*',
                 role: 'assistant',
                 timestamp: new Date(),
                 model
@@ -129,10 +129,29 @@ export class ChatService {
             this.addMessageToCurrentConversation(assistantMessage);
 
             // Call streaming API with callback
+            let fullResponse = '';
+            let typingAnimationHandle: any = null;
+            let pendingText = '';
+            let currentDisplayedLength = 0;
+            const TYPING_SPEED_MS = 20; // Milliseconds per character
+
+            // Function to animate typing effect
+            const animateTyping = () => {
+                if (currentDisplayedLength < fullResponse.length) {
+                    currentDisplayedLength++;
+                    const displayText = fullResponse.substring(0, currentDisplayedLength);
+                    this.updateMessageContent(assistantMessageId, displayText);
+                    typingAnimationHandle = setTimeout(animateTyping, TYPING_SPEED_MS);
+                } else {
+                    typingAnimationHandle = null;
+                }
+            };
+
             await this.llmApi.sendMessage(request, (streamData) => {
                 const { currentChunk, isComplete, error } = streamData;
                 
                 if (error) {
+                    if (typingAnimationHandle) clearTimeout(typingAnimationHandle);
                     console.error('Streaming error:', error);
                     this.updateMessageContent(
                         assistantMessageId,
@@ -144,8 +163,16 @@ export class ChatService {
 
                 if (currentChunk) {
                     // Update message content with streaming response - use only generated_response
-                    const content = currentChunk.generated_response || '';
-                    this.updateMessageContent(assistantMessageId, content);
+                    const newContent = currentChunk.generated_response || '';
+                    
+                    if (newContent && newContent !== fullResponse) {
+                        fullResponse = newContent;
+                        
+                        // Start typing animation if not already running
+                        if (!typingAnimationHandle) {
+                            animateTyping();
+                        }
+                    }
 
                     // Store RAG documents as a map for inline source references
                     // Do NOT display them at the bottom of the message
@@ -167,6 +194,13 @@ export class ChatService {
                 }
 
                 if (isComplete) {
+                    // Make sure all text is displayed before finishing
+                    if (typingAnimationHandle) {
+                        clearTimeout(typingAnimationHandle);
+                    }
+                    if (fullResponse) {
+                        this.updateMessageContent(assistantMessageId, fullResponse);
+                    }
                     this.isLoading.set(false);
                     this.saveConversations();
                 }

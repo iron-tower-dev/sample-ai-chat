@@ -57,9 +57,13 @@ export class SourceCitationService {
       let document = docMap.get(sourceIdentifier);
       
       // If not found and it's a number, try finding by index in ragDocuments array
+      // This is common for eDoc sources where citations are like [Source 1], [Source 2]
       if (!document && /^\d+$/.test(sourceIdentifier)) {
         const index = parseInt(sourceIdentifier, 10);
-        if (index >= 0 && index < ragDocuments.length) {
+        // Try index-1 first (1-based indexing), then try 0-based indexing
+        if (index - 1 >= 0 && index - 1 < ragDocuments.length) {
+          document = ragDocuments[index - 1];
+        } else if (index >= 0 && index < ragDocuments.length) {
           document = ragDocuments[index];
         }
       }
