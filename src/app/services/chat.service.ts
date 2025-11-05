@@ -1,16 +1,13 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
-import { ChatMessage, Conversation, ChatRequest, ChatResponse, LLMModel, DocumentSource, RAGDocument, MessageFeedback, FeedbackRequest } from '../models/chat.models';
+import { ChatMessage, Conversation, ChatRequest, ChatResponse, LLMModel, DocumentSource, RAGDocument, MessageFeedback } from '../models/chat.models';
 import { UserConfigService } from './user-config.service';
 import { environment } from '../../environments/environment';
-import { LlmApiService, LLMRequest } from './llm-api.service';
+import { LlmApiService, LLMRequest, FeedbackRequest } from './llm-api.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ChatService {
-    private http = inject(HttpClient);
     private userConfig = inject(UserConfigService);
     private llmApi = inject(LlmApiService);
     
@@ -399,19 +396,12 @@ export class ChatService {
 
             // Call feedback API
             const feedbackRequest: FeedbackRequest = {
-                thread_id: this.currentConversationId() || '',
                 message_id: messageId,
                 feedback_sign: type,
                 feedback_text: comment
             };
 
-            await firstValueFrom(
-                this.http.post(`${environment.apiUrl}/feedback`, feedbackRequest, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-            );
+            await this.llmApi.submitFeedback(feedbackRequest);
 
             console.log('Feedback submitted successfully');
         } catch (error) {

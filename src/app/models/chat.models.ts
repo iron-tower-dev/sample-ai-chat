@@ -105,9 +105,3 @@ export interface RetrievedSource {
     metadata: DocumentMetadata;
 }
 
-export interface FeedbackRequest {
-    thread_id: string;
-    message_id: string;
-    feedback_sign: 'positive' | 'negative' | 'neutral';
-    feedback_text?: string;
-}

@@ -184,4 +184,35 @@ export class LlmApiService {
   getApiUrl(): string {
     return this.apiUrl();
   }
+
+  /**
+   * Submit feedback for a message.
+   * @param feedback The feedback request with message_id, feedback_sign, and optional feedback_text
+   */
+  async submitFeedback(feedback: FeedbackRequest): Promise<void> {
+    try {
+      const response = await fetch(`${environment.apiUrl}/feedback`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(feedback),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      console.log('Feedback submitted successfully');
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+      throw error;
+    }
+  }
+}
+
+export interface FeedbackRequest {
+  message_id: string;
+  feedback_sign: 'positive' | 'negative' | 'neutral';
+  feedback_text?: string;
 }
