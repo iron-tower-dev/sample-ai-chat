@@ -98,11 +98,25 @@ export class ChatService {
             // Add user message to current conversation
             this.addMessageToCurrentConversation(userMessage);
 
-            // Get or create thread_id (conversation ID)
-            let threadId = this.currentConversationId();
-            if (!threadId) {
-                threadId = this.generateId();
-                this.currentConversationId.set(threadId);
+            // Get the conversation ID (for internal tracking)
+            let conversationId = this.currentConversationId();
+            if (!conversationId) {
+                conversationId = this.generateId();
+                this.currentConversationId.set(conversationId);
+            }
+
+            // Get the previous assistant message's API message_id to continue the conversation
+            // For the first message in a conversation, use a new generated ID
+            let messageId: string;
+            const currentConv = this.currentConversation();
+            if (currentConv && currentConv.messages.length > 0) {
+                // Find the last assistant message with an API message_id
+                const lastAssistantMessage = [...currentConv.messages]
+                    .reverse()
+                    .find(msg => msg.role === 'assistant' && msg.apiMessageId);
+                messageId = lastAssistantMessage?.apiMessageId || this.generateId();
+            } else {
+                messageId = this.generateId();
             }
 
             // Create LLM API request
@@ -110,7 +124,7 @@ export class ChatService {
                 user_id: this.userConfig.userId$(),
                 ad_group: this.userConfig.adGroup$(),
                 prompt: message,
-                thread_id: threadId,
+                message_id: messageId,
                 filtered_dataset: documentSources?.[0] || ''
             };
 
@@ -159,6 +173,18 @@ export class ChatService {
                 }
 
                 if (currentChunk) {
+                    // Verify and store the API message_id for feedback
+                    if (currentChunk.message_id) {
+                        // Verify that the message_id matches what we sent
+                        if (currentChunk.message_id !== messageId) {
+                            console.warn(
+                                'Message ID mismatch: sent', messageId,
+                                'but received', currentChunk.message_id
+                            );
+                        }
+                        this.updateMessageApiMessageId(assistantMessageId, currentChunk.message_id);
+                    }
+
                     // Update message content with streaming response - use only generated_response
                     const newContent = currentChunk.generated_response || '';
                     
@@ -185,7 +211,7 @@ export class ChatService {
                     if (isComplete && currentChunk.topic) {
                         const currentConv = this.currentConversation();
                         if (currentConv && currentConv.messages.length === 2) {
-                            this.updateConversationTitle(threadId, currentChunk.topic);
+                            this.updateConversationTitle(conversationId, currentChunk.topic);
                         }
                     }
                 }
@@ -241,6 +267,19 @@ export class ChatService {
                 messages: conv.messages.map(msg =>
                     msg.id === messageId
                         ? { ...msg, ragDocuments: docsArray }
+                        : msg
+                )
+            }))
+        );
+    }
+
+    private updateMessageApiMessageId(messageId: string, apiMessageId: string): void {
+        this.conversations.update(convs =>
+            convs.map(conv => ({
+                ...conv,
+                messages: conv.messages.map(msg =>
+                    msg.id === messageId
+                        ? { ...msg, apiMessageId }
                         : msg
                 )
             }))
@@ -370,6 +409,20 @@ export class ChatService {
 
     async submitFeedback(messageId: string, type: 'positive' | 'negative', comment?: string): Promise<void> {
         try {
+            // Find the message to get its API message_id
+            let apiMessageId: string | undefined;
+            for (const conv of this.conversations()) {
+                const msg = conv.messages.find(m => m.id === messageId);
+                if (msg) {
+                    apiMessageId = msg.apiMessageId;
+                    break;
+                }
+            }
+
+            if (!apiMessageId) {
+                throw new Error('API message_id not found for this message');
+            }
+
             // Create feedback object
             const feedback: MessageFeedback = {
                 id: this.generateId(),
@@ -394,9 +447,9 @@ export class ChatService {
             // Save conversations to localStorage
             this.saveConversations();
 
-            // Call feedback API
+            // Call feedback API with the API message_id
             const feedbackRequest: FeedbackRequest = {
-                message_id: messageId,
+                message_id: apiMessageId,
                 feedback_sign: type,
                 feedback_text: comment
             };

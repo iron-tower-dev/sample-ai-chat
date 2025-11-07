@@ -6,6 +6,7 @@ export interface ChatMessage {
     model?: string;
     feedback?: MessageFeedback;
     ragDocuments?: RAGDocument[];
+    apiMessageId?: string; // Message ID from the API response, used for feedback
 }
 
 export interface MessageFeedback {
@@ -65,7 +66,7 @@ export interface ChatRequest {
     user_id: string;
     ad_group: string;
     prompt: string;
-    thread_id: string;
+    message_id: string;
     session_id: string;
     system_prompt?: string;
     persona?: string;

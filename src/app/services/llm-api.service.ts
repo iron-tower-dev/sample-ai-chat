@@ -5,7 +5,7 @@ export interface LLMRequest {
   user_id: string;
   ad_group: string;
   prompt: string;
-  thread_id: string;
+  message_id: string;
   filtered_dataset: string;
 }
 

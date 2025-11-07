@@ -192,9 +192,15 @@ export class SourceCitationService {
             // Check if document has required metadata
             const md = (document.metadata || {}) as Record<string, any>;
             const sourceName = document.source?.name?.toLowerCase() || '';
-            const hasTitle = document.title && document.title !== 'Unknown Document';
-            const hasEdocId = md.edocid || md.eDocId || md.EDocId || md.edocID;
-            const hasAccessionNumber = md.AccessionNumber;
+            
+            // Helper to check for truthy non-empty values
+            const hasValue = (val: any): boolean => {
+              return val !== null && val !== undefined && val !== '';
+            };
+            
+            const hasTitle = hasValue(document.title) && document.title !== 'Unknown Document';
+            const hasEdocId = hasValue(md.edocid) || hasValue(md.eDocId) || hasValue(md.EDocId) || hasValue(md.edocID);
+            const hasAccessionNumber = hasValue(md.AccessionNumber);
             
             // Skip citation if missing required metadata
             let shouldSkip = false;
