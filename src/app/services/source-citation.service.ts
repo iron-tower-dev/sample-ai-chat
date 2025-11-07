@@ -98,6 +98,36 @@ export class SourceCitationService {
     return { segments };
   }
 
+  /** Build a link URL for a given RAG document based on its source and metadata */
+  private buildDocumentUrl(document: RAGDocument, sourceId?: string): string | null {
+    const sourceName = document.source?.name?.toLowerCase() || '';
+    const md = (document.metadata || {}) as Record<string, any>;
+
+    // NRC Adams: use AccessionNumber query param
+    if (sourceName === 'nrcadams') {
+      const accession = md.AccessionNumber || document.title || sourceId;
+      if (accession) {
+        const acc = encodeURIComponent(String(accession));
+        // Public NRC ADAMS search URL pattern
+        return `https://adamswebsearch2.nrc.gov/webSearch2/main.jsp?AccessionNumber=${acc}`;
+      }
+      return null;
+    }
+
+    // eDoc: use edocid (various casing) query param
+    if (sourceName === 'edoc') {
+      const edocId = md.edocid || md.eDocId || md.EDocId || md.edocID;
+      if (edocId) {
+        const id = encodeURIComponent(String(edocId));
+        // Default eDoc endpoint – adjust if your environment uses a different base path
+        return `/edoc?edocid=${id}`;
+      }
+      return null;
+    }
+
+    return null;
+  }
+
   /**
    * Replace inline source citations with HTML for document links
    * Handles single sources like [Source: 7] and multiple sources like [Source: 7, 26, 38]
@@ -158,19 +188,50 @@ export class SourceCitationService {
           // Only add if we haven't seen this document title before
           if (!seenTitles.has(document.title)) {
             seenTitles.add(document.title);
-            const docData = encodeURIComponent(JSON.stringify({
-              id: document.id,
-              title: document.title,
-              sourceId: sourceId
-            }));
-            console.log('[SourceCitationService] Found document for', sourceId, ':', document.title);
-            citations.push(`<span class="inline-source-citation" data-doc="${docData}">[${document.title}]</span>`);
+
+            // Check if document has required metadata
+            const md = (document.metadata || {}) as Record<string, any>;
+            const sourceName = document.source?.name?.toLowerCase() || '';
+            const hasTitle = document.title && document.title !== 'Unknown Document';
+            const hasEdocId = md.edocid || md.eDocId || md.EDocId || md.edocID;
+            const hasAccessionNumber = md.AccessionNumber;
+            
+            // Skip citation if missing required metadata
+            let shouldSkip = false;
+            if (sourceName === 'nrcadams' && !hasAccessionNumber && !hasTitle) {
+              console.warn('[SourceCitationService] Skipping NRCAdams citation - no AccessionNumber or title for', sourceId);
+              shouldSkip = true;
+            } else if (sourceName === 'edoc' && !hasEdocId && !hasTitle) {
+              console.warn('[SourceCitationService] Skipping eDoc citation - no edocid or title for', sourceId);
+              shouldSkip = true;
+            } else if (!hasTitle) {
+              console.warn('[SourceCitationService] Skipping citation - no title for', sourceId);
+              shouldSkip = true;
+            }
+
+            if (!shouldSkip) {
+              const docData = encodeURIComponent(JSON.stringify({
+                id: document.id,
+                title: document.title,
+                sourceId: sourceId
+              }));
+              console.log('[SourceCitationService] Found document for', sourceId, ':', document.title);
+
+              // Build a clickable link when possible
+              const url = this.buildDocumentUrl(document, sourceId);
+              const label = `[${document.title}]`;
+              if (url) {
+                citations.push(`<a class=\"inline-source-citation\" href=\"${url}\" target=\"_blank\" rel=\"noopener noreferrer\" title=\"${document.title}\" data-doc=\"${docData}\">${label}</a>`);
+              } else {
+                // Fallback: non-link span if URL cannot be determined
+                citations.push(`<span class=\"inline-source-citation\" data-doc=\"${docData}\">${label}</span>`);
+              }
+            }
           } else {
             console.log('[SourceCitationService] Skipping duplicate title for', sourceId, ':', document.title);
           }
         } else {
           console.warn('[SourceCitationService] No document found for source:', sourceId);
-          citations.push(`[Source: ${sourceId}]`);
         }
       }
       
