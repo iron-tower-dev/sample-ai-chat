@@ -105,19 +105,8 @@ export class ChatService {
                 this.currentConversationId.set(conversationId);
             }
 
-            // Get the previous assistant message's API message_id to continue the conversation
-            // For the first message in a conversation, use a new generated ID
-            let messageId: string;
-            const currentConv = this.currentConversation();
-            if (currentConv && currentConv.messages.length > 0) {
-                // Find the last assistant message with an API message_id
-                const lastAssistantMessage = [...currentConv.messages]
-                    .reverse()
-                    .find(msg => msg.role === 'assistant' && msg.apiMessageId);
-                messageId = lastAssistantMessage?.apiMessageId || this.generateId();
-            } else {
-                messageId = this.generateId();
-            }
+            // Generate a unique message_id for this specific user message
+            const messageId = this.generateId();
 
             // Create LLM API request
             const request: LLMRequest = {
