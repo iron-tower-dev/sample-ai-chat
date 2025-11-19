@@ -1,13 +1,15 @@
-import { Component, input, output, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, output, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
-import { ChatMessage, MessageFeedback } from '../../models/chat.models';
+import { ChatMessage, MessageFeedback, DocumentCitationMetadata } from '../../models/chat.models';
 import { MarkdownContentComponent } from '../markdown-content/markdown-content.component';
 import { FeedbackDialogComponent, FeedbackDialogData, FeedbackDialogResult } from '../feedback-dialog/feedback-dialog.component';
+import { ThinkingSectionComponent } from '../thinking-section/thinking-section.component';
+import { CitationPreviewModalComponent } from '../citation-preview-modal/citation-preview-modal.component';
 
 @Component({
   selector: 'app-message',
@@ -17,7 +19,8 @@ import { FeedbackDialogComponent, FeedbackDialogData, FeedbackDialogResult } fro
     MatIconModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
-    MarkdownContentComponent
+    MarkdownContentComponent,
+    ThinkingSectionComponent
   ],
   template: `
     <div class="message" [class.user-message]="message().role === 'user'" [class.assistant-message]="message().role === 'assistant'">
@@ -47,15 +50,26 @@ import { FeedbackDialogComponent, FeedbackDialogData, FeedbackDialogResult } fro
       
       <div class="message-content">
         @if (message().role === 'assistant') {
-          @if (isLoading() && (message().content === 'Thinking' || !message().content || message().content.trim() === '')) {
+          @if (isLoading() && !message().content) {
             <div class="thinking-indicator">
               <mat-spinner diameter="20"></mat-spinner>
-              <span>Thinking</span>
+              <span>Generating response...</span>
             </div>
           } @else {
-            <app-markdown-content 
-              [content]="message().content"
-              [ragDocuments]="message().ragDocuments || []"></app-markdown-content>
+            <!-- Thinking section -->
+            @if (message().thinkingText || message().toolingText) {
+              <app-thinking-section
+                [thinkingText]="message().thinkingText || ''"
+                [toolingText]="message().toolingText || ''">
+              </app-thinking-section>
+            }
+            
+            <!-- Response content with inline citations -->
+            <div class="response-content">
+              <app-markdown-content 
+                [content]="processedContent()"
+                [ragDocuments]="message().ragDocuments || []"></app-markdown-content>
+            </div>
           }
         } @else {
           <div class="content-text">{{ message().content }}</div>
@@ -107,6 +121,50 @@ export class MessageComponent {
   feedbackSubmitted = output<{ messageId: string; type: 'positive' | 'negative'; comment?: string }>();
 
   pendingFeedback = input<'positive' | 'negative' | null>(null);
+
+  // Process content to add citation links
+  processedContent = signal('');
+  selectedCitation = signal<DocumentCitationMetadata | null>(null);
+  showCitationModal = signal(false);
+
+  constructor() {
+    // Watch for changes to message content and add citation click handlers
+    const msg = this.message();
+    if (msg.content) {
+      this.processedContent.set(this.addCitationHandlers(msg.content));
+    }
+
+    // Listen for citation click events
+    window.addEventListener('citation-click', ((event: CustomEvent) => {
+      this.handleCitationClick(event.detail);
+    }) as EventListener);
+  }
+
+  private addCitationHandlers(content: string): string {
+    // Replace citation patterns like [Source: {UUID}] with clickable links
+    return content.replace(/\[Source: (\{[^}]+\})\]/g, (match, sourceId) => {
+      const shortId = sourceId.substring(1, 15);
+      return `<a href="#" class="citation-link" data-source-id="${sourceId}" onclick="event.preventDefault(); window.dispatchEvent(new CustomEvent('citation-click', { detail: '${sourceId}' }))">[Source: ${shortId}...]</a>`;
+    });
+  }
+
+  private handleCitationClick(sourceId: string): void {
+    const metadata = this.message().citationMetadata;
+    if (metadata && metadata[sourceId]) {
+      this.openCitationModal(metadata[sourceId]);
+    }
+  }
+
+  private openCitationModal(citation: DocumentCitationMetadata): void {
+    const dialogRef = this.dialog.open(CitationPreviewModalComponent, {
+      data: citation,
+      width: '90vw',
+      height: '85vh',
+      maxWidth: '1400px',
+      disableClose: false,
+      panelClass: 'citation-preview-dialog'
+    });
+  }
 
   formatTimestamp(timestamp: Date | undefined): string {
     if (!timestamp) return 'Unknown';

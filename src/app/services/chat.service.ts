@@ -82,7 +82,7 @@ export class ChatService {
         this.loadConversations();
     }
 
-    async sendMessage(message: string, model: string, documentSources?: string[], documentFilters?: any[]): Promise<void> {
+    async sendMessage(message: string, model: string): Promise<void> {
         this.isLoading.set(true);
 
         try {
@@ -110,48 +110,35 @@ export class ChatService {
 
             // Create LLM API request
             const request: LLMRequest = {
-                user_id: this.userConfig.userId$(),
-                ad_group: this.userConfig.adGroup$(),
-                prompt: message,
-                message_id: messageId,
-                filtered_dataset: documentSources?.[0] || ''
+                user_query: message,
+                username: this.userConfig.userId$(),
+                session_id: conversationId
             };
 
-            // Create placeholder assistant message for streaming with "Thinking" indicator
+            // Create placeholder assistant message for streaming
             const assistantMessageId = this.generateId();
             const assistantMessage: ChatMessage = {
                 id: assistantMessageId,
-                content: 'Thinking',
+                content: '',
                 role: 'assistant',
                 timestamp: new Date(),
-                model
+                model,
+                thinkingText: '',
+                toolingText: '',
+                citationMetadata: {}
             };
             this.addMessageToCurrentConversation(assistantMessage);
 
             // Call streaming API with callback
-            let fullResponse = '';
-            let typingAnimationHandle: any = null;
-            let pendingText = '';
-            let currentDisplayedLength = 0;
-            const TYPING_SPEED_MS = 20; // Milliseconds per character
-
-            // Function to animate typing effect
-            const animateTyping = () => {
-                if (currentDisplayedLength < fullResponse.length) {
-                    currentDisplayedLength++;
-                    const displayText = fullResponse.substring(0, currentDisplayedLength);
-                    this.updateMessageContent(assistantMessageId, displayText);
-                    typingAnimationHandle = setTimeout(animateTyping, TYPING_SPEED_MS);
-                } else {
-                    typingAnimationHandle = null;
-                }
-            };
+            let fullThinkingText = '';
+            let fullToolingText = '';
+            let fullResponseText = '';
+            let citationMetadata: Record<string, any> | undefined;
 
             await this.llmApi.sendMessage(request, (streamData) => {
-                const { currentChunk, isComplete, error } = streamData;
+                const { currentChunk, isComplete, error, messageId: apiMessageId } = streamData;
                 
                 if (error) {
-                    if (typingAnimationHandle) clearTimeout(typingAnimationHandle);
                     console.error('Streaming error:', error);
                     this.updateMessageContent(
                         assistantMessageId,
@@ -161,58 +148,36 @@ export class ChatService {
                     return;
                 }
 
+                // Store API message ID for feedback
+                if (apiMessageId) {
+                    this.updateMessageApiMessageId(assistantMessageId, apiMessageId);
+                }
+
                 if (currentChunk) {
-                    // Verify and store the API message_id for feedback
-                    if (currentChunk.message_id) {
-                        // Verify that the message_id matches what we sent
-                        if (currentChunk.message_id !== messageId) {
-                            console.warn(
-                                'Message ID mismatch: sent', messageId,
-                                'but received', currentChunk.message_id
-                            );
-                        }
-                        this.updateMessageApiMessageId(assistantMessageId, currentChunk.message_id);
+                    // Update thinking, tooling, and response text
+                    if (currentChunk.thinkingText !== fullThinkingText) {
+                        fullThinkingText = currentChunk.thinkingText;
+                        this.updateMessageThinkingText(assistantMessageId, fullThinkingText);
                     }
 
-                    // Update message content with streaming response - use only generated_response
-                    const newContent = currentChunk.generated_response || '';
-                    
-                    if (newContent && newContent !== fullResponse) {
-                        fullResponse = newContent;
-                        
-                        // Start typing animation if not already running
-                        if (!typingAnimationHandle) {
-                            animateTyping();
-                        }
+                    if (currentChunk.toolingText !== fullToolingText) {
+                        fullToolingText = currentChunk.toolingText;
+                        this.updateMessageToolingText(assistantMessageId, fullToolingText);
                     }
 
-                    // Store RAG documents as a map for inline source references
-                    // Do NOT display them at the bottom of the message
-                    if (currentChunk.retrieved_sources && currentChunk.retrieved_sources.length > 0) {
-                        const ragDocumentsMap = this.convertToRAGDocumentsMap(
-                            currentChunk.retrieved_sources, 
-                            documentSources?.[0]
-                        );
-                        this.updateMessageRAGDocuments(assistantMessageId, ragDocumentsMap);
+                    if (currentChunk.responseText !== fullResponseText) {
+                        fullResponseText = currentChunk.responseText;
+                        this.updateMessageContent(assistantMessageId, fullResponseText);
                     }
 
-                    // Update conversation title if it's the first message
-                    if (isComplete && currentChunk.topic) {
-                        const currentConv = this.currentConversation();
-                        if (currentConv && currentConv.messages.length === 2) {
-                            this.updateConversationTitle(conversationId, currentChunk.topic);
-                        }
+                    // Store metadata for citations
+                    if (currentChunk.metadata && !citationMetadata) {
+                        citationMetadata = currentChunk.metadata;
+                        this.updateMessageCitationMetadata(assistantMessageId, citationMetadata);
                     }
                 }
 
                 if (isComplete) {
-                    // Make sure all text is displayed before finishing
-                    if (typingAnimationHandle) {
-                        clearTimeout(typingAnimationHandle);
-                    }
-                    if (fullResponse) {
-                        this.updateMessageContent(assistantMessageId, fullResponse);
-                    }
                     this.isLoading.set(false);
                     this.saveConversations();
                 }
@@ -269,6 +234,45 @@ export class ChatService {
                 messages: conv.messages.map(msg =>
                     msg.id === messageId
                         ? { ...msg, apiMessageId }
+                        : msg
+                )
+            }))
+        );
+    }
+
+    private updateMessageThinkingText(messageId: string, thinkingText: string): void {
+        this.conversations.update(convs =>
+            convs.map(conv => ({
+                ...conv,
+                messages: conv.messages.map(msg =>
+                    msg.id === messageId
+                        ? { ...msg, thinkingText }
+                        : msg
+                )
+            }))
+        );
+    }
+
+    private updateMessageToolingText(messageId: string, toolingText: string): void {
+        this.conversations.update(convs =>
+            convs.map(conv => ({
+                ...conv,
+                messages: conv.messages.map(msg =>
+                    msg.id === messageId
+                        ? { ...msg, toolingText }
+                        : msg
+                )
+            }))
+        );
+    }
+
+    private updateMessageCitationMetadata(messageId: string, citationMetadata: Record<string, any>): void {
+        this.conversations.update(convs =>
+            convs.map(conv => ({
+                ...conv,
+                messages: conv.messages.map(msg =>
+                    msg.id === messageId
+                        ? { ...msg, citationMetadata }
                         : msg
                 )
             }))

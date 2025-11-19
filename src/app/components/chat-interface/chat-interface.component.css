@@ -189,22 +189,12 @@
 .input-actions {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     margin-top: 0.5rem;
     padding: 0.75rem 2rem 0 2rem;
     border-top: 1px solid var(--mat-outline);
     gap: 1.5rem;
     min-height: 48px;
-}
-
-.input-actions-left {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    position: relative;
-    height: 32px;
-    flex-shrink: 0;
-    min-width: 0;
 }
 
 .input-actions-right {
@@ -213,57 +203,6 @@
     gap: 0.75rem;
     height: 32px;
     flex-shrink: 0;
-}
-
-.document-selector-button {
-    width: 32px;
-    height: 32px;
-    color: var(--mat-on-surface-variant);
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    margin: 0;
-    min-width: 32px;
-    flex-shrink: 0;
-}
-
-.document-selector-button:hover {
-    background: var(--mat-surface-variant);
-    color: var(--mat-on-surface);
-}
-
-.document-selector-button.active {
-    background: var(--mat-tertiary-container);
-    color: var(--mat-on-tertiary-container);
-}
-
-.document-selector-button mat-icon {
-    font-size: 20px;
-    width: 20px;
-    height: 20px;
-    line-height: 1;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.sources-badge {
-    position: absolute;
-    top: -4px;
-    right: -4px;
-    background: var(--mat-primary);
-    color: var(--mat-on-primary);
-    font-size: 0.625rem;
-    font-weight: 600;
-    padding: 0.125rem 0.375rem;
-    border-radius: 10px;
-    line-height: 1;
-    min-width: 16px;
-    text-align: center;
 }
 
 .char-count {
@@ -320,27 +259,6 @@
     width: 18px;
     height: 18px;
     color: var(--mat-tertiary);
-}
-
-.document-selector-panel {
-    margin-top: 1rem;
-    padding: 1rem;
-    background: var(--mat-surface);
-    border: 1px solid var(--mat-outline);
-    border-radius: 12px;
-    animation: slideDown 0.2s ease-out;
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 /* Scroll to Bottom Button */
@@ -403,7 +321,6 @@
         gap: 0.5rem;
     }
 
-    .document-selector-section,
     .messages-container,
     .input-area {
         padding: 1rem;

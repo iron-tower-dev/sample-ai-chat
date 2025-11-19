@@ -2,29 +2,17 @@ import { Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 
 export interface LLMRequest {
-  user_id: string;
-  ad_group: string;
-  prompt: string;
-  message_id: string;
-  filtered_dataset: string;
+  user_query: string;
+  username: string;
+  session_id: string;
 }
 
 export interface LLMResponseChunk {
-  response: string;
-  message_id: string;
-  tool_call_reasoning: string;
-  generated_reasoning: string;
-  generated_response: string;
-  cited_sources: CitedSource[];
-  retrieved_sources: RetrievedSource[];
-  guardrail_reasoning: string;
-  guardrail_response: string;
-  sources: string;
-  topic: string;
-  summary: string;
-  retrieval_time: number;
-  generation_time: number;
-  guardrail_time: number;
+  thinkingText: string;
+  toolingText: string;
+  responseText: string;
+  metadata?: Record<string, any>;
+  isComplete: boolean;
 }
 
 export interface CitedSource {
@@ -57,6 +45,7 @@ export interface StreamingResponse {
   currentChunk: LLMResponseChunk | null;
   isComplete: boolean;
   error?: Error;
+  messageId?: string; // From x-message-id header
 }
 
 @Injectable({
@@ -66,7 +55,7 @@ export class LlmApiService {
   private apiUrl = signal(`${environment.apiUrl}/chat`);
 
   /**
-   * Send a message to the LLM API and stream the NDJSON response.
+   * Send a message to the LLM API and stream the SSE response.
    * Returns a signal-based streaming response that updates as chunks arrive.
    */
   async sendMessage(
@@ -76,20 +65,27 @@ export class LlmApiService {
   ): Promise<void> {
     const chunks: LLMResponseChunk[] = [];
     let error: Error | undefined;
+    let messageId: string | undefined;
 
     try {
-      const response = await fetch(this.apiUrl(), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(request),
+      // Build query parameters
+      const params = new URLSearchParams({
+        user_query: request.user_query,
+        username: request.username,
+        session_id: request.session_id
+      });
+
+      const response = await fetch(`${this.apiUrl()}?${params.toString()}`, {
+        method: 'GET',
         signal: abortSignal,
       });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+
+      // Extract message ID from header
+      messageId = response.headers.get('x-message-id') || undefined;
 
       const reader = response.body?.getReader();
       if (!reader) {
@@ -98,41 +94,42 @@ export class LlmApiService {
 
       const decoder = new TextDecoder();
       let buffer = '';
+      let currentThinking = '';
+      let currentTooling = '';
+      let currentResponse = '';
+      let inThinkTag = false;
+      let inToolingTag = false;
+      let inResponseTag = false;
+      let metadataReceived = false;
+      let metadata: Record<string, any> | undefined;
 
       while (true) {
         const { done, value } = await reader.read();
         
         if (done) {
-          // Process any remaining data in buffer
-          if (buffer.trim()) {
-            try {
-              const chunk = JSON.parse(buffer) as LLMResponseChunk;
-              chunks.push(chunk);
-              onChunk({
-                chunks: [...chunks],
-                currentChunk: chunk,
-                isComplete: true,
-                error
-              });
-            } catch (parseError) {
-              console.error('Failed to parse final NDJSON line:', parseError);
-            }
-          } else {
-            // No more data, just mark as complete
-            onChunk({
-              chunks: [...chunks],
-              currentChunk: chunks[chunks.length - 1] || null,
-              isComplete: true,
-              error
-            });
-          }
+          // Final chunk
+          const finalChunk: LLMResponseChunk = {
+            thinkingText: currentThinking,
+            toolingText: currentTooling,
+            responseText: currentResponse,
+            metadata,
+            isComplete: true
+          };
+          chunks.push(finalChunk);
+          onChunk({
+            chunks: [...chunks],
+            currentChunk: finalChunk,
+            isComplete: true,
+            error,
+            messageId
+          });
           break;
         }
 
         // Decode the chunk and add to buffer
         buffer += decoder.decode(value, { stream: true });
 
-        // Split by newlines to process complete NDJSON lines
+        // Split by newlines to process complete SSE lines
         const lines = buffer.split('\n');
         
         // Keep the last incomplete line in the buffer
@@ -141,20 +138,74 @@ export class LlmApiService {
         // Process each complete line
         for (const line of lines) {
           const trimmedLine = line.trim();
-          if (trimmedLine) {
+          
+          // Skip empty lines
+          if (!trimmedLine) continue;
+
+          // SSE format: "data: <content>"
+          if (trimmedLine.startsWith('data: ')) {
+            const content = trimmedLine.substring(6); // Remove "data: " prefix
+            
+            // Check for tag markers
+            if (content.includes('<think>')) {
+              inThinkTag = true;
+              inToolingTag = false;
+              inResponseTag = false;
+              continue;
+            } else if (content.includes('</think>')) {
+              inThinkTag = false;
+              continue;
+            } else if (content.includes('<tooling>')) {
+              inToolingTag = true;
+              inThinkTag = false;
+              inResponseTag = false;
+              continue;
+            } else if (content.includes('</tooling>')) {
+              inToolingTag = false;
+              continue;
+            } else if (content.includes('<response>')) {
+              inResponseTag = true;
+              inThinkTag = false;
+              inToolingTag = false;
+              continue;
+            } else if (content.includes('</response>')) {
+              inResponseTag = false;
+              continue;
+            }
+
+            // Accumulate content based on current tag
+            if (inThinkTag) {
+              currentThinking += content;
+            } else if (inToolingTag) {
+              currentTooling += content;
+            } else if (inResponseTag) {
+              currentResponse += content;
+            }
+
+            // Send chunk update
+            const chunk: LLMResponseChunk = {
+              thinkingText: currentThinking,
+              toolingText: currentTooling,
+              responseText: currentResponse,
+              metadata,
+              isComplete: false
+            };
+            chunks.push(chunk);
+            onChunk({
+              chunks: [...chunks],
+              currentChunk: chunk,
+              isComplete: false,
+              error,
+              messageId
+            });
+          } else if (!metadataReceived && trimmedLine.includes('metadata:')) {
+            // Parse metadata (comes after the SSE stream)
             try {
-              const chunk = JSON.parse(trimmedLine) as LLMResponseChunk;
-              chunks.push(chunk);
-              
-              // Call the callback with the current state
-              onChunk({
-                chunks: [...chunks],
-                currentChunk: chunk,
-                isComplete: false,
-                error
-              });
+              const metadataStr = trimmedLine.substring(trimmedLine.indexOf('{'));
+              metadata = JSON.parse(metadataStr);
+              metadataReceived = true;
             } catch (parseError) {
-              console.error('Failed to parse NDJSON line:', parseError, 'Line:', trimmedLine);
+              console.error('Failed to parse metadata:', parseError);
             }
           }
         }
@@ -165,7 +216,8 @@ export class LlmApiService {
         chunks: [...chunks],
         currentChunk: chunks[chunks.length - 1] || null,
         isComplete: true,
-        error
+        error,
+        messageId
       });
     }
   }

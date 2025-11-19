@@ -7,6 +7,9 @@ export interface ChatMessage {
     feedback?: MessageFeedback;
     ragDocuments?: RAGDocument[];
     apiMessageId?: string; // Message ID from the API response, used for feedback
+    thinkingText?: string; // Text from <think> tags
+    toolingText?: string; // Text from <tooling> tags
+    citationMetadata?: Record<string, DocumentCitationMetadata>; // Metadata for citations
 }
 
 export interface MessageFeedback {
@@ -52,6 +55,26 @@ export interface DocumentMetadata {
     category?: string;
     tags?: string[];
     [key: string]: any; // Allow for additional metadata fields
+}
+
+export interface DocumentCitationMetadata {
+    DocumentTitle: string;
+    eDocID: string | null;
+    Revision: string;
+    PathName: string;
+    FileName: string;
+    SWMSStatus: string;
+    SWMSTitle: string;
+    Category: string;
+    DocType: string;
+    Chunks: ChunkMetadata[];
+}
+
+export interface ChunkMetadata {
+    chunk_id: string;
+    pages: number[];
+    bounding_boxes: string; // JSON string with page-to-bbox mapping
+    relevance_score: number;
 }
 
 export interface LLMModel {

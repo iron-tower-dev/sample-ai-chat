@@ -9,10 +9,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ChatService } from '../../services/chat.service';
-import { DocumentService } from '../../services/document.service';
 import { ChatMessage, LLMModel } from '../../models/chat.models';
 import { MessageComponent } from '../message/message.component';
-import { DocumentSelectorComponent } from '../document-selector/document-selector.component';
 import { ModelSelectorComponent } from '../model-selector/model-selector.component';
 
 @Component({
@@ -28,7 +26,6 @@ import { ModelSelectorComponent } from '../model-selector/model-selector.compone
     MatProgressSpinnerModule,
     MatTooltipModule,
     MessageComponent,
-    DocumentSelectorComponent,
     ModelSelectorComponent
   ],
   template: `
@@ -40,13 +37,6 @@ import { ModelSelectorComponent } from '../model-selector/model-selector.compone
           [selectedModel]="selectedModel()"
           (modelSelected)="onModelSelected($event)">
         </app-model-selector>
-        <button 
-          mat-icon-button
-          (click)="createNewConversation()"
-          [disabled]="isLoading()"
-          matTooltip="New Conversation">
-          <mat-icon>add</mat-icon>
-        </button>
       </div>
 
       <!-- Messages Container -->
@@ -93,24 +83,11 @@ import { ModelSelectorComponent } from '../model-selector/model-selector.compone
               [disabled]="isLoading() || !selectedModel()"
               placeholder="Send a message..."
               rows="1"
-              maxlength="2000"
+              maxlength="8000"
               class="message-input"></textarea>
             <div class="input-actions">
-              <div class="input-actions-left">
-                <button 
-                  mat-icon-button
-                  (click)="toggleDocumentSelector()"
-                  [class.active]="showDocumentSelector()"
-                  class="document-selector-button"
-                  matTooltip="Document Sources">
-                  <mat-icon>{{selectedDocumentSources().length > 0 ? 'folder' : 'folder_open'}}</mat-icon>
-                </button>
-                @if (selectedDocumentSources().length > 0) {
-                  <span class="sources-badge">{{ selectedDocumentSources().length }}</span>
-                }
-              </div>
               <div class="input-actions-right">
-                <span class="char-count">{{ currentMessage().length }}/2000</span>
+                <span class="char-count">{{ currentMessage().length }}/8000</span>
                 <button 
                   mat-icon-button
                   color="primary"
@@ -129,18 +106,6 @@ import { ModelSelectorComponent } from '../model-selector/model-selector.compone
               <span>Please select a model to start chatting</span>
             </div>
           }
-          
-          <!-- Document Selector Panel -->
-          @if (showDocumentSelector()) {
-            <div class="document-selector-panel">
-              <app-document-selector
-                [selectedSources]="selectedDocumentSources()"
-                [selectedFilters]="selectedDocumentFilters()"
-                (sourcesChanged)="onDocumentSourcesChanged($event)"
-                (filtersChanged)="onDocumentFiltersChanged($event)">
-              </app-document-selector>
-            </div>
-          }
         </div>
       </div>
     </div>
@@ -150,7 +115,6 @@ import { ModelSelectorComponent } from '../model-selector/model-selector.compone
 })
 export class ChatInterfaceComponent implements AfterViewInit {
   private chatService = inject(ChatService);
-  private documentService = inject(DocumentService);
 
   // View children
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
@@ -158,9 +122,6 @@ export class ChatInterfaceComponent implements AfterViewInit {
   // Signals
   currentMessage = signal('');
   selectedModel = signal<LLMModel | null>(null);
-  selectedDocumentSources = signal<string[]>([]);
-  selectedDocumentFilters = signal<any[]>([]);
-  showDocumentSelector = signal(false);
   autoScrollEnabled = signal(true);
 
   // Computed signals
@@ -238,14 +199,6 @@ export class ChatInterfaceComponent implements AfterViewInit {
     this.selectedModel.set(model);
   }
 
-  onDocumentSourcesChanged(sources: string[]): void {
-    this.selectedDocumentSources.set(sources);
-  }
-
-  onDocumentFiltersChanged(filters: any[]): void {
-    this.selectedDocumentFilters.set(filters);
-  }
-
   async sendMessage(): Promise<void> {
     const message = this.currentMessage().trim();
     const model = this.selectedModel();
@@ -260,9 +213,7 @@ export class ChatInterfaceComponent implements AfterViewInit {
     try {
       await this.chatService.sendMessage(
         message,
-        model.id,
-        this.selectedDocumentSources(),
-        this.selectedDocumentFilters()
+        model.id
       );
 
       this.currentMessage.set('');
@@ -279,13 +230,6 @@ export class ChatInterfaceComponent implements AfterViewInit {
     }
   }
 
-  createNewConversation(): void {
-    this.chatService.createNewConversation();
-  }
-
-  toggleDocumentSelector(): void {
-    this.showDocumentSelector.update(show => !show);
-  }
 
   onFeedbackSubmitted(feedback: { messageId: string; type: 'positive' | 'negative'; comment?: string }): void {
     this.chatService.submitFeedback(feedback.messageId, feedback.type, feedback.comment);

@@ -1,0 +1,1391 @@
+data: "\n<think>"
+
+data: "The"
+
+data: " user"
+
+data: " is"
+
+data: " asking"
+
+data: " about"
+
+data: " procedures"
+
+data: " related"
+
+data: " to"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " at"
+
+data: " Palo"
+
+data: " Verde"
+
+data: " Nuclear"
+
+data: " Generating"
+
+data: " Station"
+
+data: "."
+
+data: " This"
+
+data: " is"
+
+data: " a"
+
+data: " procedural"
+
+data: "/reg"
+
+data: "ulatory"
+
+data: " question"
+
+data: ","
+
+data: " so"
+
+data: " I"
+
+data: " should"
+
+data: " search"
+
+data: " for"
+
+data: " documents"
+
+data: " that"
+
+data: " contain"
+
+data: " information"
+
+data: " about"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " procedures"
+
+data: ".\n\n"
+
+data: "Since"
+
+data: " they"
+
+data: "'re"
+
+data: " asking"
+
+data: " about"
+
+data: " \""
+
+data: "un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: "\""
+
+data: " specifically"
+
+data: ","
+
+data: " this"
+
+data: " is"
+
+data: " likely"
+
+data: " related"
+
+data: " to"
+
+data: " access"
+
+data: " control"
+
+data: ","
+
+data: " security"
+
+data: " procedures"
+
+data: ","
+
+data: " or"
+
+data: " radiation"
+
+data: " protection"
+
+data: " protocols"
+
+data: " at"
+
+data: " a"
+
+data: " nuclear"
+
+data: " plant"
+
+data: "."
+
+data: " I"
+
+data: " should"
+
+data: " use"
+
+data: " the"
+
+data: " search"
+
+data: "doc"
+
+data: " tool"
+
+data: " to"
+
+data: " find"
+
+data: " relevant"
+
+data: " documents"
+
+data: ".\n\n"
+
+data: "The"
+
+data: " most"
+
+data: " appropriate"
+
+data: " collection"
+
+data: " to"
+
+data: " search"
+
+data: " would"
+
+data: " be"
+
+data: " \""
+
+data: "e"
+
+data: "Doc"
+
+data: "\""
+
+data: " since"
+
+data: " it"
+
+data: " contains"
+
+data: " plant"
+
+data: "-specific"
+
+data: " documents"
+
+data: " including"
+
+data: " procedures"
+
+data: "."
+
+data: "</think>"
+
+data: "\n"
+
+data: "\n<think>"
+
+data: "I"
+
+data: " see"
+
+data: " several"
+
+data: " documents"
+
+data: " that"
+
+data: " contain"
+
+data: " information"
+
+data: " about"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " procedures"
+
+data: " at"
+
+data: " PV"
+
+data: "NG"
+
+data: "S"
+
+data: "."
+
+data: " Let"
+
+data: " me"
+
+data: " analyze"
+
+data: " the"
+
+data: " key"
+
+data: " documents"
+
+data: ":\n\n"
+
+data: "1"
+
+data: "."
+
+data: " Document"
+
+data: " "
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "40"
+
+data: " ("
+
+data: "Rev"
+
+data: "."
+
+data: " "
+
+data: "00"
+
+data: "9"
+
+data: ")"
+
+data: " -"
+
+data: " This"
+
+data: " appears"
+
+data: " to"
+
+data: " be"
+
+data: " the"
+
+data: " main"
+
+data: " \""
+
+data: "PV"
+
+data: "NG"
+
+data: "S"
+
+data: " ACCESS"
+
+data: " SCREEN"
+
+data: "ING"
+
+data: " AND"
+
+data: " BAD"
+
+data: "GE"
+
+data: " PROCESS"
+
+data: "ING"
+
+data: "\""
+
+data: " procedure"
+
+data: " that"
+
+data: " contains"
+
+data: " detailed"
+
+data: " information"
+
+data: " about"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " authorization"
+
+data: " processes"
+
+data: ","
+
+data: " temporary"
+
+data: " author"
+
+data: "izations"
+
+data: ","
+
+data: " reinst"
+
+data: "atement"
+
+data: " requirements"
+
+data: ","
+
+data: " etc"
+
+data: ".\n\n"
+
+data: "2"
+
+data: "."
+
+data: " Document"
+
+data: " "
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "11"
+
+data: " ("
+
+data: "Rev"
+
+data: "."
+
+data: " "
+
+data: "010"
+
+data: ")"
+
+data: " -"
+
+data: " This"
+
+data: " appears"
+
+data: " to"
+
+data: " be"
+
+data: " \""
+
+data: "BACKGROUND"
+
+data: " IN"
+
+data: "VEST"
+
+data: "IG"
+
+data: "ATIONS"
+
+data: " FOR"
+
+data: " UN"
+
+data: "ESC"
+
+data: "ORT"
+
+data: "ED"
+
+data: " ACCESS"
+
+data: "\""
+
+data: " which"
+
+data: " contains"
+
+data: " definitions"
+
+data: " and"
+
+data: " details"
+
+data: " about"
+
+data: " the"
+
+data: " background"
+
+data: " investigation"
+
+data: " process"
+
+data: ".\n\n"
+
+data: "3"
+
+data: "."
+
+data: " Document"
+
+data: " {"
+
+data: "4"
+
+data: "C"
+
+data: "38"
+
+data: "3"
+
+data: "6"
+
+data: "40"
+
+data: "-"
+
+data: "4"
+
+data: "24"
+
+data: "4"
+
+data: "-C"
+
+data: "B"
+
+data: "93"
+
+data: "-"
+
+data: "87"
+
+data: "D"
+
+data: "3"
+
+data: "-"
+
+data: "79"
+
+data: "3"
+
+data: "D"
+
+data: "44"
+
+data: "3"
+
+data: "000"
+
+data: "00"
+
+data: "}"
+
+data: " -"
+
+data: " This"
+
+data: " appears"
+
+data: " to"
+
+data: " contain"
+
+data: " regulatory"
+
+data: " reference"
+
+data: " information"
+
+data: " about"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: ".\n\n"
+
+data: "From"
+
+data: " the"
+
+data: " content"
+
+data: " I"
+
+data: " can"
+
+data: " see"
+
+data: ","
+
+data: " "
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "40"
+
+data: " appears"
+
+data: " to"
+
+data: " be"
+
+data: " the"
+
+data: " most"
+
+data: " comprehensive"
+
+data: " document"
+
+data: " explaining"
+
+data: " the"
+
+data: " details"
+
+data: " of"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " procedures"
+
+data: ","
+
+data: " including"
+
+data: ":\n"
+
+data: "-"
+
+data: " The"
+
+data: " full"
+
+data: " screening"
+
+data: " process"
+
+data: "\n"
+
+data: "-"
+
+data: " Temporary"
+
+data: " authorization"
+
+data: " procedures"
+
+data: "\n"
+
+data: "-"
+
+data: " Re"
+
+data: "inst"
+
+data: "atement"
+
+data: " requirements"
+
+data: "  \n"
+
+data: "-"
+
+data: " Definitions"
+
+data: " and"
+
+data: " processes"
+
+data: "\n"
+
+data: "-"
+
+data: " Notification"
+
+data: " requirements"
+
+data: "\n"
+
+data: "-"
+
+data: " Background"
+
+data: " investigation"
+
+data: " details"
+
+data: "\n\n"
+
+data: "Let"
+
+data: " me"
+
+data: " search"
+
+data: " more"
+
+data: " specifically"
+
+data: " for"
+
+data: " "
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "40"
+
+data: " to"
+
+data: " get"
+
+data: " the"
+
+data: " complete"
+
+data: " document"
+
+data: " title"
+
+data: "."
+
+data: "</think>"
+
+data: "\n"
+
+data: "<"
+
+data: "response"
+
+data: ">\n"
+
+data: "Based"
+
+data: " on"
+
+data: " my"
+
+data: " search"
+
+data: " of"
+
+data: " the"
+
+data: " e"
+
+data: "Doc"
+
+data: " collection"
+
+data: ","
+
+data: " there"
+
+data: " are"
+
+data: " several"
+
+data: " procedures"
+
+data: " that"
+
+data: " explain"
+
+data: " the"
+
+data: " details"
+
+data: " of"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " at"
+
+data: " PV"
+
+data: "NG"
+
+data: "S"
+
+data: "."
+
+data: " The"
+
+data: " primary"
+
+data: " procedure"
+
+data: " that"
+
+data: " contains"
+
+data: " comprehensive"
+
+data: " information"
+
+data: " about"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " is"
+
+data: ":\n\n"
+
+data: "**"
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "40"
+
+data: ","
+
+data: " Rev"
+
+data: "."
+
+data: " "
+
+data: "00"
+
+data: "9"
+
+data: " -"
+
+data: " \""
+
+data: "PV"
+
+data: "NG"
+
+data: "S"
+
+data: " ACCESS"
+
+data: " SCREEN"
+
+data: "ING"
+
+data: " AND"
+
+data: " BAD"
+
+data: "GE"
+
+data: " PROCESS"
+
+data: "ING"
+
+data: "\""
+
+data: "**\n\n"
+
+data: "This"
+
+data: " procedure"
+
+data: " appears"
+
+data: " to"
+
+data: " be"
+
+data: " the"
+
+data: " most"
+
+data: " comprehensive"
+
+data: " document"
+
+data: " explaining"
+
+data: " the"
+
+data: " details"
+
+data: " of"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " and"
+
+data: " includes"
+
+data: ":\n\n"
+
+data: "-"
+
+data: " Complete"
+
+data: " access"
+
+data: " authorization"
+
+data: " program"
+
+data: " requirements"
+
+data: "\n"
+
+data: "-"
+
+data: " Background"
+
+data: " investigation"
+
+data: " processes"
+
+data: " and"
+
+data: " requirements"
+
+data: "\n"
+
+data: "-"
+
+data: " Psychological"
+
+data: " evaluation"
+
+data: " procedures"
+
+data: "\n"
+
+data: "-"
+
+data: " Temporary"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " authorization"
+
+data: " processes"
+
+data: " ("
+
+data: "limited"
+
+data: " to"
+
+data: " "
+
+data: "180"
+
+data: " days"
+
+data: ")\n"
+
+data: "-"
+
+data: " Re"
+
+data: "inst"
+
+data: "atement"
+
+data: " requirements"
+
+data: " for"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: "\n"
+
+data: "-"
+
+data: " Definitions"
+
+data: " and"
+
+data: " terminology"
+
+data: " related"
+
+data: " to"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: "\n"
+
+data: "-"
+
+data: " Notification"
+
+data: " and"
+
+data: " reporting"
+
+data: " requirements"
+
+data: "\n"
+
+data: "-"
+
+data: " Procedures"
+
+data: " for"
+
+data: " rev"
+
+data: "oking"
+
+data: " or"
+
+data: " denying"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: "\n\n"
+
+data: "Another"
+
+data: " important"
+
+data: " supporting"
+
+data: " document"
+
+data: " is"
+
+data: ":\n\n"
+
+data: "**"
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "11"
+
+data: ","
+
+data: " Rev"
+
+data: "."
+
+data: " "
+
+data: "010"
+
+data: " -"
+
+data: " \""
+
+data: "BACKGROUND"
+
+data: " IN"
+
+data: "VEST"
+
+data: "IG"
+
+data: "ATIONS"
+
+data: " FOR"
+
+data: " UN"
+
+data: "ESC"
+
+data: "ORT"
+
+data: "ED"
+
+data: " ACCESS"
+
+data: "\""
+
+data: "**\n\n"
+
+data: "This"
+
+data: " provides"
+
+data: " detailed"
+
+data: " information"
+
+data: " specifically"
+
+data: " about"
+
+data: " the"
+
+data: " background"
+
+data: " investigation"
+
+data: " component"
+
+data: " of"
+
+data: " the"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " authorization"
+
+data: " process"
+
+data: ","
+
+data: " including"
+
+data: " definitions"
+
+data: " of"
+
+data: " terms"
+
+data: " and"
+
+data: " investigative"
+
+data: " requirements"
+
+data: ".\n\n"
+
+data: "Both"
+
+data: " documents"
+
+data: " contain"
+
+data: " detailed"
+
+data: " procedures"
+
+data: " for"
+
+data: " the"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " authorization"
+
+data: " process"
+
+data: " at"
+
+data: " Palo"
+
+data: " Verde"
+
+data: " Nuclear"
+
+data: " Generating"
+
+data: " Station"
+
+data: ","
+
+data: " including"
+
+data: " screening"
+
+data: ","
+
+data: " verification"
+
+data: ","
+
+data: " and"
+
+data: " ongoing"
+
+data: " monitoring"
+
+data: " requirements"
+
+data: "."
+
+data: " ["
+
+data: "Source"
+
+data: ":"
+
+data: " {"
+
+data: "3"
+
+data: "D"
+
+data: "FF"
+
+data: "3"
+
+data: "E"
+
+data: "48"
+
+data: "-"
+
+data: "ED"
+
+data: "63"
+
+data: "-"
+
+data: "4"
+
+data: "35"
+
+data: "B"
+
+data: "-B"
+
+data: "EF"
+
+data: "9"
+
+data: "-"
+
+data: "3"
+
+data: "E"
+
+data: "6"
+
+data: "19"
+
+data: "7"
+
+data: "24"
+
+data: "55"
+
+data: "DD"
+
+data: "}"
+
+data: "]["
+
+data: "Source"
+
+data: ":"
+
+data: " {"
+
+data: "42"
+
+data: "E"
+
+data: "69"
+
+data: "B"
+
+data: "41"
+
+data: "-"
+
+data: "68"
+
+data: "4"
+
+data: "0"
+
+data: "-"
+
+data: "4"
+
+data: "D"
+
+data: "30"
+
+data: "-AA"
+
+data: "4"
+
+data: "B"
+
+data: "-"
+
+data: "3"
+
+data: "B"
+
+data: "04"
+
+data: "2"
+
+data: "F"
+
+data: "98"
+
+data: "C"
+
+data: "3"
+
+data: "CC"
+
+data: "}]\n"
+
+data: "</"
+
+data: "response"
+
+data: ">"
+
+
+            metadata: {"{4C383640-4244-CB93-87D3-793D44300000": {"DocumentTitle": "60113678", "eDocID": "{4C383640-4244-CB93-87D3-793D44300000", "Revision": "N/A", "PathName": "/PROCUREMENT/PO", "FileName": "{B891891F-AC89-CBD3-8748-793D44300000}_{4C383640-4244-CB93-87D3-793D44300000}_10161113.pdf", "SWMSStatus": "ARCHIVED", "SWMSTitle": "DECLASSIFIED", "Category": "PROCUREMENT", "DocType": "PO", "Chunks": [{"chunk_id": "56", "pages": [42], "bounding_boxes": "{\"42\": [[80, 213, 880, 548]]}", "relevance_score": 0.0019960079807788134}, {"chunk_id": "53", "pages": [42], "bounding_boxes": "{\"42\": [[80, 213, 880, 548]]}", "relevance_score": 0.0019920319318771362}]}, "": {"DocumentTitle": "", "eDocID": null, "Revision": "N/A", "PathName": "", "FileName": "{AA0C82C8-19EF-4F24-BBC7-9911C3CEB5D4}_{38A2ACD5-587D-49C4-A95E-75392DD9D945}_971219B.tiff", "SWMSStatus": "", "SWMSTitle": "", "Category": "", "DocType": "", "Chunks": [{"chunk_id": "216", "pages": [183, 184], "bounding_boxes": "{\"183\": [[142, 403, 936, 514], [144, 540, 960, 836]], \"184\": [[134, 79, 914, 211], [136, 238, 597, 257], [136, 283, 770, 303]]}", "relevance_score": 0.0019960079807788134}, {"chunk_id": "163", "pages": [144], "bounding_boxes": "{\"144\": [[116, 431, 878, 630], [110, 648, 881, 906]]}", "relevance_score": 0.0019920319318771362}]}, "{CDDF61FB-4515-4440-9A95-8DDBD50755FB": {"DocumentTitle": "43ST-3DG02", "eDocID": "{CDDF61FB-4515-4440-9A95-8DDBD50755FB", "Revision": "022", "PathName": "/PROCEDURES/PROC/43/43ST", "FileName": "{A8EDC2BF-F383-41B2-B900-FA5F2CE349E9}_{CDDF61FB-4515-4440-9A95-8DDBD50755FB}_62140019.pdf", "SWMSStatus": "", "SWMSTitle": "", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "9", "pages": [0], "bounding_boxes": "{\"0\": [[66, 61, 931, 963]]}", "relevance_score": 0.001988071482628584}]}, "{3DFF3E48-ED63-435B-BEF9-3E61972455DD": {"DocumentTitle": "20DP-0SK40", "eDocID": "{3DFF3E48-ED63-435B-BEF9-3E61972455DD", "Revision": "009", "PathName": "/PROCEDURES/PROC/20", "FileName": "{C478DBB7-83BA-4856-99E8-820BBF5D8DD7}_{3DFF3E48-ED63-435B-BEF9-3E61972455DD}_264363.pdf", "SWMSStatus": "", "SWMSTitle": "", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "13", "pages": [0], "bounding_boxes": "{\"0\": [[66, 61, 931, 955]]}", "relevance_score": 0.001988071482628584}]}, "{1499CBDF-A841-4DF0-9D69-6C093A0E3CCD": {"DocumentTitle": "36MT-9ZZ52", "eDocID": "{1499CBDF-A841-4DF0-9D69-6C093A0E3CCD", "Revision": "006", "PathName": "/PROCEDURES/PROC/36/36MT", "FileName": "{AAF6E233-ECF2-4F2A-ACD8-FE169ED2589D}_{1499CBDF-A841-4DF0-9D69-6C093A0E3CCD}_369ZZ52.pdf", "SWMSStatus": "", "SWMSTitle": "", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "22", "pages": [36], "bounding_boxes": "{\"36\": [[77, 50, 944, 945]]}", "relevance_score": 0.0019841270986944437}]}, "{42E69B41-6840-4D30-AA4B-3B042F98C3CC": {"DocumentTitle": "20DP-0SK11", "eDocID": "{42E69B41-6840-4D30-AA4B-3B042F98C3CC", "Revision": "010", "PathName": "/PROCEDURES/PROC/20", "FileName": "{929E87D7-C39E-480D-B477-70765680BBC5}_{42E69B41-6840-4D30-AA4B-3B042F98C3CC}_62080032.pdf", "SWMSStatus": "", "SWMSTitle": "", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "6", "pages": [0], "bounding_boxes": "{\"0\": [[66, 60, 931, 955]]}", "relevance_score": 0.0019841270986944437}]}, "{F3F2739A-4DB8-422B-A627-E5F2BBF7D629": {"DocumentTitle": "20DP-0SK40", "eDocID": "{F3F2739A-4DB8-422B-A627-E5F2BBF7D629", "Revision": "008", "PathName": "/PROCEDURES/PROC/20", "FileName": "{0C2EC6F3-2295-4E66-825D-2D37AF48DE6B}_{F3F2739A-4DB8-422B-A627-E5F2BBF7D629}_184152.pdf", "SWMSStatus": "", "SWMSTitle": "", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "13", "pages": [0], "bounding_boxes": "{\"0\": [[66, 61, 931, 955]]}", "relevance_score": 0.0019801980815827847}]}, "{3B62A238-93B4-4D8F-93AE-A6C1F4647935": {"DocumentTitle": "01-E-SIB-0036", "eDocID": "{3B62A238-93B4-4D8F-93AE-A6C1F4647935", "Revision": "001", "PathName": "/DESIGN RECORDS/DWG/01-E", "FileName": "{E23BF19F-EED1-407F-932B-858E9E9AADF6}_{3B62A238-93B4-4D8F-93AE-A6C1F4647935}_535838.pdf", "SWMSStatus": "", "SWMSTitle": "", "Category": "DESIGN RECORDS", "DocType": "DWG", "Chunks": [{"chunk_id": "3", "pages": [0], "bounding_boxes": "{\"0\": [[941, 840, 949, 851]]}", "relevance_score": 0.0019801980815827847}]}}
+           

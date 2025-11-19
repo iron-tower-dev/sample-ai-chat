@@ -24,6 +24,17 @@ import { Conversation } from '../../models/chat.models';
   ],
   template: `
     <div class="conversation-sidebar">
+      <div class="sidebar-header">
+        <button 
+          mat-raised-button 
+          color="primary"
+          (click)="createNewConversation()"
+          class="new-conversation-btn">
+          <mat-icon>add</mat-icon>
+          New Conversation
+        </button>
+      </div>
+      
       <div class="conversations-list">
         @if (conversations().length === 0) {
           <div class="empty-state">
@@ -40,7 +51,6 @@ import { Conversation } from '../../models/chat.models';
                 class="conversation-item">
                 <div class="conversation-content">
                   <div class="conversation-header">
-                    <mat-icon class="conversation-icon">chat</mat-icon>
                     <h3 class="conversation-title">{{ conversation.title }}</h3>
                     <button 
                       mat-icon-button
@@ -50,18 +60,6 @@ import { Conversation } from '../../models/chat.models';
                       <mat-icon>delete_outline</mat-icon>
                     </button>
                   </div>
-                  <div class="conversation-meta">
-                    <span class="message-count">
-                      <mat-icon>chat_bubble_outline</mat-icon>
-                      {{ conversation.messages.length }}
-                    </span>
-                    <span class="last-updated">{{ formatLastUpdated(conversation.updatedAt) }}</span>
-                  </div>
-                  @if (conversation.messages.length > 0) {
-                    <div class="conversation-preview">
-                      {{ getConversationPreview(conversation) }}
-                    </div>
-                  }
                 </div>
               </div>
             }
@@ -79,7 +77,12 @@ export class ConversationSidebarComponent {
   isCollapsed = signal(false);
 
   // Computed signals
-  readonly conversations = this.chatService.conversations$;
+  readonly conversations = computed(() => {
+    // Show most recent first (reverse chronological order)
+    return [...this.chatService.conversations$()].sort((a, b) => 
+      b.updatedAt.getTime() - a.updatedAt.getTime()
+    );
+  });
   readonly currentConversationId = this.chatService.currentConversationId$;
 
   createNewConversation(): void {
