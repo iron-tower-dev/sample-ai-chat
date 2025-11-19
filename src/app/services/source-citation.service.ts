@@ -105,7 +105,7 @@ export class SourceCitationService {
 
     // NRC Adams: use AccessionNumber query param
     if (sourceName === 'nrcadams') {
-      const accession = md.AccessionNumber || document.title || sourceId;
+      const accession = md['AccessionNumber'] || document.title || sourceId;
       if (accession) {
         const acc = encodeURIComponent(String(accession));
         // Public NRC ADAMS search URL pattern
@@ -116,7 +116,7 @@ export class SourceCitationService {
 
     // eDoc: use edocid (various casing) query param
     if (sourceName === 'edoc') {
-      const edocId = md.edocid || md.eDocId || md.EDocId || md.edocID;
+      const edocId = md['edocid'] || md['eDocId'] || md['EDocId'] || md['edocID'];
       if (edocId) {
         const id = encodeURIComponent(String(edocId));
         // Default eDoc endpoint – adjust if your environment uses a different base path
@@ -199,8 +199,8 @@ export class SourceCitationService {
             };
             
             const hasTitle = hasValue(document.title) && document.title !== 'Unknown Document';
-            const hasEdocId = hasValue(md.edocid) || hasValue(md.eDocId) || hasValue(md.EDocId) || hasValue(md.edocID);
-            const hasAccessionNumber = hasValue(md.AccessionNumber);
+            const hasEdocId = hasValue(md['edocid']) || hasValue(md['eDocId']) || hasValue(md['EDocId']) || hasValue(md['edocID']);
+            const hasAccessionNumber = hasValue(md['AccessionNumber']);
             
             // Skip citation if missing required metadata
             let shouldSkip = false;

@@ -3,7 +3,6 @@ export interface ChatMessage {
     content: string;
     role: 'user' | 'assistant';
     timestamp: Date;
-    model?: string;
     feedback?: MessageFeedback;
     ragDocuments?: RAGDocument[];
     apiMessageId?: string; // Message ID from the API response, used for feedback
@@ -26,7 +25,6 @@ export interface Conversation {
     messages: ChatMessage[];
     createdAt: Date;
     updatedAt: Date;
-    model?: string;
 }
 
 export interface RAGDocument {
@@ -75,14 +73,6 @@ export interface ChunkMetadata {
     pages: number[];
     bounding_boxes: string; // JSON string with page-to-bbox mapping
     relevance_score: number;
-}
-
-export interface LLMModel {
-    id: string;
-    name: string;
-    description?: string;
-    isAvailable: boolean;
-    maxTokens?: number;
 }
 
 export interface ChatRequest {

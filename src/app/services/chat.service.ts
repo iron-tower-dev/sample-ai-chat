@@ -1,5 +1,5 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
-import { ChatMessage, Conversation, ChatRequest, ChatResponse, LLMModel, DocumentSource, RAGDocument, MessageFeedback } from '../models/chat.models';
+import { ChatMessage, Conversation, ChatRequest, ChatResponse, DocumentSource, RAGDocument, MessageFeedback } from '../models/chat.models';
 import { UserConfigService } from './user-config.service';
 import { environment } from '../../environments/environment';
 import { LlmApiService, LLMRequest, FeedbackRequest } from './llm-api.service';
@@ -13,7 +13,6 @@ export class ChatService {
     
     private conversations = signal<Conversation[]>([]);
     private currentConversationId = signal<string | null>(null);
-    private availableModels = signal<LLMModel[]>([]);
     private documentSources = signal<DocumentSource[]>([]);
     private isLoading = signal(false);
 
@@ -35,7 +34,6 @@ export class ChatService {
     get conversations$() { return this.conversations.asReadonly(); }
     get currentConversationId$() { return this.currentConversationId.asReadonly(); }
     get currentMessages$() { return this.currentMessages; }
-    get availableModels$() { return this.availableModels.asReadonly(); }
     get documentSources$() { return this.documentSources.asReadonly(); }
     get isLoading$() { return this.isLoading.asReadonly(); }
 
@@ -45,23 +43,6 @@ export class ChatService {
 
     private initializeData(): void {
         // Initialize with sample data - replace with actual API calls
-        this.availableModels.set([
-            {
-                id: 'llama-3.1-8b',
-                name: 'Llama 3.1 8B',
-                description: 'Fast and efficient model for general tasks',
-                isAvailable: true,
-                maxTokens: 4096
-            },
-            {
-                id: 'llama-3.1-70b',
-                name: 'Llama 3.1 70B',
-                description: 'High-quality model for complex tasks',
-                isAvailable: true,
-                maxTokens: 8192
-            }
-        ]);
-
         this.documentSources.set([
             {
                 id: 'external-docs',
@@ -82,7 +63,7 @@ export class ChatService {
         this.loadConversations();
     }
 
-    async sendMessage(message: string, model: string): Promise<void> {
+    async sendMessage(message: string): Promise<void> {
         this.isLoading.set(true);
 
         try {
@@ -91,8 +72,7 @@ export class ChatService {
                 id: this.generateId(),
                 content: message,
                 role: 'user',
-                timestamp: new Date(),
-                model
+                timestamp: new Date()
             };
 
             // Add user message to current conversation
@@ -122,7 +102,6 @@ export class ChatService {
                 content: '',
                 role: 'assistant',
                 timestamp: new Date(),
-                model,
                 thinkingText: '',
                 toolingText: '',
                 citationMetadata: {}
@@ -190,8 +169,7 @@ export class ChatService {
                 id: this.generateId(),
                 content: 'Sorry, I encountered an error processing your request. Please try again.',
                 role: 'assistant',
-                timestamp: new Date(),
-                model
+                timestamp: new Date()
             };
             this.addMessageToCurrentConversation(errorMessage);
             this.isLoading.set(false);

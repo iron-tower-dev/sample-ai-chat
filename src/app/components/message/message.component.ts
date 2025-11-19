@@ -1,4 +1,4 @@
-import { Component, input, output, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, output, inject, signal, effect, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -42,9 +42,6 @@ import { CitationPreviewModalComponent } from '../citation-preview-modal/citatio
         </div>
         <div class="message-meta">
           <span class="timestamp">{{ formatTimestamp(message().timestamp) }}</span>
-          @if (message().model) {
-            <span class="model">{{ message().model }}</span>
-          }
         </div>
       </div>
       
@@ -129,10 +126,12 @@ export class MessageComponent {
 
   constructor() {
     // Watch for changes to message content and add citation click handlers
-    const msg = this.message();
-    if (msg.content) {
-      this.processedContent.set(this.addCitationHandlers(msg.content));
-    }
+    effect(() => {
+      const msg = this.message();
+      if (msg.content) {
+        this.processedContent.set(this.addCitationHandlers(msg.content));
+      }
+    });
 
     // Listen for citation click events
     window.addEventListener('citation-click', ((event: CustomEvent) => {

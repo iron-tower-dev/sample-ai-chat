@@ -9,9 +9,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ChatService } from '../../services/chat.service';
-import { ChatMessage, LLMModel } from '../../models/chat.models';
+import { ChatMessage } from '../../models/chat.models';
 import { MessageComponent } from '../message/message.component';
-import { ModelSelectorComponent } from '../model-selector/model-selector.component';
 
 @Component({
   selector: 'app-chat-interface',
@@ -25,20 +24,10 @@ import { ModelSelectorComponent } from '../model-selector/model-selector.compone
     MatCardModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
-    MessageComponent,
-    ModelSelectorComponent
+    MessageComponent
   ],
   template: `
     <div class="chat-interface" style="flex: 1 1 0; min-height: 0; max-height: 100%; overflow: hidden; display: flex; flex-direction: column;">
-      <!-- Chat Controls -->
-      <div class="chat-controls">
-        <app-model-selector 
-          [models]="availableModels()"
-          [selectedModel]="selectedModel()"
-          (modelSelected)="onModelSelected($event)">
-        </app-model-selector>
-      </div>
-
       <!-- Messages Container -->
       <div class="messages-container" #scrollContainer (scroll)="onMessagesScroll($event)">
         @if (currentMessages().length === 0) {
@@ -48,7 +37,6 @@ import { ModelSelectorComponent } from '../model-selector/model-selector.compone
             </div>
             <h2>Welcome to AI Chat Assistant</h2>
             <p>Start a conversation by typing a message below.</p>
-            <p class="welcome-hint">Select a model and optionally choose document sources to customize your experience.</p>
           </div>
         }
         
@@ -80,7 +68,7 @@ import { ModelSelectorComponent } from '../model-selector/model-selector.compone
               #messageInput
               [(ngModel)]="currentMessage"
               (keydown.enter)="onEnterKey($event)"
-              [disabled]="isLoading() || !selectedModel()"
+              [disabled]="isLoading()"
               placeholder="Send a message..."
               rows="1"
               maxlength="8000"
@@ -92,7 +80,7 @@ import { ModelSelectorComponent } from '../model-selector/model-selector.compone
                   mat-icon-button
                   color="primary"
                   (click)="sendMessage()"
-                  [disabled]="!currentMessage().trim() || isLoading() || !selectedModel()"
+                  [disabled]="!currentMessage().trim() || isLoading()"
                   class="send-button"
                   matTooltip="Send message">
                   <mat-icon>send</mat-icon>
@@ -100,12 +88,6 @@ import { ModelSelectorComponent } from '../model-selector/model-selector.compone
               </div>
             </div>
           </div>
-          @if (!selectedModel()) {
-            <div class="input-warning">
-              <mat-icon>info</mat-icon>
-              <span>Please select a model to start chatting</span>
-            </div>
-          }
         </div>
       </div>
     </div>
@@ -121,12 +103,10 @@ export class ChatInterfaceComponent implements AfterViewInit {
 
   // Signals
   currentMessage = signal('');
-  selectedModel = signal<LLMModel | null>(null);
   autoScrollEnabled = signal(true);
 
   // Computed signals
   readonly currentMessages = this.chatService.currentMessages$;
-  readonly availableModels = this.chatService.availableModels$;
   readonly isLoading = this.chatService.isLoading$;
 
   ngAfterViewInit(): void {
@@ -195,15 +175,10 @@ export class ChatInterfaceComponent implements AfterViewInit {
     }
   }
 
-  onModelSelected(model: LLMModel): void {
-    this.selectedModel.set(model);
-  }
-
   async sendMessage(): Promise<void> {
     const message = this.currentMessage().trim();
-    const model = this.selectedModel();
 
-    if (!message || !model || this.isLoading()) {
+    if (!message || this.isLoading()) {
       return;
     }
 
@@ -211,11 +186,7 @@ export class ChatInterfaceComponent implements AfterViewInit {
     this.autoScrollEnabled.set(true);
 
     try {
-      await this.chatService.sendMessage(
-        message,
-        model.id
-      );
-
+      await this.chatService.sendMessage(message);
       this.currentMessage.set('');
     } catch (error) {
       console.error('Error sending message:', error);
