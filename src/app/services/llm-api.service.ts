@@ -180,6 +180,32 @@ export class LlmApiService {
               tagDetected = true;
             }
             
+            // NEW: Handle inline tooling format: (tool: "...")
+            const toolPattern = /\(tool:\s*"([^"]+)"\)/;
+            const toolMatch = tagBuffer.match(toolPattern);
+            if (toolMatch) {
+              const toolData = toolMatch[1];
+              console.log('[LLM API] Found inline tool call:', toolData);
+              
+              // Try to parse as JSON to extract the action
+              try {
+                const toolJson = JSON.parse(toolData.replace(/\\/g, ''));
+                if (toolJson.action) {
+                  currentTooling += (currentTooling ? '\n' : '') + toolJson.action;
+                  console.log('[LLM API] Extracted tool action:', toolJson.action);
+                }
+              } catch (e) {
+                // If not valid JSON, just append the raw tool data
+                currentTooling += (currentTooling ? '\n' : '') + toolData;
+                console.log('[LLM API] Could not parse tool JSON, using raw:', toolData);
+              }
+              
+              // Remove the tool call from buffer
+              tagBuffer = tagBuffer.replace(toolPattern, '');
+              tagDetected = true;
+            }
+            
+            // Legacy: Handle old <tooling> tags (kept for backward compatibility)
             if (tagBuffer.includes('<tooling>')) {
               inToolingTag = true;
               inThinkTag = false;

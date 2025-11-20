@@ -5,11 +5,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
-import { ChatMessage, MessageFeedback, DocumentCitationMetadata } from '../../models/chat.models';
+import { ChatMessage, MessageFeedback } from '../../models/chat.models';
 import { MarkdownContentComponent } from '../markdown-content/markdown-content.component';
 import { FeedbackDialogComponent, FeedbackDialogData, FeedbackDialogResult } from '../feedback-dialog/feedback-dialog.component';
 import { ThinkingSectionComponent } from '../thinking-section/thinking-section.component';
-import { CitationPreviewModalComponent } from '../citation-preview-modal/citation-preview-modal.component';
 
 @Component({
   selector: 'app-message',
@@ -50,7 +49,7 @@ import { CitationPreviewModalComponent } from '../citation-preview-modal/citatio
           @if (isLoading() && !message().content) {
             <div class="thinking-indicator">
               <mat-spinner diameter="20"></mat-spinner>
-              <span>Generating response...</span>
+              <span>{{ message().toolingText || 'Generating response...' }}</span>
             </div>
           } @else {
             <!-- Thinking section -->
@@ -120,59 +119,21 @@ export class MessageComponent {
 
   pendingFeedback = input<'positive' | 'negative' | null>(null);
 
-  // Process content to add citation links
+  // Use computed signal to pass content directly
   processedContent = signal('');
-  selectedCitation = signal<DocumentCitationMetadata | null>(null);
-  showCitationModal = signal(false);
 
   constructor() {
-    // Watch for changes to message content and add citation click handlers
+    // Update processed content whenever message changes
     effect(() => {
       try {
         const msg = this.message();
         if (msg) {
           const content = msg.content || '';
-          console.log('[MessageComponent] Content updated:', content.substring(0, 100), 'length:', content.length);
-          const processed = this.addCitationHandlers(content);
-          console.log('[MessageComponent] Processed content:', processed.substring(0, 100));
-          this.processedContent.set(processed);
-          console.log('[MessageComponent] processedContent signal set');
+          this.processedContent.set(content);
         }
       } catch (e) {
         console.error('[MessageComponent] Error in effect:', e);
-        // Input signal not initialized yet, will run again when it is
       }
-    });
-
-    // Listen for citation click events
-    window.addEventListener('citation-click', ((event: CustomEvent) => {
-      this.handleCitationClick(event.detail);
-    }) as EventListener);
-  }
-
-  private addCitationHandlers(content: string): string {
-    // Replace citation patterns like [Source: {UUID}] with clickable links
-    return content.replace(/\[Source: (\{[^}]+\})\]/g, (match, sourceId) => {
-      const shortId = sourceId.substring(1, 15);
-      return `<a href="#" class="citation-link" data-source-id="${sourceId}" onclick="event.preventDefault(); window.dispatchEvent(new CustomEvent('citation-click', { detail: '${sourceId}' }))">[Source: ${shortId}...]</a>`;
-    });
-  }
-
-  private handleCitationClick(sourceId: string): void {
-    const metadata = this.message().citationMetadata;
-    if (metadata && metadata[sourceId]) {
-      this.openCitationModal(metadata[sourceId]);
-    }
-  }
-
-  private openCitationModal(citation: DocumentCitationMetadata): void {
-    const dialogRef = this.dialog.open(CitationPreviewModalComponent, {
-      data: citation,
-      width: '90vw',
-      height: '85vh',
-      maxWidth: '1400px',
-      disableClose: false,
-      panelClass: 'citation-preview-dialog'
     });
   }
 

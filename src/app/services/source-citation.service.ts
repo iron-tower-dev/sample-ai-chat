@@ -168,40 +168,63 @@ export class SourceCitationService {
     const result = content.replace(sourcePattern, (match, identifiers) => {
       console.log('[SourceCitationService] Found citation:', match, 'identifiers:', identifiers);
       
-      // Check if this is a UUID citation pattern {UUID}
-      const isUUID = identifiers.trim().startsWith('{') && identifiers.trim().endsWith('}');
+      // Check if this contains UUID pattern(s) - UUIDs are wrapped in curly braces
+      const hasUUIDs = identifiers.includes('{') && identifiers.includes('}');
       
-      if (isUUID && citationMetadata) {
-        // Handle UUID-based citation using metadata
-        const uuid = identifiers.trim();
-        const docMetadata = citationMetadata[uuid];
+      if (hasUUIDs && citationMetadata) {
+        // Extract all UUIDs from the identifiers string
+        // UUIDs can be comma-separated like: {UUID1}, {UUID2}
+        const uuidPattern = /\{[^}]+\}/g;
+        const uuids = identifiers.match(uuidPattern) || [];
         
-        if (docMetadata) {
-          const title = docMetadata.DocumentTitle || 'Unknown Document';
-          const docData = encodeURIComponent(JSON.stringify({
-            uuid: uuid,
-            title: title,
-            metadata: docMetadata
-          }));
-          
-          const label = `[${title}]`;
-          
-          // Check if we can build an external URL
-          if (docMetadata.eDocID || docMetadata.PathName) {
-            const edocId = docMetadata.eDocID || docMetadata.edocID;
-            if (edocId) {
-              const url = `/edoc?edocid=${encodeURIComponent(edocId)}`;
-              return `<a class="inline-source-citation" href="${url}" target="_blank" rel="noopener noreferrer" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`;
-            }
-          }
-          
-          // No external URL, make it a clickable link for preview
-          return `<a class="inline-source-citation" href="#" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`;
-        } else {
-          console.warn('[SourceCitationService] No metadata found for UUID:', uuid);
-          // Return the original citation if no metadata
+        if (uuids.length === 0) {
+          console.warn('[SourceCitationService] No valid UUIDs found in:', identifiers);
           return match;
         }
+        
+        const citations: string[] = [];
+        const seenTitles = new Set<string>();
+        
+        for (const uuid of uuids) {
+          const docMetadata = citationMetadata[uuid];
+          
+          if (docMetadata) {
+            const title = docMetadata.DocumentTitle || 'Unknown Document';
+            
+            // Skip duplicates
+            if (seenTitles.has(title)) {
+              console.log('[SourceCitationService] Skipping duplicate title:', title);
+              continue;
+            }
+            seenTitles.add(title);
+            
+            const docData = encodeURIComponent(JSON.stringify({
+              uuid: uuid,
+              title: title,
+              metadata: docMetadata
+            }));
+            
+            const label = `[${title}]`;
+            
+            // Check if we can build an external URL
+            if (docMetadata.eDocID || docMetadata.PathName) {
+              const edocId = docMetadata.eDocID || docMetadata.edocID;
+              if (edocId) {
+                const url = `/edoc?edocid=${encodeURIComponent(edocId)}`;
+                citations.push(`<a class="inline-source-citation" href="${url}" target="_blank" rel="noopener noreferrer" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`);
+                continue;
+              }
+            }
+            
+            // No external URL, make it a clickable link for preview
+            citations.push(`<a class="inline-source-citation" href="#" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`);
+          } else {
+            console.warn('[SourceCitationService] No metadata found for UUID:', uuid);
+          }
+        }
+        
+        // Return all citations joined with spaces, or original if none found
+        return citations.length > 0 ? citations.join(' ') : match;
       }
       
       // Split by comma AND semicolon to handle multiple sources like "6, 1.1.1; Source 23, 4.11"
