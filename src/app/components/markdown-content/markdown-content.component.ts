@@ -31,6 +31,7 @@ export class MarkdownContentComponent implements AfterViewChecked {
 
     content = input.required<string>();
     ragDocuments = input<RAGDocument[]>([]);
+    citationMetadata = input<Record<string, any>>();
 
     renderedContent = signal<SafeHtml>('');
     containsMath = signal<boolean>(false);
@@ -39,16 +40,18 @@ export class MarkdownContentComponent implements AfterViewChecked {
         effect(() => {
             const markdownContent = this.content();
             const docs = this.ragDocuments();
+            const metadata = this.citationMetadata();
             
             console.log('[MarkdownContent] Content changed:', markdownContent?.substring(0, 100));
             console.log('[MarkdownContent] RAG docs:', docs?.length || 0);
+            console.log('[MarkdownContent] Citation metadata keys:', metadata ? Object.keys(metadata).length : 0);
             
             if (markdownContent) {
                 // First, replace inline source citations with document links
                 let processedContent = markdownContent;
-                if (docs && docs.length > 0) {
+                if ((docs && docs.length > 0) || metadata) {
                     console.log('[MarkdownContent] Processing citations...');
-                    processedContent = this.sourceCitation.replaceSourceCitationsWithHTML(markdownContent, docs);
+                    processedContent = this.sourceCitation.replaceSourceCitationsWithHTML(markdownContent, docs, metadata);
                     console.log('[MarkdownContent] After citation processing:', processedContent.substring(0, 200));
                 }
                 
@@ -92,19 +95,27 @@ export class MarkdownContentComponent implements AfterViewChecked {
                 event.preventDefault();
                 
                 const docDataAttr = newLink.getAttribute('data-doc');
+                const uuidAttr = newLink.getAttribute('data-uuid');
+                
                 if (docDataAttr) {
                     try {
                         const docData = JSON.parse(decodeURIComponent(docDataAttr));
                         console.log('[MarkdownContent] Citation clicked:', docData);
                         
-                        // Find the full document from ragDocuments
-                        const docs = this.ragDocuments();
-                        const fullDoc = docs.find(d => d.id === docData.id);
-                        
-                        if (fullDoc) {
-                            this.openCitationPreview(fullDoc);
+                        // Check if this is a UUID-based citation
+                        if (uuidAttr && docData.metadata) {
+                            // Use the metadata directly
+                            this.openCitationPreviewFromMetadata(docData.metadata);
                         } else {
-                            console.warn('[MarkdownContent] Document not found for citation:', docData);
+                            // Find the full document from ragDocuments
+                            const docs = this.ragDocuments();
+                            const fullDoc = docs.find(d => d.id === docData.id);
+                            
+                            if (fullDoc) {
+                                this.openCitationPreview(fullDoc);
+                            } else {
+                                console.warn('[MarkdownContent] Document not found for citation:', docData);
+                            }
                         }
                     } catch (e) {
                         console.error('[MarkdownContent] Error parsing citation data:', e);
@@ -112,6 +123,30 @@ export class MarkdownContentComponent implements AfterViewChecked {
                 }
             });
         });
+    }
+    
+    private openCitationPreviewFromMetadata(metadata: any): void {
+        console.log('[MarkdownContent] Opening citation preview from metadata:', metadata);
+        
+        // The metadata should already be in DocumentCitationMetadata format
+        if (metadata.DocumentTitle) {
+            this.dialog.open(CitationPreviewModalComponent, {
+                data: metadata,
+                width: '90vw',
+                height: '85vh',
+                maxWidth: '1400px',
+                disableClose: false,
+                panelClass: 'citation-preview-dialog'
+            });
+        } else {
+            // Fallback to simple display
+            const info = [
+                `Document: ${metadata.DocumentTitle || 'Unknown'}`,
+                `Category: ${metadata.Category || 'Unknown'}`,
+                `Doc Type: ${metadata.DocType || 'Unknown'}`
+            ];
+            alert(info.join('\n\n'));
+        }
     }
     
     private openCitationPreview(document: RAGDocument): void {

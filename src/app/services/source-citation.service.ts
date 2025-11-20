@@ -130,9 +130,20 @@ export class SourceCitationService {
 
   /**
    * Replace inline source citations with HTML for document links
-   * Handles single sources like [Source: 7] and multiple sources like [Source: 7, 26, 38]
+   * Handles:
+   * - UUID citations like [Source: {UUID}]
+   * - Numeric citations like [Source: 7]
+   * - Multiple citations like [Source: 7, 26, 38]
+   * 
+   * @param content The content containing [Source: ...] patterns
+   * @param ragDocuments Array of RAG documents (not used with UUID citations)
+   * @param citationMetadata Optional metadata map from UUID to DocumentCitationMetadata
    */
-  replaceSourceCitationsWithHTML(content: string, ragDocuments: RAGDocument[]): string {
+  replaceSourceCitationsWithHTML(
+    content: string,
+    ragDocuments: RAGDocument[],
+    citationMetadata?: Record<string, any>
+  ): string {
     console.log('[SourceCitationService] Processing content:', content.substring(0, 200));
     console.log('[SourceCitationService] RAG documents count:', ragDocuments.length);
     
@@ -156,6 +167,42 @@ export class SourceCitationService {
     
     const result = content.replace(sourcePattern, (match, identifiers) => {
       console.log('[SourceCitationService] Found citation:', match, 'identifiers:', identifiers);
+      
+      // Check if this is a UUID citation pattern {UUID}
+      const isUUID = identifiers.trim().startsWith('{') && identifiers.trim().endsWith('}');
+      
+      if (isUUID && citationMetadata) {
+        // Handle UUID-based citation using metadata
+        const uuid = identifiers.trim();
+        const docMetadata = citationMetadata[uuid];
+        
+        if (docMetadata) {
+          const title = docMetadata.DocumentTitle || 'Unknown Document';
+          const docData = encodeURIComponent(JSON.stringify({
+            uuid: uuid,
+            title: title,
+            metadata: docMetadata
+          }));
+          
+          const label = `[${title}]`;
+          
+          // Check if we can build an external URL
+          if (docMetadata.eDocID || docMetadata.PathName) {
+            const edocId = docMetadata.eDocID || docMetadata.edocID;
+            if (edocId) {
+              const url = `/edoc?edocid=${encodeURIComponent(edocId)}`;
+              return `<a class="inline-source-citation" href="${url}" target="_blank" rel="noopener noreferrer" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`;
+            }
+          }
+          
+          // No external URL, make it a clickable link for preview
+          return `<a class="inline-source-citation" href="#" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`;
+        } else {
+          console.warn('[SourceCitationService] No metadata found for UUID:', uuid);
+          // Return the original citation if no metadata
+          return match;
+        }
+      }
       
       // Split by comma AND semicolon to handle multiple sources like "6, 1.1.1; Source 23, 4.11"
       // First normalize by replacing "; Source" with just ","

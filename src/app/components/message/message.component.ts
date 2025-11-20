@@ -65,7 +65,8 @@ import { CitationPreviewModalComponent } from '../citation-preview-modal/citatio
             <div class="response-content">
               <app-markdown-content 
                 [content]="processedContent()"
-                [ragDocuments]="message().ragDocuments || []"></app-markdown-content>
+                [ragDocuments]="message().ragDocuments || []"
+                [citationMetadata]="message().citationMetadata"></app-markdown-content>
             </div>
           }
         } @else {
