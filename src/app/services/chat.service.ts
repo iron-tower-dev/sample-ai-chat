@@ -115,6 +115,7 @@ export class ChatService {
             let citationMetadata: Record<string, any> | undefined;
 
             await this.llmApi.sendMessage(request, (streamData) => {
+                console.log('[ChatService] Streaming callback invoked', streamData);
                 const { currentChunk, isComplete, error, messageId: apiMessageId } = streamData;
                 
                 if (error) {
@@ -129,22 +130,32 @@ export class ChatService {
 
                 // Store API message ID for feedback
                 if (apiMessageId) {
+                    console.log('[ChatService] Got API message ID:', apiMessageId);
                     this.updateMessageApiMessageId(assistantMessageId, apiMessageId);
                 }
 
                 if (currentChunk) {
+                    console.log('[ChatService] Processing chunk:', {
+                        thinkingLength: currentChunk.thinkingText?.length,
+                        toolingLength: currentChunk.toolingText?.length,
+                        responseLength: currentChunk.responseText?.length
+                    });
+                    
                     // Update thinking, tooling, and response text
                     if (currentChunk.thinkingText !== fullThinkingText) {
                         fullThinkingText = currentChunk.thinkingText;
+                        console.log('[ChatService] Updating thinking text');
                         this.updateMessageThinkingText(assistantMessageId, fullThinkingText);
                     }
 
                     if (currentChunk.toolingText !== fullToolingText) {
                         fullToolingText = currentChunk.toolingText;
+                        console.log('[ChatService] Updating tooling text');
                         this.updateMessageToolingText(assistantMessageId, fullToolingText);
                     }
 
                     if (currentChunk.responseText !== fullResponseText) {
+                        console.log('[ChatService] Response text changed from', fullResponseText.length, 'to', currentChunk.responseText.length);
                         fullResponseText = currentChunk.responseText;
                         this.updateMessageContent(assistantMessageId, fullResponseText);
                     }
@@ -177,6 +188,7 @@ export class ChatService {
     }
 
     private updateMessageContent(messageId: string, content: string): void {
+        console.log('[ChatService] updateMessageContent called, messageId:', messageId, 'content length:', content.length, 'first 100 chars:', content.substring(0, 100));
         this.conversations.update(convs =>
             convs.map(conv => ({
                 ...conv,
@@ -187,6 +199,7 @@ export class ChatService {
                 )
             }))
         );
+        console.log('[ChatService] Conversations updated');
     }
 
     private updateMessageRAGDocuments(messageId: string, ragDocuments: RAGDocument[] | Record<string, RAGDocument>): void {

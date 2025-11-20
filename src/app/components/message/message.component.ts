@@ -127,9 +127,19 @@ export class MessageComponent {
   constructor() {
     // Watch for changes to message content and add citation click handlers
     effect(() => {
-      const msg = this.message();
-      if (msg.content) {
-        this.processedContent.set(this.addCitationHandlers(msg.content));
+      try {
+        const msg = this.message();
+        if (msg) {
+          const content = msg.content || '';
+          console.log('[MessageComponent] Content updated:', content.substring(0, 100), 'length:', content.length);
+          const processed = this.addCitationHandlers(content);
+          console.log('[MessageComponent] Processed content:', processed.substring(0, 100));
+          this.processedContent.set(processed);
+          console.log('[MessageComponent] processedContent signal set');
+        }
+      } catch (e) {
+        console.error('[MessageComponent] Error in effect:', e);
+        // Input signal not initialized yet, will run again when it is
       }
     });
 

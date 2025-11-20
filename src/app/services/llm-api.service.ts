@@ -94,6 +94,7 @@ export class LlmApiService {
 
       const decoder = new TextDecoder();
       let buffer = '';
+      let tagBuffer = ''; // Buffer for accumulating potential tag fragments
       let currentThinking = '';
       let currentTooling = '';
       let currentResponse = '';
@@ -144,42 +145,96 @@ export class LlmApiService {
 
           // SSE format: "data: <content>"
           if (trimmedLine.startsWith('data: ')) {
-            const content = trimmedLine.substring(6); // Remove "data: " prefix
+            let content = trimmedLine.substring(6); // Remove "data: " prefix
             
-            // Check for tag markers
-            if (content.includes('<think>')) {
+            // Try to parse as JSON string if it looks like one
+            if (content.startsWith('"') && content.endsWith('"')) {
+              try {
+                content = JSON.parse(content);
+              } catch {
+                // If parsing fails, use content as-is
+              }
+            }
+            
+            // Add content to tag buffer to detect tags that may be split across chunks
+            tagBuffer += content;
+            console.log('[LLM API] tagBuffer:', tagBuffer);
+            
+            // Check for complete tag markers in the accumulated buffer
+            let tagDetected = false;
+            
+            if (tagBuffer.includes('<think>')) {
               inThinkTag = true;
               inToolingTag = false;
               inResponseTag = false;
-              continue;
-            } else if (content.includes('</think>')) {
+              // Remove the tag from buffer and keep the rest
+              tagBuffer = tagBuffer.substring(tagBuffer.indexOf('<think>') + 7);
+              console.log('[LLM API] Entered <think> tag, remaining buffer:', tagBuffer);
+              tagDetected = true;
+            }
+            
+            if (tagBuffer.includes('</think>')) {
               inThinkTag = false;
-              continue;
-            } else if (content.includes('<tooling>')) {
+              tagBuffer = tagBuffer.substring(tagBuffer.indexOf('</think>') + 8);
+              console.log('[LLM API] Exited </think> tag, remaining buffer:', tagBuffer);
+              tagDetected = true;
+            }
+            
+            if (tagBuffer.includes('<tooling>')) {
               inToolingTag = true;
               inThinkTag = false;
               inResponseTag = false;
-              continue;
-            } else if (content.includes('</tooling>')) {
+              tagBuffer = tagBuffer.substring(tagBuffer.indexOf('<tooling>') + 9);
+              console.log('[LLM API] Entered <tooling> tag, remaining buffer:', tagBuffer);
+              tagDetected = true;
+            }
+            
+            if (tagBuffer.includes('</tooling>')) {
               inToolingTag = false;
-              continue;
-            } else if (content.includes('<response>')) {
+              tagBuffer = tagBuffer.substring(tagBuffer.indexOf('</tooling>') + 10);
+              console.log('[LLM API] Exited </tooling> tag, remaining buffer:', tagBuffer);
+              tagDetected = true;
+            }
+            
+            if (tagBuffer.includes('<response>')) {
               inResponseTag = true;
               inThinkTag = false;
               inToolingTag = false;
-              continue;
-            } else if (content.includes('</response>')) {
+              tagBuffer = tagBuffer.substring(tagBuffer.indexOf('<response>') + 10);
+              console.log('[LLM API] Entered <response> tag, remaining buffer:', tagBuffer);
+              tagDetected = true;
+            }
+            
+            if (tagBuffer.includes('</response>')) {
               inResponseTag = false;
-              continue;
+              tagBuffer = tagBuffer.substring(tagBuffer.indexOf('</response>') + 11);
+              console.log('[LLM API] Exited </response> tag, remaining buffer:', tagBuffer);
+              tagDetected = true;
             }
 
-            // Accumulate content based on current tag
-            if (inThinkTag) {
-              currentThinking += content;
-            } else if (inToolingTag) {
-              currentTooling += content;
-            } else if (inResponseTag) {
-              currentResponse += content;
+            // Process any remaining content in tagBuffer
+            if (tagBuffer.length > 0 && (inThinkTag || inToolingTag || inResponseTag)) {
+              // Only accumulate if we're inside a tag
+              if (inThinkTag) {
+                currentThinking += tagBuffer;
+                console.log('[LLM API] Accumulated thinking:', currentThinking.length, 'chars');
+              } else if (inToolingTag) {
+                currentTooling += tagBuffer;
+                console.log('[LLM API] Accumulated tooling:', currentTooling.length, 'chars');
+              } else if (inResponseTag) {
+                currentResponse += tagBuffer;
+                console.log('[LLM API] Accumulated response:', currentResponse.length, 'chars', 'content:', tagBuffer.substring(0, 50));
+              }
+              
+              // Clear the tag buffer after processing
+              tagBuffer = '';
+            } else if (!inThinkTag && !inToolingTag && !inResponseTag && tagBuffer.length > 0 && tagBuffer.length < 15) {
+              // Keep partial tags in buffer (tags are usually < 15 chars)
+              console.log('[LLM API] Keeping potential partial tag in buffer:', tagBuffer);
+            } else if (tagBuffer.length > 0) {
+              // Clear buffer if we have content but we're not in any tag and it's too long to be a partial tag
+              console.log('[LLM API] Clearing buffer (not in tag):', tagBuffer);
+              tagBuffer = '';
             }
 
             // Send chunk update
@@ -190,6 +245,11 @@ export class LlmApiService {
               metadata,
               isComplete: false
             };
+            console.log('[LLM API] Calling onChunk with:', {
+              thinkingLength: currentThinking.length,
+              toolingLength: currentTooling.length,
+              responseLength: currentResponse.length
+            });
             chunks.push(chunk);
             onChunk({
               chunks: [...chunks],
