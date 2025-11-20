@@ -227,10 +227,11 @@ export class SourceCitationService {
               const url = this.buildDocumentUrl(document, sourceId);
               const label = `[${document.title}]`;
               if (url) {
-                citations.push(`<a class=\"inline-source-citation\" href=\"${url}\" target=\"_blank\" rel=\"noopener noreferrer\" title=\"${document.title}\" data-doc=\"${docData}\">${label}</a>`);
+                // External URL - open in new tab, but also provide data for preview
+                citations.push(`<a class=\"inline-source-citation\" href=\"${url}\" target=\"_blank\" rel=\"noopener noreferrer\" title=\"${document.title}\" data-doc=\"${docData}\" data-external-url=\"${url}\">${label}</a>`);
               } else {
-                // Fallback: non-link span if URL cannot be determined
-                citations.push(`<span class=\"inline-source-citation\" data-doc=\"${docData}\">${label}</span>`);
+                // No external URL - make it a clickable link that will show preview
+                citations.push(`<a class=\"inline-source-citation\" href=\"#\" title=\"${document.title}\" data-doc=\"${docData}\">${label}</a>`);
               }
             }
           } else {
