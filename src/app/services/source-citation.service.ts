@@ -146,6 +146,7 @@ export class SourceCitationService {
   ): string {
     console.log('[SourceCitationService] Processing content:', content.substring(0, 200));
     console.log('[SourceCitationService] RAG documents count:', ragDocuments.length);
+    console.log('[SourceCitationService] Citation metadata:', citationMetadata ? 'present with ' + Object.keys(citationMetadata).length + ' keys' : 'NOT PROVIDED');
     
     // Create lookup maps for quick access
     const docByIndex = new Map<number, RAGDocument>();
@@ -170,8 +171,9 @@ export class SourceCitationService {
       
       // Check if this contains UUID pattern(s) - UUIDs are wrapped in curly braces
       const hasUUIDs = identifiers.includes('{') && identifiers.includes('}');
+      console.log('[SourceCitationService] hasUUIDs:', hasUUIDs, 'citationMetadata exists:', !!citationMetadata);
       
-      if (hasUUIDs && citationMetadata) {
+      if (hasUUIDs && citationMetadata && Object.keys(citationMetadata).length > 0) {
         // Extract all UUIDs from the identifiers string
         // UUIDs can be comma-separated like: {UUID1}, {UUID2}
         const uuidPattern = /\{[^}]+\}/g;

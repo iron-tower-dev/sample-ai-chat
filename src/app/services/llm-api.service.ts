@@ -181,23 +181,38 @@ export class LlmApiService {
             }
             
             // NEW: Handle inline tooling format: (tool: "...")
-            const toolPattern = /\(tool:\s*"([^"]+)"\)/;
+            // Match (tool: "...") or (tool: {"action": "..."})
+            const toolPattern = /\(tool:\s*(["\{][^)]+)\)/;
             const toolMatch = tagBuffer.match(toolPattern);
             if (toolMatch) {
-              const toolData = toolMatch[1];
+              let toolData = toolMatch[1];
               console.log('[LLM API] Found inline tool call:', toolData);
+              
+              // Remove surrounding quotes if present
+              if (toolData.startsWith('"') && toolData.endsWith('"')) {
+                toolData = toolData.slice(1, -1);
+              }
               
               // Try to parse as JSON to extract the action
               try {
-                const toolJson = JSON.parse(toolData.replace(/\\/g, ''));
+                // Handle escaped JSON string
+                let jsonStr = toolData;
+                // If it looks like escaped JSON, try to unescape it
+                if (jsonStr.includes('\\"')) {
+                  jsonStr = jsonStr.replace(/\\"/g, '"');
+                }
+                const toolJson = JSON.parse(jsonStr);
                 if (toolJson.action) {
-                  currentTooling += (currentTooling ? '\n' : '') + toolJson.action;
+                  currentTooling = toolJson.action; // Replace, not append
                   console.log('[LLM API] Extracted tool action:', toolJson.action);
+                } else {
+                  // If no action field, use the whole JSON as string
+                  currentTooling = JSON.stringify(toolJson);
                 }
               } catch (e) {
-                // If not valid JSON, just append the raw tool data
-                currentTooling += (currentTooling ? '\n' : '') + toolData;
-                console.log('[LLM API] Could not parse tool JSON, using raw:', toolData);
+                // If not valid JSON, just use the raw tool data
+                currentTooling = toolData;
+                console.log('[LLM API] Could not parse tool JSON, using raw:', toolData, 'Error:', e);
               }
               
               // Remove the tool call from buffer

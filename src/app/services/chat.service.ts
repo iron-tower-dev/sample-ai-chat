@@ -103,8 +103,8 @@ export class ChatService {
                 role: 'assistant',
                 timestamp: new Date(),
                 thinkingText: '',
-                toolingText: '',
-                citationMetadata: {}
+                toolingText: ''
+                // citationMetadata will be added when metadata arrives
             };
             this.addMessageToCurrentConversation(assistantMessage);
 
