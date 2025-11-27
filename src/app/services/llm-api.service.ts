@@ -12,6 +12,7 @@ export interface LLMResponseChunk {
   toolingText: string;
   responseText: string;
   metadata?: Record<string, any>;
+  followupQuestions?: { topic: string; followups: string[] };
   isComplete: boolean;
 }
 
@@ -102,7 +103,9 @@ export class LlmApiService {
       let inToolingTag = false;
       let inResponseTag = false;
       let metadataReceived = false;
+      let followupQuestionsReceived = false;
       let metadata: Record<string, any> | undefined;
+      let followupQuestions: { topic: string; followups: string[] } | undefined;
 
       while (true) {
         const { done, value } = await reader.read();
@@ -114,6 +117,7 @@ export class LlmApiService {
             toolingText: currentTooling,
             responseText: currentResponse,
             metadata,
+            followupQuestions,
             isComplete: true
           };
           chunks.push(finalChunk);
@@ -284,6 +288,7 @@ export class LlmApiService {
               toolingText: currentTooling,
               responseText: currentResponse,
               metadata,
+              followupQuestions,
               isComplete: false
             };
             console.log('[LLM API] Calling onChunk with:', {
@@ -299,14 +304,37 @@ export class LlmApiService {
               error,
               messageId
             });
+          } else if (trimmedLine.startsWith('tool:')) {
+            // Parse tool event: tool: {"action": "..."}
+            try {
+              const toolStr = trimmedLine.substring(5).trim(); // Remove 'tool:' prefix
+              const toolJson = JSON.parse(toolStr);
+              if (toolJson.action) {
+                currentTooling = toolJson.action;
+                console.log('[LLM API] Received tool event:', toolJson.action);
+              }
+            } catch (parseError) {
+              console.error('Failed to parse tool event:', parseError);
+            }
           } else if (!metadataReceived && trimmedLine.includes('metadata:')) {
             // Parse metadata (comes after the SSE stream)
             try {
               const metadataStr = trimmedLine.substring(trimmedLine.indexOf('{'));
               metadata = JSON.parse(metadataStr);
               metadataReceived = true;
+              console.log('[LLM API] Received metadata with', metadata ? Object.keys(metadata).length : 0, 'documents');
             } catch (parseError) {
               console.error('Failed to parse metadata:', parseError);
+            }
+          } else if (!followupQuestionsReceived && trimmedLine.includes('followup_and_topic_questions:')) {
+            // Parse followup questions
+            try {
+              const followupStr = trimmedLine.substring(trimmedLine.indexOf('{'));
+              followupQuestions = JSON.parse(followupStr);
+              followupQuestionsReceived = true;
+              console.log('[LLM API] Received followup questions:', followupQuestions);
+            } catch (parseError) {
+              console.error('Failed to parse followup questions:', parseError);
             }
           }
         }

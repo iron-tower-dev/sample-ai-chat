@@ -1,0 +1,1764 @@
+data: "\n<think>"
+
+data: "The"
+
+data: " user"
+
+data: " is"
+
+data: " asking"
+
+data: " \""
+
+data: "How"
+
+data: " long"
+
+data: " before"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " is"
+
+data: " revoked"
+
+data: "?\""
+
+data: " This"
+
+data: " is"
+
+data: " a"
+
+data: " general"
+
+data: " question"
+
+data: " about"
+
+data: " process"
+
+data: " timing"
+
+data: " related"
+
+data: " to"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " rev"
+
+data: "ocation"
+
+data: "."
+
+data: " This"
+
+data: " seems"
+
+data: " like"
+
+data: " it"
+
+data: " would"
+
+data: " be"
+
+data: " a"
+
+data: " procedural"
+
+data: "/h"
+
+data: "uman"
+
+data: " resources"
+
+data: " type"
+
+data: " question"
+
+data: " that"
+
+data: " would"
+
+data: " be"
+
+data: " documented"
+
+data: " in"
+
+data: " plant"
+
+data: " procedures"
+
+data: "."
+
+data: " I"
+
+data: " should"
+
+data: " search"
+
+data: " for"
+
+data: " documents"
+
+data: " related"
+
+data: " to"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " rev"
+
+data: "ocation"
+
+data: " policies"
+
+data: ".\n\n"
+
+data: "Let"
+
+data: " me"
+
+data: " search"
+
+data: " through"
+
+data: " the"
+
+data: " e"
+
+data: "Doc"
+
+data: " collection"
+
+data: " for"
+
+data: " documents"
+
+data: " related"
+
+data: " to"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: ","
+
+data: " badges"
+
+data: ","
+
+data: " access"
+
+data: " control"
+
+data: ","
+
+data: " or"
+
+data: " rev"
+
+data: "ocation"
+
+data: " procedures"
+
+data: "."
+
+data: "</think>"
+
+data: "\n"
+
+tool: "{\"action\": \"searching for documents related to unescorted access, badges, access control, and revocation procedures\"}"
+
+data: "\n<think>"
+
+data: "Based"
+
+data: " on"
+
+data: " the"
+
+data: " search"
+
+data: " results"
+
+data: ","
+
+data: " I"
+
+data: " can"
+
+data: " see"
+
+data: " several"
+
+data: " key"
+
+data: " pieces"
+
+data: " of"
+
+data: " information"
+
+data: " about"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " rev"
+
+data: "ocation"
+
+data: " timing"
+
+data: "."
+
+data: " Let"
+
+data: " me"
+
+data: " identify"
+
+data: " the"
+
+data: " relevant"
+
+data: " details"
+
+data: ":\n\n"
+
+data: "1"
+
+data: "."
+
+data: " From"
+
+data: " "
+
+data: "20"
+
+data: "AC"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "07"
+
+data: " ("
+
+data: "Rev"
+
+data: "."
+
+data: " "
+
+data: "0"
+
+data: "16"
+
+data: " and"
+
+data: " "
+
+data: "0"
+
+data: "17"
+
+data: "):\n"
+
+data: "  "
+
+data: " -"
+
+data: " "
+
+data: "3"
+
+data: "."
+
+data: "6"
+
+data: "."
+
+data: "2"
+
+data: ":"
+
+data: " Individuals"
+
+data: " absent"
+
+data: " from"
+
+data: " PV"
+
+data: "NG"
+
+data: "S"
+
+data: " or"
+
+data: " away"
+
+data: " from"
+
+data: " CB"
+
+data: "OP"
+
+data: " for"
+
+data: " "
+
+data: "30"
+
+data: " consecutive"
+
+data: " days"
+
+data: " or"
+
+data: " more"
+
+data: " shall"
+
+data: " have"
+
+data: " their"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " in"
+
+data: "activated"
+
+data: "\n"
+
+data: "  "
+
+data: " -"
+
+data: " "
+
+data: "3"
+
+data: "."
+
+data: "8"
+
+data: "."
+
+data: "1"
+
+data: "-"
+
+data: "3"
+
+data: "."
+
+data: "8"
+
+data: "."
+
+data: "3"
+
+data: ":"
+
+data: " Notification"
+
+data: " of"
+
+data: " denial"
+
+data: "/"
+
+data: "rev"
+
+data: "ocation"
+
+data: " shall"
+
+data: " be"
+
+data: " made"
+
+data: " within"
+
+data: " "
+
+data: "10"
+
+data: " APS"
+
+data: " working"
+
+data: " days"
+
+data: "\n\n"
+
+data: "2"
+
+data: "."
+
+data: " From"
+
+data: " "
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "40"
+
+data: " ("
+
+data: "var"
+
+data: "ious"
+
+data: " revisions"
+
+data: "):\n"
+
+data: "  "
+
+data: " -"
+
+data: " "
+
+data: "3"
+
+data: "."
+
+data: "17"
+
+data: "."
+
+data: "8"
+
+data: ":"
+
+data: " Security"
+
+data: " may"
+
+data: " suspend"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " for"
+
+data: " individuals"
+
+data: " who"
+
+data: " do"
+
+data: " not"
+
+data: " utilize"
+
+data: " access"
+
+data: " for"
+
+data: " "
+
+data: "30"
+
+data: " consecutive"
+
+data: " days"
+
+data: "\n"
+
+data: "  "
+
+data: " -"
+
+data: " "
+
+data: "3"
+
+data: "."
+
+data: "22"
+
+data: "."
+
+data: "9"
+
+data: "."
+
+data: "3"
+
+data: "-"
+
+data: "3"
+
+data: "."
+
+data: "22"
+
+data: "."
+
+data: "9"
+
+data: "."
+
+data: "4"
+
+data: ":"
+
+data: " Notification"
+
+data: " of"
+
+data: " denial"
+
+data: "/"
+
+data: "rev"
+
+data: "ocation"
+
+data: " within"
+
+data: " "
+
+data: "10"
+
+data: " APS"
+
+data: "/P"
+
+data: "V"
+
+data: "NG"
+
+data: "S"
+
+data: " working"
+
+data: " days"
+
+data: "\n"
+
+data: "  "
+
+data: " -"
+
+data: " "
+
+data: "7"
+
+data: "D"
+
+data: "4"
+
+data: "17"
+
+data: "F"
+
+data: "ED"
+
+data: "-"
+
+data: "37"
+
+data: "3"
+
+data: "5"
+
+data: "-"
+
+data: "41"
+
+data: "F"
+
+data: "8"
+
+data: "-"
+
+data: "96"
+
+data: "F"
+
+data: "0"
+
+data: "-"
+
+data: "22"
+
+data: "9"
+
+data: "D"
+
+data: "9"
+
+data: "DA"
+
+data: "5"
+
+data: "42"
+
+data: "70"
+
+data: " ("
+
+data: "Rev"
+
+data: "."
+
+data: " "
+
+data: "0"
+
+data: "24"
+
+data: "):"
+
+data: " Review"
+
+data: " request"
+
+data: " must"
+
+data: " be"
+
+data: " made"
+
+data: " within"
+
+data: " "
+
+data: "5"
+
+data: " working"
+
+data: " days"
+
+data: "\n\n"
+
+data: "3"
+
+data: "."
+
+data: " From"
+
+data: " the"
+
+data: " handling"
+
+data: " of"
+
+data: " employment"
+
+data: " verification"
+
+data: " during"
+
+data: " reinst"
+
+data: "atement"
+
+data: ":\n"
+
+data: "  "
+
+data: " -"
+
+data: " There"
+
+data: " are"
+
+data: " time"
+
+data: "frames"
+
+data: " for"
+
+data: " maintaining"
+
+data: " access"
+
+data: " during"
+
+data: " verification"
+
+data: " processes"
+
+data: "\n\n"
+
+data: "The"
+
+data: " key"
+
+data: " timing"
+
+data: " periods"
+
+data: " appear"
+
+data: " to"
+
+data: " be"
+
+data: ":\n"
+
+data: "-"
+
+data: " "
+
+data: "30"
+
+data: " consecutive"
+
+data: " days"
+
+data: " of"
+
+data: " absence"
+
+data: "/in"
+
+data: "activity"
+
+data: " leads"
+
+data: " to"
+
+data: " access"
+
+data: " in"
+
+data: "activation"
+
+data: "/s"
+
+data: "usp"
+
+data: "ension"
+
+data: "\n"
+
+data: "-"
+
+data: " "
+
+data: "10"
+
+data: " working"
+
+data: " days"
+
+data: " for"
+
+data: " notification"
+
+data: " to"
+
+data: " individuals"
+
+data: " and"
+
+data: " HR"
+
+data: "/"
+
+data: "contracts"
+
+data: "\n"
+
+data: "-"
+
+data: " "
+
+data: "5"
+
+data: " working"
+
+data: " days"
+
+data: " for"
+
+data: " requesting"
+
+data: " a"
+
+data: " review"
+
+data: "\n\n"
+
+data: "Let"
+
+data: " me"
+
+data: " provide"
+
+data: " a"
+
+data: " comprehensive"
+
+data: " answer"
+
+data: " with"
+
+data: " proper"
+
+data: " citations"
+
+data: "."
+
+data: "</think>"
+
+data: "\n"
+
+data: "<"
+
+data: "response"
+
+data: ">\n"
+
+data: "Based"
+
+data: " on"
+
+data: " Palo"
+
+data: " Verde"
+
+data: " procedures"
+
+data: ","
+
+data: " there"
+
+data: " are"
+
+data: " multiple"
+
+data: " timing"
+
+data: " factors"
+
+data: " that"
+
+data: " can"
+
+data: " lead"
+
+data: " to"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " rev"
+
+data: "ocation"
+
+data: " or"
+
+data: " in"
+
+data: "activation"
+
+data: ":\n\n"
+
+data: "**"
+
+data: "30"
+
+data: "-Day"
+
+data: " Abs"
+
+data: "ence"
+
+data: "/"
+
+data: "In"
+
+data: "activity"
+
+data: " Period"
+
+data: "**\n"
+
+data: "-"
+
+data: " Individuals"
+
+data: " who"
+
+data: " are"
+
+data: " absent"
+
+data: " from"
+
+data: " PV"
+
+data: "NG"
+
+data: "S"
+
+data: " or"
+
+data: " away"
+
+data: " from"
+
+data: " the"
+
+data: " Contin"
+
+data: "ual"
+
+data: " Behavioral"
+
+data: " Observation"
+
+data: " Program"
+
+data: " ("
+
+data: "CB"
+
+data: "OP"
+
+data: ")"
+
+data: " for"
+
+data: " **"
+
+data: "30"
+
+data: " consecutive"
+
+data: " days"
+
+data: "**"
+
+data: " or"
+
+data: " more"
+
+data: " shall"
+
+data: " have"
+
+data: " their"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " in"
+
+data: "activated"
+
+data: " ["
+
+data: "Source"
+
+data: ":"
+
+data: " {"
+
+data: "9"
+
+data: "58"
+
+data: "B"
+
+data: "3"
+
+data: "B"
+
+data: "61"
+
+data: "-"
+
+data: "CA"
+
+data: "3"
+
+data: "A"
+
+data: "-"
+
+data: "4"
+
+data: "A"
+
+data: "6"
+
+data: "E"
+
+data: "-A"
+
+data: "60"
+
+data: "F"
+
+data: "-"
+
+data: "7"
+
+data: "23"
+
+data: "5"
+
+data: "DC"
+
+data: "2"
+
+data: "BE"
+
+data: "CE"
+
+data: "2"
+
+data: "}]\n"
+
+data: "-"
+
+data: " Security"
+
+data: " may"
+
+data: " suspend"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " for"
+
+data: " individuals"
+
+data: " who"
+
+data: " do"
+
+data: " not"
+
+data: " utilize"
+
+data: " their"
+
+data: " access"
+
+data: " for"
+
+data: " **"
+
+data: "30"
+
+data: " consecutive"
+
+data: " days"
+
+data: "**"
+
+data: " ["
+
+data: "Source"
+
+data: ":"
+
+data: " {"
+
+data: "9"
+
+data: "B"
+
+data: "38"
+
+data: "1"
+
+data: "C"
+
+data: "7"
+
+data: "D"
+
+data: "-D"
+
+data: "17"
+
+data: "E"
+
+data: "-"
+
+data: "43"
+
+data: "B"
+
+data: "5"
+
+data: "-"
+
+data: "81"
+
+data: "CB"
+
+data: "-F"
+
+data: "1"
+
+data: "A"
+
+data: "31"
+
+data: "DE"
+
+data: "71"
+
+data: "E"
+
+data: "7"
+
+data: "E"
+
+data: "}"
+
+data: "]\n\n"
+
+data: "**"
+
+data: "Notification"
+
+data: " Timing"
+
+data: "**\n"
+
+data: "-"
+
+data: " When"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " authorization"
+
+data: " is"
+
+data: " denied"
+
+data: " or"
+
+data: " revoked"
+
+data: ","
+
+data: " the"
+
+data: " Security"
+
+data: " Access"
+
+data: " Control"
+
+data: " Section"
+
+data: " Leader"
+
+data: " shall"
+
+data: " notify"
+
+data: ":\n"
+
+data: " "
+
+data: " -"
+
+data: " **"
+
+data: "10"
+
+data: " APS"
+
+data: " working"
+
+data: " days"
+
+data: "**"
+
+data: " for"
+
+data: " APS"
+
+data: " employees"
+
+data: " and"
+
+data: " applicants"
+
+data: " ("
+
+data: "to"
+
+data: " Plant"
+
+data: " Human"
+
+data: " Resources"
+
+data: ")\n"
+
+data: " "
+
+data: " -"
+
+data: " **"
+
+data: "10"
+
+data: " APS"
+
+data: " working"
+
+data: " days"
+
+data: "**"
+
+data: " for"
+
+data: " contract"
+
+data: " employees"
+
+data: " ("
+
+data: "to"
+
+data: " Department"
+
+data: " Leader"
+
+data: ","
+
+data: " Contracts"
+
+data: ","
+
+data: " the"
+
+data: " employee"
+
+data: ","
+
+data: " and"
+
+data: " the"
+
+data: " contract"
+
+data: " company"
+
+data: ")"
+
+data: " ["
+
+data: "Source"
+
+data: ":"
+
+data: " {"
+
+data: "9"
+
+data: "58"
+
+data: "B"
+
+data: "3"
+
+data: "B"
+
+data: "61"
+
+data: "-"
+
+data: "CA"
+
+data: "3"
+
+data: "A"
+
+data: "-"
+
+data: "4"
+
+data: "A"
+
+data: "6"
+
+data: "E"
+
+data: "-A"
+
+data: "60"
+
+data: "F"
+
+data: "-"
+
+data: "7"
+
+data: "23"
+
+data: "5"
+
+data: "DC"
+
+data: "2"
+
+data: "BE"
+
+data: "CE"
+
+data: "2"
+
+data: "}]\n"
+
+data: " "
+
+data: " -"
+
+data: " **"
+
+data: "10"
+
+data: " APS"
+
+data: "/P"
+
+data: "V"
+
+data: "NG"
+
+data: "S"
+
+data: " working"
+
+data: " days"
+
+data: "**"
+
+data: " for"
+
+data: " other"
+
+data: " employee"
+
+data: " categories"
+
+data: " ["
+
+data: "Source"
+
+data: ":"
+
+data: " {"
+
+data: "CE"
+
+data: "9"
+
+data: "F"
+
+data: "3"
+
+data: "D"
+
+data: "1"
+
+data: "D"
+
+data: "-"
+
+data: "07"
+
+data: "1"
+
+data: "0"
+
+data: "-"
+
+data: "40"
+
+data: "AA"
+
+data: "-"
+
+data: "90"
+
+data: "B"
+
+data: "9"
+
+data: "-A"
+
+data: "8"
+
+data: "33"
+
+data: "59"
+
+data: "A"
+
+data: "0"
+
+data: "C"
+
+data: "14"
+
+data: "F"
+
+data: "}"
+
+data: "]\n\n"
+
+data: "**"
+
+data: "Review"
+
+data: " Request"
+
+data: " Window"
+
+data: "**\n"
+
+data: "-"
+
+data: " Individuals"
+
+data: " may"
+
+data: " request"
+
+data: " a"
+
+data: " review"
+
+data: " of"
+
+data: " denial"
+
+data: "/"
+
+data: "rev"
+
+data: "ocation"
+
+data: " decisions"
+
+data: " within"
+
+data: " **"
+
+data: "5"
+
+data: " APS"
+
+data: "/P"
+
+data: "V"
+
+data: "NG"
+
+data: "S"
+
+data: " working"
+
+data: " days"
+
+data: "**"
+
+data: " after"
+
+data: " being"
+
+data: " informed"
+
+data: " in"
+
+data: " writing"
+
+data: " of"
+
+data: " the"
+
+data: " decision"
+
+data: " ["
+
+data: "Source"
+
+data: ":"
+
+data: " {"
+
+data: "7"
+
+data: "D"
+
+data: "4"
+
+data: "17"
+
+data: "F"
+
+data: "ED"
+
+data: "-"
+
+data: "37"
+
+data: "3"
+
+data: "5"
+
+data: "-"
+
+data: "41"
+
+data: "F"
+
+data: "8"
+
+data: "-"
+
+data: "96"
+
+data: "F"
+
+data: "0"
+
+data: "-"
+
+data: "22"
+
+data: "9"
+
+data: "D"
+
+data: "9"
+
+data: "DA"
+
+data: "5"
+
+data: "42"
+
+data: "70"
+
+data: "}"
+
+data: "]\n\n"
+
+data: "**"
+
+data: "Additional"
+
+data: " Consider"
+
+data: "ations"
+
+data: "**\n"
+
+data: "-"
+
+data: " Arrest"
+
+data: "s"
+
+data: " must"
+
+data: " be"
+
+data: " reported"
+
+data: " promptly"
+
+data: " ("
+
+data: "as"
+
+data: " soon"
+
+data: " as"
+
+data: " possible"
+
+data: " in"
+
+data: " writing"
+
+data: "),"
+
+data: " and"
+
+data: " failure"
+
+data: " to"
+
+data: " report"
+
+data: " may"
+
+data: " result"
+
+data: " in"
+
+data: " immediate"
+
+data: " suspension"
+
+data: "/"
+
+data: "rev"
+
+data: "ocation"
+
+data: "\n"
+
+data: "-"
+
+data: " Rev"
+
+data: "ocation"
+
+data: " is"
+
+data: " based"
+
+data: " on"
+
+data: " determin"
+
+data: "ations"
+
+data: " of"
+
+data: " trust"
+
+data: "worth"
+
+data: "iness"
+
+data: " and"
+
+data: " reliability"
+
+data: " by"
+
+data: " the"
+
+data: " PV"
+
+data: "NG"
+
+data: "S"
+
+data: " Security"
+
+data: " Director"
+
+data: "/E"
+
+data: "mer"
+
+data: "gency"
+
+data: " Services"
+
+data: " Programs"
+
+data: "\n"
+
+data: "</"
+
+data: "response"
+
+data: ">"
+
+followup_and_topic_questions: "{\n    \"topic\": \"unescorted access revocation\",\n    \"followups\": [\n        \"How does the 30-day absence/inactivity period affect the revocation process?\",\n        \"What happens if the individual requests a review of the denial/revocation decision?\"\n    ]\n}"
+
+metadata: {"{958B3B61-CA3A-4A6E-A60F-7235DC2BECE2": {"DocumentTitle": "20AC-0SK07", "eDocID": "{958B3B61-CA3A-4A6E-A60F-7235DC2BECE2", "Revision": "016", "PathName": "/PROCEDURES/PROC/20", "FileName": "{42FC04E4-B611-4DDB-A083-3FEF503CF043}_{958B3B61-CA3A-4A6E-A60F-7235DC2BECE2}_53440036.pdf", "SWMSStatus": "", "SWMSTitle": "", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "4", "pages": [0], "bounding_boxes": "{\"0\": [[66, 60, 931, 955]]}", "relevance_score": 0.0036697187460958958}]}, "{9B381C7D-D17E-43B5-81CB-F1A31DE71E7E": {"DocumentTitle": "20DP-0SK11", "eDocID": "{9B381C7D-D17E-43B5-81CB-F1A31DE71E7E", "Revision": "008", "PathName": "/PROCEDURES/PROC/20", "FileName": "{5139E215-1BC1-4633-86DA-75E325A05260}_{9B381C7D-D17E-43B5-81CB-F1A31DE71E7E}_53440350.pdf", "SWMSStatus": "", "SWMSTitle": "", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "6", "pages": [0], "bounding_boxes": "{\"0\": [[66, 61, 931, 955]]}", "relevance_score": 0.003667473327368498}]}, "{103A27B0-5D71-47F6-8612-128E53BDDF30": {"DocumentTitle": "20AC-0SK07", "eDocID": "{103A27B0-5D71-47F6-8612-128E53BDDF30", "Revision": "017", "PathName": "/PROCEDURES/PROC/20", "FileName": "{029125FD-022C-406A-A7DC-0A45176AC319}_{103A27B0-5D71-47F6-8612-128E53BDDF30}_60790020.pdf", "SWMSStatus": "", "SWMSTitle": "", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "4", "pages": [0], "bounding_boxes": "{\"0\": [[66, 60, 931, 955]]}", "relevance_score": 0.0034160094801336527}]}, "{CE9F3D1D-0710-40AA-90B9-A83359A0C14F": {"DocumentTitle": "20DP-0SK40", "eDocID": "{CE9F3D1D-0710-40AA-90B9-A83359A0C14F", "Revision": "020", "PathName": "/PROCEDURES/PROC/20", "FileName": "{C7A790DD-6436-40FF-B565-64744F044BFA}_{CE9F3D1D-0710-40AA-90B9-A83359A0C14F}_1460621.pdf", "SWMSStatus": "", "SWMSTitle": "", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "18", "pages": [0], "bounding_boxes": "{\"0\": [[66, 60, 932, 955]]}", "relevance_score": 0.00327131780795753}]}, "{E1089C79-CF6D-4E56-B7FB-4F05B805A810": {"DocumentTitle": "20DP-0SK40", "eDocID": "{E1089C79-CF6D-4E56-B7FB-4F05B805A810", "Revision": "025", "PathName": "/PROCEDURES/PROC/20", "FileName": "{35A77A80-BF06-44AC-817A-51FEE15B9C6E}_{E1089C79-CF6D-4E56-B7FB-4F05B805A810}_2228496.pdf", "SWMSStatus": "", "SWMSTitle": "", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "6", "pages": [10], "bounding_boxes": "{\"10\": [[66, 90, 931, 955]]}", "relevance_score": 0.003138897940516472}]}, "{67BA0E44-E7F0-4FA5-845A-98F1D63504F3": {"DocumentTitle": "20DP-0SK40", "eDocID": "{67BA0E44-E7F0-4FA5-845A-98F1D63504F3", "Revision": "022", "PathName": "/PROCEDURES/PROC/20", "FileName": "{B9BC0781-D84F-49DB-983D-ADE31F99C5C0}_{67BA0E44-E7F0-4FA5-845A-98F1D63504F3}_2053793.pdf", "SWMSStatus": "", "SWMSTitle": "", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "5", "pages": [1], "bounding_boxes": "{\"1\": [[66, 60, 932, 955]]}", "relevance_score": 0.003068181686103344}]}, "{4921FFFE-A3CC-4B6A-87E7-1FED73178635": {"DocumentTitle": "20DP-0SK40", "eDocID": "{4921FFFE-A3CC-4B6A-87E7-1FED73178635", "Revision": "003", "PathName": "/PROCEDURES/PROC/20", "FileName": "{83FEE218-8617-4D8B-91CB-19ADC5D2444B}_{4921FFFE-A3CC-4B6A-87E7-1FED73178635}_320DP-0S.pdf", "SWMSStatus": "", "SWMSTitle": "", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "9", "pages": [0], "bounding_boxes": "{\"0\": [[66, 59, 931, 955]]}", "relevance_score": 0.003032238222658634}]}, "{7D417FED-3735-41F8-96F0-229D9DA54270": {"DocumentTitle": "20DP-0SK40", "eDocID": "{7D417FED-3735-41F8-96F0-229D9DA54270", "Revision": "024", "PathName": "/PROCEDURES/PROC/20", "FileName": "{3BC29E86-5209-4EE7-9CE8-B22235A9FA9D}_{7D417FED-3735-41F8-96F0-229D9DA54270}_2142822.pdf", "SWMSStatus": "", "SWMSTitle": "", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "75", "pages": [97], "bounding_boxes": "{\"97\": [[66, 60, 931, 955]]}", "relevance_score": 0.003023908007889986}]}, "{7D42D301-9577-4752-AFAC-05C0FFC7EA2C": {"DocumentTitle": "20DP-0SK40", "eDocID": "{7D42D301-9577-4752-AFAC-05C0FFC7EA2C", "Revision": "016", "PathName": "/PROCEDURES/PROC/20", "FileName": "{59876EFF-A664-4A7A-9D51-D158C25B99A5}_{7D42D301-9577-4752-AFAC-05C0FFC7EA2C}_807325.pdf", "SWMSStatus": "", "SWMSTitle": "", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "4", "pages": [0], "bounding_boxes": "{\"0\": [[66, 60, 931, 955]]}", "relevance_score": 0.0029816513415426016}]}, "": {"DocumentTitle": "", "eDocID": null, "Revision": "N/A", "PathName": "", "FileName": "{AA0C82C8-19EF-4F24-BBC7-9911C3CEB5D4}_{38A2ACD5-587D-49C4-A95E-75392DD9D945}_971219B.tiff", "SWMSStatus": "", "SWMSTitle": "", "Category": "", "DocType": "", "Chunks": [{"chunk_id": "22", "pages": [28], "bounding_boxes": "{\"28\": [[140, 107, 866, 746], [144, 781, 641, 800]]}", "relevance_score": 0.002925700042396784}]}}
+

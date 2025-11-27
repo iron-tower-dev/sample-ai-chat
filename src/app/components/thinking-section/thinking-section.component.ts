@@ -36,11 +36,11 @@ import { MatButtonModule } from '@angular/material/button';
               class="tooling-toggle"
               (click)="toggleTooling()">
               <mat-icon class="toggle-icon">{{ isToolingExpanded() ? 'expand_less' : 'expand_more' }}</mat-icon>
-              <span class="tooling-label">Using Tools</span>
+              <span class="tooling-label">{{ toolingText() }}</span>
             </button>
             @if (isToolingExpanded()) {
               <div class="tooling-content">
-                {{ toolingText() }}
+                <strong>Tool Action:</strong> {{ toolingText() }}
               </div>
             }
           </div>

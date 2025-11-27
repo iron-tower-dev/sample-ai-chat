@@ -113,6 +113,7 @@ export class ChatService {
             let fullToolingText = '';
             let fullResponseText = '';
             let citationMetadata: Record<string, any> | undefined;
+            let followupQuestions: { topic: string; followups: string[] } | undefined;
 
             await this.llmApi.sendMessage(request, (streamData) => {
                 console.log('[ChatService] Streaming callback invoked', streamData);
@@ -164,6 +165,12 @@ export class ChatService {
                     if (currentChunk.metadata && !citationMetadata) {
                         citationMetadata = currentChunk.metadata;
                         this.updateMessageCitationMetadata(assistantMessageId, citationMetadata);
+                    }
+                    
+                    // Store followup questions
+                    if (currentChunk.followupQuestions && !followupQuestions) {
+                        followupQuestions = currentChunk.followupQuestions;
+                        this.updateMessageFollowupQuestions(assistantMessageId, followupQuestions);
                     }
                 }
 
@@ -264,6 +271,19 @@ export class ChatService {
                 messages: conv.messages.map(msg =>
                     msg.id === messageId
                         ? { ...msg, citationMetadata }
+                        : msg
+                )
+            }))
+        );
+    }
+    
+    private updateMessageFollowupQuestions(messageId: string, followupQuestions: { topic: string; followups: string[] }): void {
+        this.conversations.update(convs =>
+            convs.map(conv => ({
+                ...conv,
+                messages: conv.messages.map(msg =>
+                    msg.id === messageId
+                        ? { ...msg, followupQuestions }
                         : msg
                 )
             }))

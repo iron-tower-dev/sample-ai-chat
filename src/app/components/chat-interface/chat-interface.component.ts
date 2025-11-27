@@ -11,6 +11,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ChatService } from '../../services/chat.service';
 import { ChatMessage } from '../../models/chat.models';
 import { MessageComponent } from '../message/message.component';
+import { FollowupQuestionsComponent } from '../followup-questions/followup-questions.component';
 
 @Component({
   selector: 'app-chat-interface',
@@ -24,7 +25,8 @@ import { MessageComponent } from '../message/message.component';
     MatCardModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
-    MessageComponent
+    MessageComponent,
+    FollowupQuestionsComponent
   ],
   template: `
     <div class="chat-interface" style="flex: 1 1 0; min-height: 0; max-height: 100%; overflow: hidden; display: flex; flex-direction: column;">
@@ -63,6 +65,12 @@ import { MessageComponent } from '../message/message.component';
       <!-- Input Area -->
       <div class="input-area">
         <div class="input-wrapper">
+          <!-- Followup Questions -->
+          <app-followup-questions
+            [questions]="followupQuestions()"
+            (questionSelected)="onFollowupQuestionSelected($event)">
+          </app-followup-questions>
+          
           <div class="input-container">
             <textarea
               #messageInput
@@ -108,6 +116,18 @@ export class ChatInterfaceComponent implements AfterViewInit {
   // Computed signals
   readonly currentMessages = this.chatService.currentMessages$;
   readonly isLoading = this.chatService.isLoading$;
+  
+  // Get followup questions from the last assistant message
+  readonly followupQuestions = computed(() => {
+    const messages = this.currentMessages();
+    // Find the last assistant message with followup questions
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].role === 'assistant' && messages[i].followupQuestions) {
+        return messages[i].followupQuestions;
+      }
+    }
+    return undefined;
+  });
 
   ngAfterViewInit(): void {
     // Scroll to bottom on initial load
@@ -193,6 +213,11 @@ export class ChatInterfaceComponent implements AfterViewInit {
     }
   }
 
+  onFollowupQuestionSelected(question: string): void {
+    this.currentMessage.set(question);
+    this.sendMessage();
+  }
+  
   onEnterKey(event: Event): void {
     const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === 'Enter' && !keyboardEvent.shiftKey) {

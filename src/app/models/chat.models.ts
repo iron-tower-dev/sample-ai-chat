@@ -7,8 +7,9 @@ export interface ChatMessage {
     ragDocuments?: RAGDocument[];
     apiMessageId?: string; // Message ID from the API response, used for feedback
     thinkingText?: string; // Text from <think> tags
-    toolingText?: string; // Text from <tooling> tags
+    toolingText?: string; // Text from <tooling> tags (or tool actions)
     citationMetadata?: Record<string, DocumentCitationMetadata>; // Metadata for citations
+    followupQuestions?: { topic: string; followups: string[] }; // Suggested followup questions
 }
 
 export interface MessageFeedback {
