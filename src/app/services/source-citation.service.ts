@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RAGDocument } from '../models/chat.models';
+import { environment } from '../../environments/environment';
 
 export interface ParsedContent {
   segments: ContentSegment[];
@@ -119,8 +120,8 @@ export class SourceCitationService {
       const edocId = md['edocid'] || md['eDocId'] || md['EDocId'] || md['edocID'];
       if (edocId) {
         const id = encodeURIComponent(String(edocId));
-        // Default eDoc endpoint – adjust if your environment uses a different base path
-        return `/edoc?edocid=${id}`;
+        // Use API base URL for eDoc endpoint
+        return `${environment.apiUrl}/edoc?edocid=${id}`;
       }
       return null;
     }
@@ -238,15 +239,15 @@ export class SourceCitationService {
             
             const label = title; // No brackets
             
-            // Check if we can build an external URL
-            if (docMetadata.eDocID || docMetadata.PathName) {
-              const edocId = docMetadata.eDocID || docMetadata.edocID;
-              if (edocId) {
-                const url = `/edoc?edocid=${encodeURIComponent(edocId)}`;
-                citations.push(`<a class="inline-source-citation" href="${url}" target="_blank" rel="noopener noreferrer" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`);
-                continue;
+              // Check if we can build an external URL
+              if (docMetadata.eDocID || docMetadata.PathName) {
+                const edocId = docMetadata.eDocID || docMetadata.edocID;
+                if (edocId) {
+                  const url = `${environment.apiUrl}/edoc?edocid=${encodeURIComponent(edocId)}`;
+                  citations.push(`<a class="inline-source-citation" href="${url}" target="_blank" rel="noopener noreferrer" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`);
+                  continue;
+                }
               }
-            }
             
             // No external URL, make it a clickable link for preview (use javascript:void(0) to prevent navigation)
             citations.push(`<a class="inline-source-citation" href="javascript:void(0)" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`);
@@ -306,7 +307,7 @@ export class SourceCitationService {
               if (metadata.eDocID || metadata.PathName) {
                 const edocId = metadata.eDocID || metadata.edocID;
                 if (edocId) {
-                  const url = `/edoc?edocid=${encodeURIComponent(edocId)}`;
+                  const url = `${environment.apiUrl}/edoc?edocid=${encodeURIComponent(edocId)}`;
                   citations.push(`<a class="inline-source-citation" href="${url}" target="_blank" rel="noopener noreferrer" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`);
                   break; // Found and processed, continue to next sourceId
                 }
