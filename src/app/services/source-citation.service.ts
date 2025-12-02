@@ -272,8 +272,57 @@ export class SourceCitationService {
       const citations: string[] = [];
       
       for (const sourceId of uniqueSourceIds) {
+        console.log('[SourceCitationService] Processing sourceId:', sourceId);
+        
         // Try to find document by source ID
         let document = docBySourceId.get(sourceId) || docByTitle.get(sourceId);
+        
+        // If not found, try to match against citation metadata by DocumentTitle
+        if (!document && citationMetadata) {
+          console.log('[SourceCitationService] Trying to match sourceId as DocumentTitle in metadata');
+          // Check if any metadata entry has a matching DocumentTitle
+          for (const [uuid, metadata] of Object.entries(citationMetadata)) {
+            if (metadata.DocumentTitle === sourceId) {
+              console.log('[SourceCitationService] Found match by DocumentTitle:', sourceId);
+              // Create a citation using the metadata
+              const title = metadata.DocumentTitle;
+              
+              // Skip duplicates
+              if (seenTitles.has(title)) {
+                console.log('[SourceCitationService] Skipping duplicate title:', title);
+                continue;
+              }
+              seenTitles.add(title);
+              
+              const docData = encodeURIComponent(JSON.stringify({
+                uuid: uuid,
+                title: title,
+                metadata: metadata
+              }));
+              
+              const label = `[${title}]`;
+              
+              // Check if we can build an external URL
+              if (metadata.eDocID || metadata.PathName) {
+                const edocId = metadata.eDocID || metadata.edocID;
+                if (edocId) {
+                  const url = `/edoc?edocid=${encodeURIComponent(edocId)}`;
+                  citations.push(`<a class="inline-source-citation" href="${url}" target="_blank" rel="noopener noreferrer" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`);
+                  break; // Found and processed, continue to next sourceId
+                }
+              }
+              
+              // No external URL, make it a clickable link for preview
+              citations.push(`<a class="inline-source-citation" href="#" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`);
+              break; // Found and processed, continue to next sourceId
+            }
+          }
+          
+          // If we found a citation from metadata, skip the rest of the document lookup
+          if (citations.length > 0 && seenTitles.has(sourceId)) {
+            continue;
+          }
+        }
         
         // If not found and it's a number, try array index lookup
         if (!document && /^\d+$/.test(sourceId)) {
