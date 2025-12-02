@@ -329,19 +329,33 @@ export class LlmApiService {
           } else if (!followupQuestionsReceived && trimmedLine.includes('followup_and_topic_questions:')) {
             // Parse followup questions
             try {
-              // Find the start of the JSON (either '{' for object or '[' for array)
-              const jsonStartIndex = Math.max(
-                trimmedLine.indexOf('{'),
-                trimmedLine.indexOf('[')
-              );
-              
-              if (jsonStartIndex === -1) {
-                console.warn('[LLM API] No valid JSON start found in followup questions line:', trimmedLine);
+              // Extract content after the colon
+              const colonIndex = trimmedLine.indexOf(':');
+              if (colonIndex === -1) {
+                console.warn('[LLM API] No colon found in followup questions line:', trimmedLine);
                 continue;
               }
               
-              const followupStr = trimmedLine.substring(jsonStartIndex);
-              const parsedData = JSON.parse(followupStr);
+              let followupStr = trimmedLine.substring(colonIndex + 1).trim();
+              
+              // Handle double-encoded JSON: if the backend returns a JSON string containing JSON,
+              // we need to parse twice
+              let parsedData;
+              try {
+                // First parse attempt - might be a JSON string
+                const firstParse = JSON.parse(followupStr);
+                
+                // If the result is a string, parse it again (double-encoded JSON)
+                if (typeof firstParse === 'string') {
+                  parsedData = JSON.parse(firstParse);
+                  console.log('[LLM API] Detected double-encoded JSON, parsed twice');
+                } else {
+                  parsedData = firstParse;
+                }
+              } catch (initialError) {
+                // If first parse fails, log and skip
+                throw initialError;
+              }
               
               // Validate the structure matches expected format: { topic: string, followups: string[] }
               if (parsedData && typeof parsedData === 'object' && 
