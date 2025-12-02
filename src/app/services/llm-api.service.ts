@@ -314,6 +314,10 @@ export class LlmApiService {
               console.log('[LLM API] Tool string to parse:', toolStr);
               const toolJson = JSON.parse(toolStr);
               console.log('[LLM API] Parsed tool JSON:', toolJson);
+              console.log('[LLM API] toolJson.action value:', toolJson.action);
+              console.log('[LLM API] toolJson.action type:', typeof toolJson.action);
+              console.log('[LLM API] toolJson.action truthy?:', !!toolJson.action);
+              console.log('[LLM API] toolJson keys:', Object.keys(toolJson));
               if (toolJson.action) {
                 currentTooling = toolJson.action;
                 console.log('[LLM API] Set currentTooling to:', currentTooling);

@@ -198,6 +198,17 @@ export class SourceCitationService {
           console.log('[SourceCitationService] citationMetadata type:', typeof citationMetadata);
           console.log('[SourceCitationService] Full metadata object:', citationMetadata);
           
+          // Debug: Check if any keys match our UUID
+          const matchingKey = Object.keys(citationMetadata).find(k => k === uuid);
+          console.log('[SourceCitationService] Exact match found in keys?:', !!matchingKey, matchingKey);
+          
+          // Debug: Compare first key with our UUID for character differences
+          const firstKey = Object.keys(citationMetadata)[0];
+          console.log('[SourceCitationService] First key:', firstKey);
+          console.log('[SourceCitationService] UUID to find:', uuid);
+          console.log('[SourceCitationService] Keys equal?:', firstKey === uuid);
+          console.log('[SourceCitationService] First key length:', firstKey?.length, 'UUID length:', uuid.length);
+          
           // Try to find metadata with or without braces
           // First try with braces, then without
           let docMetadata = citationMetadata[uuid];
