@@ -1,0 +1,2156 @@
+data: "\n<think>"
+
+data: "The"
+
+data: " user"
+
+data: " is"
+
+data: " asking"
+
+data: " about"
+
+data: " a"
+
+data: " procedure"
+
+data: " that"
+
+data: " manages"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: "."
+
+data: " This"
+
+data: " is"
+
+data: " a"
+
+data: " question"
+
+data: " about"
+
+data: " plant"
+
+data: " procedures"
+
+data: ","
+
+data: " which"
+
+data: " would"
+
+data: " likely"
+
+data: " be"
+
+data: " found"
+
+data: " in"
+
+data: " the"
+
+data: " e"
+
+data: "Doc"
+
+data: " database"
+
+data: "."
+
+data: " I"
+
+data: " should"
+
+data: " use"
+
+data: " the"
+
+data: " search"
+
+data: "doc"
+
+data: " function"
+
+data: " to"
+
+data: " find"
+
+data: " documents"
+
+data: " related"
+
+data: " to"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " procedures"
+
+data: ".\n\n"
+
+data: "Let"
+
+data: " me"
+
+data: " search"
+
+data: " for"
+
+data: " documents"
+
+data: " that"
+
+data: " deal"
+
+data: " with"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " using"
+
+data: " the"
+
+data: " search"
+
+data: "doc"
+
+data: " function"
+
+data: "."
+
+data: "</think>"
+
+data: "\n"
+
+tool: "{\"action\": \"searching for unescorted access procedures\"}"
+
+data: "\n<think>"
+
+data: "I"
+
+data: " can"
+
+data: " see"
+
+data: " from"
+
+data: " the"
+
+data: " search"
+
+data: " results"
+
+data: " that"
+
+data: " there"
+
+data: " are"
+
+data: " multiple"
+
+data: " procedures"
+
+data: " related"
+
+data: " to"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: "."
+
+data: " The"
+
+data: " key"
+
+data: " procedures"
+
+data: " that"
+
+data: " manage"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " appear"
+
+data: " to"
+
+data: " be"
+
+data: ":\n\n"
+
+data: "1"
+
+data: "."
+
+data: " **"
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "11"
+
+data: "**"
+
+data: " -"
+
+data: " Background"
+
+data: " Investigations"
+
+data: " for"
+
+data: " Un"
+
+data: "esc"
+
+data: "orted"
+
+data: " Access"
+
+data: " ("
+
+data: "Rev"
+
+data: "."
+
+data: " "
+
+data: "0"
+
+data: "11"
+
+data: ")\n"
+
+data: "2"
+
+data: "."
+
+data: " **"
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "40"
+
+data: "**"
+
+data: " -"
+
+data: " PV"
+
+data: "NG"
+
+data: "S"
+
+data: " Un"
+
+data: "esc"
+
+data: "orted"
+
+data: " Access"
+
+data: " Screening"
+
+data: " ("
+
+data: "Rev"
+
+data: "."
+
+data: " "
+
+data: "0"
+
+data: "30"
+
+data: ")"
+
+data: " \n"
+
+data: "3"
+
+data: "."
+
+data: " **"
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "39"
+
+data: "**"
+
+data: " -"
+
+data: " Palo"
+
+data: " Verde"
+
+data: " Bad"
+
+data: "ging"
+
+data: " Procedure"
+
+data: " ("
+
+data: "multiple"
+
+data: " revisions"
+
+data: ")\n\n"
+
+data: "From"
+
+data: " the"
+
+data: " search"
+
+data: " results"
+
+data: ","
+
+data: " it"
+
+data: " looks"
+
+data: " like"
+
+data: " "
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "40"
+
+data: " seems"
+
+data: " to"
+
+data: " be"
+
+data: " the"
+
+data: " main"
+
+data: " procedure"
+
+data: " for"
+
+data: " \""
+
+data: "PV"
+
+data: "NG"
+
+data: "S"
+
+data: " Un"
+
+data: "esc"
+
+data: "orted"
+
+data: " Access"
+
+data: " Screening"
+
+data: "\""
+
+data: " and"
+
+data: " has"
+
+data: " the"
+
+data: " most"
+
+data: " comprehensive"
+
+data: " content"
+
+data: " about"
+
+data: " the"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " authorization"
+
+data: " process"
+
+data: "."
+
+data: " \n\n"
+
+data: "Let"
+
+data: " me"
+
+data: " get"
+
+data: " the"
+
+data: " latest"
+
+data: " revisions"
+
+data: " of"
+
+data: " these"
+
+data: " key"
+
+data: " procedures"
+
+data: " to"
+
+data: " provide"
+
+data: " accurate"
+
+data: " information"
+
+data: "."
+
+data: "</think>"
+
+data: "\n"
+
+tool: "{\"action\": \"searching for the latest revisions of the key procedures\"}"
+
+data: "\n<think>"
+
+data: "Now"
+
+data: " I"
+
+data: " can"
+
+data: " see"
+
+data: " the"
+
+data: " latest"
+
+data: " revisions"
+
+data: ":\n"
+
+data: "-"
+
+data: " "
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "40"
+
+data: ":"
+
+data: " Rev"
+
+data: "."
+
+data: " "
+
+data: "0"
+
+data: "50"
+
+data: " ("
+
+data: "latest"
+
+data: ")\n"
+
+data: "-"
+
+data: " "
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "39"
+
+data: ":"
+
+data: " Rev"
+
+data: "."
+
+data: " "
+
+data: "04"
+
+data: "2"
+
+data: " ("
+
+data: "latest"
+
+data: ")\n"
+
+data: "-"
+
+data: " "
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "11"
+
+data: ":"
+
+data: " Not"
+
+data: " found"
+
+data: " in"
+
+data: " index"
+
+data: "\n\n"
+
+data: "Let"
+
+data: " me"
+
+data: " search"
+
+data: " again"
+
+data: " with"
+
+data: " the"
+
+data: " latest"
+
+data: " revision"
+
+data: " numbers"
+
+data: " to"
+
+data: " get"
+
+data: " the"
+
+data: " most"
+
+data: " current"
+
+data: " information"
+
+data: "."
+
+data: "</think>"
+
+data: "\n"
+
+tool: "{\"action\": \"searching for the latest revision\"}"
+
+data: "\n<think>"
+
+data: "Now"
+
+data: " I"
+
+data: " have"
+
+data: " excellent"
+
+data: " information"
+
+data: " about"
+
+data: " the"
+
+data: " main"
+
+data: " procedure"
+
+data: " that"
+
+data: " manages"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " at"
+
+data: " Palo"
+
+data: " Verde"
+
+data: "."
+
+data: " Let"
+
+data: " me"
+
+data: " also"
+
+data: " check"
+
+data: " the"
+
+data: " bad"
+
+data: "ging"
+
+data: " procedure"
+
+data: " to"
+
+data: " understand"
+
+data: " the"
+
+data: " complete"
+
+data: " picture"
+
+data: "."
+
+data: "</think>"
+
+data: "\n"
+
+tool: "{\"action\": \"thinking\"}"
+
+data: "\n<think>"
+
+data: "Now"
+
+data: " I"
+
+data: " have"
+
+data: " comprehensive"
+
+data: " information"
+
+data: " about"
+
+data: " the"
+
+data: " procedures"
+
+data: " that"
+
+data: " manage"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " at"
+
+data: " Palo"
+
+data: " Verde"
+
+data: "."
+
+data: " Based"
+
+data: " on"
+
+data: " my"
+
+data: " research"
+
+data: ","
+
+data: " I"
+
+data: " can"
+
+data: " identify"
+
+data: " the"
+
+data: " key"
+
+data: " procedures"
+
+data: ":\n\n"
+
+data: "1"
+
+data: "."
+
+data: " **"
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "40"
+
+data: "**"
+
+data: " \""
+
+data: "Access"
+
+data: " Authorization"
+
+data: "\""
+
+data: " -"
+
+data: " This"
+
+data: " is"
+
+data: " the"
+
+data: " main"
+
+data: " procedure"
+
+data: " that"
+
+data: " manages"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: "."
+
+data: " It"
+
+data: " compreh"
+
+data: "ensively"
+
+data: " covers"
+
+data: ":\n"
+
+data: "  "
+
+data: " -"
+
+data: " Initial"
+
+data: " Un"
+
+data: "esc"
+
+data: "orted"
+
+data: " Access"
+
+data: " Authorization"
+
+data: " ("
+
+data: "U"
+
+data: "AA"
+
+data: ")\n"
+
+data: "  "
+
+data: " -"
+
+data: " Updated"
+
+data: " Un"
+
+data: "esc"
+
+data: "orted"
+
+data: " Access"
+
+data: " Authorization"
+
+data: " ("
+
+data: "U"
+
+data: "AA"
+
+data: ")\n"
+
+data: "  "
+
+data: " -"
+
+data: " Re"
+
+data: "inst"
+
+data: "atement"
+
+data: " of"
+
+data: " Un"
+
+data: "esc"
+
+data: "orted"
+
+data: " Access"
+
+data: " Authorization"
+
+data: "\n"
+
+data: "  "
+
+data: " -"
+
+data: " Maint"
+
+data: "aining"
+
+data: " U"
+
+data: "AA"
+
+data: "/"
+
+data: "UA"
+
+data: "\n"
+
+data: "  "
+
+data: " -"
+
+data: " Program"
+
+data: " elements"
+
+data: " and"
+
+data: " regulatory"
+
+data: " requirements"
+
+data: "\n"
+
+data: "  "
+
+data: " -"
+
+data: " Background"
+
+data: " investigations"
+
+data: "\n"
+
+data: "  "
+
+data: " -"
+
+data: " Fitness"
+
+data: " for"
+
+data: " Duty"
+
+data: " programs"
+
+data: "\n"
+
+data: "  "
+
+data: " -"
+
+data: " Behavioral"
+
+data: " observation"
+
+data: " programs"
+
+data: "\n"
+
+data: "  "
+
+data: " -"
+
+data: " License"
+
+data: "e"
+
+data: " shared"
+
+data: " information"
+
+data: "\n"
+
+data: "  "
+
+data: " -"
+
+data: " And"
+
+data: " much"
+
+data: " more"
+
+data: "\n\n"
+
+data: "2"
+
+data: "."
+
+data: " **"
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "39"
+
+data: "**"
+
+data: " \""
+
+data: "P"
+
+data: "alo"
+
+data: " Verde"
+
+data: " Bad"
+
+data: "ging"
+
+data: " Procedure"
+
+data: "\""
+
+data: " -"
+
+data: " This"
+
+data: " procedure"
+
+data: " manages"
+
+data: " the"
+
+data: " practical"
+
+data: " aspects"
+
+data: " of"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: ","
+
+data: " including"
+
+data: ":\n"
+
+data: "  "
+
+data: " -"
+
+data: " AC"
+
+data: "AD"
+
+data: " badge"
+
+data: " requirements"
+
+data: " and"
+
+data: " issuance"
+
+data: "\n"
+
+data: "  "
+
+data: " -"
+
+data: " Site"
+
+data: " badge"
+
+data: " requirements"
+
+data: "\n"
+
+data: "  "
+
+data: " -"
+
+data: " Training"
+
+data: " and"
+
+data: " re"
+
+data: "training"
+
+data: " requirements"
+
+data: "\n"
+
+data: "  "
+
+data: " -"
+
+data: " Access"
+
+data: " level"
+
+data: " changes"
+
+data: "\n"
+
+data: "  "
+
+data: " -"
+
+data: " Badge"
+
+data: " termination"
+
+data: " procedures"
+
+data: "\n"
+
+data: "  "
+
+data: " -"
+
+data: " System"
+
+data: " integration"
+
+data: " ("
+
+data: "SS"
+
+data: "IS"
+
+data: ","
+
+data: " IE"
+
+data: "BS"
+
+data: ","
+
+data: " P"
+
+data: "ADS"
+
+data: ")\n\n"
+
+data: "From"
+
+data: " my"
+
+data: " research"
+
+data: ","
+
+data: " it"
+
+data: "'s"
+
+data: " clear"
+
+data: " that"
+
+data: " **"
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "40"
+
+data: " \""
+
+data: "Access"
+
+data: " Authorization"
+
+data: "\""
+
+data: "**"
+
+data: " is"
+
+data: " the"
+
+data: " primary"
+
+data: " procedure"
+
+data: " that"
+
+data: " manages"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: ","
+
+data: " as"
+
+data: " it"
+
+data: " contains"
+
+data: " the"
+
+data: " comprehensive"
+
+data: " regulatory"
+
+data: " framework"
+
+data: " and"
+
+data: " policies"
+
+data: " for"
+
+data: " granting"
+
+data: ","
+
+data: " maintaining"
+
+data: ","
+
+data: " and"
+
+data: " terminating"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " authorization"
+
+data: ".\n\n"
+
+data: "The"
+
+data: " **"
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "39"
+
+data: " \""
+
+data: "P"
+
+data: "alo"
+
+data: " Verde"
+
+data: " Bad"
+
+data: "ging"
+
+data: " Procedure"
+
+data: "\""
+
+data: "**"
+
+data: " is"
+
+data: " secondary"
+
+data: " but"
+
+data: " important"
+
+data: " as"
+
+data: " it"
+
+data: " handles"
+
+data: " the"
+
+data: " practical"
+
+data: " implementation"
+
+data: " and"
+
+data: " badge"
+
+data: " management"
+
+data: " aspects"
+
+data: " of"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: ".\n\n"
+
+data: "I"
+
+data: " should"
+
+data: " provide"
+
+data: " a"
+
+data: " clear"
+
+data: " answer"
+
+data: " with"
+
+data: " proper"
+
+data: " citations"
+
+data: "."
+
+data: "</think>"
+
+data: "\n"
+
+data: "<"
+
+data: "response"
+
+data: ">\n"
+
+data: "The"
+
+data: " procedure"
+
+data: " that"
+
+data: " manages"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: " at"
+
+data: " Palo"
+
+data: " Verde"
+
+data: " is"
+
+data: " **"
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "40"
+
+data: " \""
+
+data: "Access"
+
+data: " Authorization"
+
+data: "\""
+
+data: "**"
+
+data: " with"
+
+data: " the"
+
+data: " latest"
+
+data: " revision"
+
+data: " "
+
+data: "0"
+
+data: "50"
+
+data: " ["
+
+data: "Source"
+
+data: ":"
+
+data: " {"
+
+data: "8"
+
+data: "76"
+
+data: "A"
+
+data: "0"
+
+data: "C"
+
+data: "2"
+
+data: "F"
+
+data: "-"
+
+data: "6"
+
+data: "17"
+
+data: "D"
+
+data: "-C"
+
+data: "01"
+
+data: "B"
+
+data: "-"
+
+data: "9"
+
+data: "C"
+
+data: "CE"
+
+data: "-"
+
+data: "93"
+
+data: "B"
+
+data: "29"
+
+data: "6"
+
+data: "A"
+
+data: "000"
+
+data: "00"
+
+data: "}]"
+
+data: ".\n\n"
+
+data: "This"
+
+data: " comprehensive"
+
+data: " procedure"
+
+data: " establishes"
+
+data: " the"
+
+data: " requirements"
+
+data: " for"
+
+data: ":\n"
+
+data: "-"
+
+data: " Initial"
+
+data: " Un"
+
+data: "esc"
+
+data: "orted"
+
+data: " Access"
+
+data: " Authorization"
+
+data: " ("
+
+data: "U"
+
+data: "AA"
+
+data: ")\n"
+
+data: "-"
+
+data: " Updated"
+
+data: " Un"
+
+data: "esc"
+
+data: "orted"
+
+data: " Access"
+
+data: " Authorization"
+
+data: " ("
+
+data: "U"
+
+data: "AA"
+
+data: ")"
+
+data: " \n-"
+
+data: " Re"
+
+data: "inst"
+
+data: "atement"
+
+data: " of"
+
+data: " Un"
+
+data: "esc"
+
+data: "orted"
+
+data: " Access"
+
+data: " Authorization"
+
+data: "\n"
+
+data: "-"
+
+data: " Maint"
+
+data: "aining"
+
+data: " U"
+
+data: "AA"
+
+data: "/"
+
+data: "UA"
+
+data: " status"
+
+data: "\n"
+
+data: "-"
+
+data: " Background"
+
+data: " investigations"
+
+data: " and"
+
+data: " screening"
+
+data: " requirements"
+
+data: "\n"
+
+data: "-"
+
+data: " Fitness"
+
+data: " for"
+
+data: " Duty"
+
+data: " Program"
+
+data: " integration"
+
+data: "\n"
+
+data: "-"
+
+data: " Behavioral"
+
+data: " Observation"
+
+data: " Program"
+
+data: " requirements"
+
+data: "\n"
+
+data: "-"
+
+data: " Regulatory"
+
+data: " compliance"
+
+data: " with"
+
+data: " "
+
+data: "10"
+
+data: " CFR"
+
+data: " "
+
+data: "73"
+
+data: "."
+
+data: "56"
+
+data: " and"
+
+data: " NE"
+
+data: "I"
+
+data: " "
+
+data: "03"
+
+data: "-"
+
+data: "01"
+
+data: "\n\n"
+
+data: "**"
+
+data: "Key"
+
+data: " aspects"
+
+data: " managed"
+
+data: " by"
+
+data: " "
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "40"
+
+data: ":"
+
+data: "**\n\n"
+
+data: "1"
+
+data: "."
+
+data: " **"
+
+data: "Program"
+
+data: " Elements"
+
+data: "**"
+
+data: " -"
+
+data: " Contains"
+
+data: " the"
+
+data: " complete"
+
+data: " framework"
+
+data: " for"
+
+data: " evaluating"
+
+data: " individuals"
+
+data: "'"
+
+data: " trust"
+
+data: "worth"
+
+data: "iness"
+
+data: " and"
+
+data: " reliability"
+
+data: " to"
+
+data: " ensure"
+
+data: " they"
+
+data: " don"
+
+data: "'t"
+
+data: " pose"
+
+data: " an"
+
+data: " unreasonable"
+
+data: " risk"
+
+data: "\n\n"
+
+data: "2"
+
+data: "."
+
+data: " **"
+
+data: "Authorization"
+
+data: " Process"
+
+data: "**"
+
+data: " -"
+
+data: " Details"
+
+data: " the"
+
+data: " step"
+
+data: "-by"
+
+data: "-step"
+
+data: " process"
+
+data: " for"
+
+data: " granting"
+
+data: ","
+
+data: " updating"
+
+data: ","
+
+data: " and"
+
+data: " reinst"
+
+data: "ating"
+
+data: " un"
+
+data: "esc"
+
+data: "orted"
+
+data: " access"
+
+data: "\n\n"
+
+data: "3"
+
+data: "."
+
+data: " **"
+
+data: "Reg"
+
+data: "ulatory"
+
+data: " Compliance"
+
+data: "**"
+
+data: " -"
+
+data: " Ens"
+
+data: "ures"
+
+data: " compliance"
+
+data: " with"
+
+data: " N"
+
+data: "RC"
+
+data: " requirements"
+
+data: " and"
+
+data: " industry"
+
+data: " standards"
+
+data: "\n\n"
+
+data: "4"
+
+data: "."
+
+data: " **"
+
+data: "Background"
+
+data: " Screening"
+
+data: "**"
+
+data: " -"
+
+data: " Covers"
+
+data: " all"
+
+data: " required"
+
+data: " background"
+
+data: " investigation"
+
+data: " elements"
+
+data: " including"
+
+data: " criminal"
+
+data: " history"
+
+data: ","
+
+data: " employment"
+
+data: " verification"
+
+data: ","
+
+data: " and"
+
+data: " psychological"
+
+data: " assessments"
+
+data: "\n\n"
+
+data: "5"
+
+data: "."
+
+data: " **"
+
+data: "Fitness"
+
+data: " for"
+
+data: " Duty"
+
+data: " Integration"
+
+data: "**"
+
+data: " -"
+
+data: " Coordinates"
+
+data: " with"
+
+data: " the"
+
+data: " Fitness"
+
+data: " For"
+
+data: " Duty"
+
+data: " Program"
+
+data: " to"
+
+data: " ensure"
+
+data: " personnel"
+
+data: " are"
+
+data: " fit"
+
+data: " for"
+
+data: " duty"
+
+data: "\n\n"
+
+data: "The"
+
+data: " **"
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "39"
+
+data: " \""
+
+data: "P"
+
+data: "alo"
+
+data: " Verde"
+
+data: " Bad"
+
+data: "ging"
+
+data: " Procedure"
+
+data: "\""
+
+data: "**"
+
+data: " ("
+
+data: "Rev"
+
+data: "."
+
+data: " "
+
+data: "04"
+
+data: "2"
+
+data: ")"
+
+data: " ["
+
+data: "Source"
+
+data: ":"
+
+data: " {"
+
+data: "0"
+
+data: "A"
+
+data: "7"
+
+data: "36"
+
+data: "9"
+
+data: "D"
+
+data: "5"
+
+data: "-"
+
+data: "0"
+
+data: "C"
+
+data: "BB"
+
+data: "-C"
+
+data: "B"
+
+data: "9"
+
+data: "E"
+
+data: "-"
+
+data: "97"
+
+data: "CD"
+
+data: "-"
+
+data: "8"
+
+data: "28"
+
+data: "46"
+
+data: "9"
+
+data: "F"
+
+data: "000"
+
+data: "00"
+
+data: "}]"
+
+data: " serves"
+
+data: " as"
+
+data: " a"
+
+data: " supporting"
+
+data: " procedure"
+
+data: " that"
+
+data: " handles"
+
+data: " the"
+
+data: " practical"
+
+data: " implementation"
+
+data: " aspects"
+
+data: ","
+
+data: " including"
+
+data: " AC"
+
+data: "AD"
+
+data: " badge"
+
+data: " issuance"
+
+data: ","
+
+data: " maintenance"
+
+data: ","
+
+data: " and"
+
+data: " termination"
+
+data: ","
+
+data: " but"
+
+data: " the"
+
+data: " primary"
+
+data: " management"
+
+data: " authority"
+
+data: " rests"
+
+data: " with"
+
+data: " "
+
+data: "20"
+
+data: "DP"
+
+data: "-"
+
+data: "0"
+
+data: "SK"
+
+data: "40"
+
+data: ".\n"
+
+data: "</"
+
+data: "response"
+
+data: ">"
+
+followup_and_topic_questions: "{\n    \"topic\": \"palo verde generation station procedures\",\n    \"followups\": [\n        \"What are the specific regulations and guidelines related to fitness for duty at Palo Verde?\",\n        \"How does the program elements aspect of 20DP-0SK40 ensure that individuals are trustworthy?\"\n    ]\n}"
+
+metadata: {"{C387180F-5A45-4B5A-96C3-C26F0D11D6CB": {"DocumentTitle": "20DP-0SK11", "eDocID": "{C387180F-5A45-4B5A-96C3-C26F0D11D6CB", "Revision": "011", "PathName": "/PROCEDURES/PROC/20", "FileName": "{635CEE0A-12E4-4D13-834A-F13B79243B11}_{C387180F-5A45-4B5A-96C3-C26F0D11D6CB}_70520037.pdf", "SWMSStatus": "", "SWMSTitle": "", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "1", "pages": [0], "bounding_boxes": "{\"0\": [[66, 61, 931, 955]]}", "relevance_score": 0.003770305775105953}]}, "{CB9F6C4E-4FF9-4AF7-B398-5A66F92758B1": {"DocumentTitle": "20DP-0SK39", "eDocID": "{CB9F6C4E-4FF9-4AF7-B398-5A66F92758B1", "Revision": "039", "PathName": "/PROCEDURES/PROC/20", "FileName": "{9F4B03C1-35A5-C6B0-BB36-6B7094400000}_{CB9F6C4E-4FF9-4AF7-B398-5A66F92758B1}_9300894.pdf", "SWMSStatus": "ARCHIVED", "SWMSTitle": "PALO VERDE BADGING PROCEDURE", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "6", "pages": [0], "bounding_boxes": "{\"0\": [[66, 60, 932, 965]]}", "relevance_score": 0.0033103893510997295}]}, "{FA205FD1-7739-C377-84CE-7B63C3A00000": {"DocumentTitle": "20DP-0SK39", "eDocID": "{FA205FD1-7739-C377-84CE-7B63C3A00000", "Revision": "041", "PathName": "/PROCEDURES/PROC/20", "FileName": "{6E0EB85B-554A-C69F-A152-7B63C3A00001}_{FA205FD1-7739-C377-84CE-7B63C3A00000}_10287319.pdf", "SWMSStatus": "ARCHIVED", "SWMSTitle": "PALO VERDE BADGING PROCEDURE", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "12", "pages": [12], "bounding_boxes": "{\"12\": [[66, 60, 931, 965]]}", "relevance_score": 0.003277166048064828}]}, "{293EE29E-A38F-4044-BB23-2F20D35E2300": {"DocumentTitle": "SSIS UNESC VVTR", "eDocID": "{293EE29E-A38F-4044-BB23-2F20D35E2300", "Revision": "000", "PathName": "/COMPUTER SYS/QSD/S", "FileName": "{0C2EE704-09F1-49F9-9CF9-101A63CD0579}_{293EE29E-A38F-4044-BB23-2F20D35E2300}_2955030.pdf", "SWMSStatus": "", "SWMSTitle": "", "Category": "COMPUTER SYS", "DocType": "QSD", "Chunks": [{"chunk_id": "47", "pages": [62, 63], "bounding_boxes": "{\"62\": [[124, 213, 815, 229], [124, 237, 257, 251], [124, 254, 430, 270], [124, 277, 340, 292], [124, 313, 240, 326], [124, 329, 269, 344], [124, 353, 237, 367], [124, 370, 852, 524], [124, 527, 267, 540], [124, 544, 812, 634], [124, 664, 330, 680], [367, 654, 568, 684], [608, 663, 791, 687], [125, 688, 230, 702], [124, 735, 247, 748], [124, 751, 445, 765], [124, 766, 370, 780], [125, 788, 220, 801], [605, 709, 850, 780]], \"63\": [[120, 83, 422, 101], [120, 111, 460, 125], [120, 127, 440, 140], [120, 183, 193, 196], [120, 200, 264, 213], [120, 219, 235, 231], [120, 235, 260, 249], [120, 254, 233, 267]]}", "relevance_score": 0.0030945218168199062}]}, "{5745EE79-863B-4777-A1C1-3ECF6E4FCFF2": {"DocumentTitle": "20DP-0SK46", "eDocID": "{5745EE79-863B-4777-A1C1-3ECF6E4FCFF2", "Revision": "011", "PathName": "/PROCEDURES/PROC/20", "FileName": "{8395876D-D503-CB8D-938E-6CBB22600000}_{5745EE79-863B-4777-A1C1-3ECF6E4FCFF2}_9358270.pdf", "SWMSStatus": "ARCHIVED", "SWMSTitle": "PERSONNEL ACCESS DATA SYSTEM (PADS) PROCESS", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "3", "pages": [0], "bounding_boxes": "{\"0\": [[63, 60, 932, 965]]}", "relevance_score": 0.0030078350100666285}]}, "{9F69364A-E6E6-4D01-A1AC-A7E9A1793E10": {"DocumentTitle": "20DP-0SK40", "eDocID": "{9F69364A-E6E6-4D01-A1AC-A7E9A1793E10", "Revision": "030", "PathName": "/PROCEDURES/PROC/20", "FileName": "{3469EE0B-E9E3-4D78-A04D-8E63F83F6ADC}_{9F69364A-E6E6-4D01-A1AC-A7E9A1793E10}_2726908.pdf", "SWMSStatus": "", "SWMSTitle": "", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "1", "pages": [0], "bounding_boxes": "{\"0\": [[66, 60, 932, 955]]}", "relevance_score": 0.002976282499730587}]}, "{11AF8B8B-7F17-4101-9649-1094CE3909AA": {"DocumentTitle": "20DP-0SK39", "eDocID": "{11AF8B8B-7F17-4101-9649-1094CE3909AA", "Revision": "007", "PathName": "/PROCEDURES/PROC/20", "FileName": "{DACB00A2-85B8-4C12-AB2C-5E748FD75135}_{11AF8B8B-7F17-4101-9649-1094CE3909AA}_1706980.pdf", "SWMSStatus": "", "SWMSTitle": "", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "6", "pages": [8], "bounding_boxes": "{\"8\": [[65, 61, 931, 955]]}", "relevance_score": 0.0028471634723246098}]}, "{C2DE6CFD-E6A0-4825-8F02-381BA55349B5": {"DocumentTitle": "SSIS UNESC VVP", "eDocID": "{C2DE6CFD-E6A0-4825-8F02-381BA55349B5", "Revision": "001", "PathName": "/COMPUTER SYS/QSD/S", "FileName": "{FAEF9DF3-C381-41E7-901F-7AAA011D9FF5}_{C2DE6CFD-E6A0-4825-8F02-381BA55349B5}_3746025.pdf", "SWMSStatus": "ARCHIVED", "SWMSTitle": "SECURITY SCREENING INFORMATION SYSTEM UNESCORTED VVP", "Category": "COMPUTER SYS", "DocType": "QSD", "Chunks": [{"chunk_id": "47", "pages": [63, 64], "bounding_boxes": "{\"63\": [[144, 255, 442, 270], [144, 277, 352, 292], [144, 313, 254, 325], [144, 330, 284, 343], [144, 353, 252, 365], [143, 370, 852, 520], [144, 523, 280, 535], [143, 540, 818, 628], [144, 660, 340, 672], [614, 660, 660, 672], [144, 682, 244, 695], [144, 730, 260, 741], [144, 745, 450, 756], [144, 760, 380, 771], [614, 715, 725, 726], [144, 781, 234, 793]], \"64\": [[143, 91, 436, 110], [144, 118, 476, 132], [144, 135, 456, 146], [144, 190, 213, 201], [144, 205, 281, 218], [144, 225, 254, 236], [144, 240, 280, 253], [144, 260, 252, 271], [141, 275, 840, 395], [142, 622, 280, 633]]}", "relevance_score": 0.0027970855589956045}]}, "{CBCD67CC-60E7-46EE-811F-D8EB5D07E72A": {"DocumentTitle": "SSIS UNESC VVP", "eDocID": "{CBCD67CC-60E7-46EE-811F-D8EB5D07E72A", "Revision": "002", "PathName": "/COMPUTER SYS/QSD/S", "FileName": "{F6894ECB-F7EC-40C8-A958-7641A1A3A185}_{CBCD67CC-60E7-46EE-811F-D8EB5D07E72A}_3746145.pdf", "SWMSStatus": "ARCHIVED", "SWMSTitle": "SECURITY SCREENING INFORMATION SYSTEM UNESC VVP", "Category": "COMPUTER SYS", "DocType": "QSD", "Chunks": [{"chunk_id": "43", "pages": [61, 62], "bounding_boxes": "{\"61\": [[144, 255, 442, 270], [144, 278, 352, 292], [144, 313, 254, 325], [144, 330, 284, 343], [144, 353, 252, 365], [143, 370, 852, 520], [144, 523, 280, 535], [143, 540, 818, 628], [144, 660, 340, 672], [615, 660, 660, 672], [144, 682, 244, 695], [144, 730, 260, 741], [144, 745, 450, 756], [144, 760, 380, 771], [615, 715, 725, 726], [144, 781, 234, 793]], \"62\": [[143, 91, 436, 110], [144, 118, 476, 132], [144, 135, 456, 146], [144, 190, 213, 201], [144, 205, 281, 218], [144, 225, 254, 236], [144, 240, 280, 253], [144, 260, 252, 271], [141, 275, 840, 395], [142, 622, 280, 633]]}", "relevance_score": 0.0027930783107876778}]}, "{1402769A-E6A7-4DD9-9517-99C1340A645F": {"DocumentTitle": "SWMS ACX-002", "eDocID": "{1402769A-E6A7-4DD9-9517-99C1340A645F", "Revision": "004", "PathName": "/COMPUTER SYS/QSD/S", "FileName": "{DEC799AF-D039-4B55-96A6-18648A74AF54}_{1402769A-E6A7-4DD9-9517-99C1340A645F}_1712593.pdf", "SWMSStatus": "", "SWMSTitle": "", "Category": "COMPUTER SYS", "DocType": "QSD", "Chunks": [{"chunk_id": "106", "pages": [152], "bounding_boxes": "{\"152\": [[135, 87, 914, 880]]}", "relevance_score": 0.002701736055314541}]}, "{876A0C2F-617D-C01B-9CCE-93B296A00000": {"DocumentTitle": "20DP-0SK40", "eDocID": "{876A0C2F-617D-C01B-9CCE-93B296A00000", "Revision": "050", "PathName": "/PROCEDURES/PROC/20", "FileName": "{5D090C53-91FE-C721-B3F3-93B296A00005}_{876A0C2F-617D-C01B-9CCE-93B296A00000}_11519978.pdf", "SWMSStatus": "EFFECTIVE", "SWMSTitle": "ACCESS AUTHORIZATION", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "1", "pages": [0], "bounding_boxes": "{\"0\": [[63, 60, 932, 965]]}", "relevance_score": 0.003968394361436367}, {"chunk_id": "11", "pages": [16], "bounding_boxes": "{\"16\": [[66, 60, 931, 965]]}", "relevance_score": 0.003944911528378725}, {"chunk_id": "82", "pages": [172], "bounding_boxes": "{\"172\": [[66, 60, 931, 966]]}", "relevance_score": 0.003944834694266319}, {"chunk_id": "66", "pages": [105], "bounding_boxes": "{\"105\": [[66, 60, 931, 966]]}", "relevance_score": 0.003929515834897757}, {"chunk_id": "55", "pages": [105], "bounding_boxes": "{\"105\": [[66, 60, 931, 966]]}", "relevance_score": 0.0038856046739965677}, {"chunk_id": "76", "pages": [164], "bounding_boxes": "{\"164\": [[66, 60, 932, 966]]}", "relevance_score": 0.0038552964106202126}]}, "{DD8F69B2-1358-C5CE-964F-93B296A00000": {"DocumentTitle": "20DP-0SK40", "eDocID": "{DD8F69B2-1358-C5CE-964F-93B296A00000", "Revision": "050", "PathName": "/PROCEDURES/PROC/20", "FileName": "{BCBF7E8B-488A-C8CB-A9C9-93B296A00003}_{DD8F69B2-1358-C5CE-964F-93B296A00000}_11519976.pdf", "SWMSStatus": "EFFECTIVE", "SWMSTitle": "ACCESS AUTHORIZATION", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "1", "pages": [0], "bounding_boxes": "{\"0\": [[66, 60, 931, 965]]}", "relevance_score": 0.003945156931877136}, {"chunk_id": "65", "pages": [151], "bounding_boxes": "{\"151\": [[66, 60, 931, 965]]}", "relevance_score": 0.003921704366803169}, {"chunk_id": "54", "pages": [15], "bounding_boxes": "{\"15\": [[66, 60, 931, 965]]}", "relevance_score": 0.0038961730897426605}, {"chunk_id": "66", "pages": [151], "bounding_boxes": "{\"151\": [[66, 60, 931, 965]]}", "relevance_score": 0.0038649109192192554}]}, "{0A7369D5-0CBB-CB9E-97CD-828469F00000": {"DocumentTitle": "20DP-0SK39", "eDocID": "{0A7369D5-0CBB-CB9E-97CD-828469F00000", "Revision": "042", "PathName": "/PROCEDURES/PROC/20", "FileName": "{1F7A9DE7-78D6-C56D-B6C6-828469F00003}_{0A7369D5-0CBB-CB9E-97CD-828469F00000}_10643716.pdf", "SWMSStatus": "ADMINISTRATIVE HOLD", "SWMSTitle": "PALO VERDE BADGING PROCEDURE", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "14", "pages": [1], "bounding_boxes": "{\"1\": [[66, 60, 931, 965]]}", "relevance_score": 0.003984079696238041}, {"chunk_id": "2", "pages": [1], "bounding_boxes": "{\"1\": [[66, 60, 931, 965]]}", "relevance_score": 0.003937007859349251}, {"chunk_id": "3", "pages": [1], "bounding_boxes": "{\"1\": [[66, 60, 931, 965]]}", "relevance_score": 0.0039215837605297565}, {"chunk_id": "8", "pages": [1], "bounding_boxes": "{\"1\": [[66, 60, 931, 965]]}", "relevance_score": 0.003917761612683535}, {"chunk_id": "6", "pages": [1], "bounding_boxes": "{\"1\": [[66, 60, 931, 965]]}", "relevance_score": 0.0039144339971244335}]}, "{393DDF27-812F-C387-9E24-828469F00000": {"DocumentTitle": "20DP-0SK39", "eDocID": "{393DDF27-812F-C387-9E24-828469F00000", "Revision": "042", "PathName": "/PROCEDURES/PROC/20", "FileName": "{85B9E4D5-8169-C682-B08F-828469F00005}_{393DDF27-812F-C387-9E24-828469F00000}_10643717.pdf", "SWMSStatus": "ADMINISTRATIVE HOLD", "SWMSTitle": "PALO VERDE BADGING PROCEDURE", "Category": "PROCEDURES", "DocType": "PROC", "Chunks": [{"chunk_id": "1", "pages": [0], "bounding_boxes": "{\"0\": [[63, 60, 932, 965]]}", "relevance_score": 0.003968316596001387}, {"chunk_id": "16", "pages": [20], "bounding_boxes": "{\"20\": [[66, 60, 931, 965]]}", "relevance_score": 0.003968316596001387}, {"chunk_id": "15", "pages": [20], "bounding_boxes": "{\"20\": [[66, 60, 931, 965]]}", "relevance_score": 0.003945018630474806}, {"chunk_id": "6", "pages": [16], "bounding_boxes": "{\"16\": [[66, 60, 931, 965]]}", "relevance_score": 0.003933992236852646}, {"chunk_id": "2", "pages": [0], "bounding_boxes": "{\"0\": [[63, 60, 932, 965]]}", "relevance_score": 0.003921704366803169}]}}
+

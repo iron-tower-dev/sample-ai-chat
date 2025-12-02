@@ -318,6 +318,29 @@ export class LlmApiService {
                 currentTooling = toolJson.action;
                 console.log('[LLM API] Set currentTooling to:', currentTooling);
                 console.log('[LLM API] Received tool event:', toolJson.action);
+                
+                // Send chunk update with tooling
+                const chunk: LLMResponseChunk = {
+                  thinkingText: currentThinking,
+                  toolingText: currentTooling,
+                  responseText: currentResponse,
+                  metadata,
+                  followupQuestions,
+                  isComplete: false
+                };
+                console.log('[LLM API] Sending chunk after tool event:', {
+                  thinkingLength: currentThinking.length,
+                  toolingLength: currentTooling.length,
+                  responseLength: currentResponse.length
+                });
+                chunks.push(chunk);
+                onChunk({
+                  chunks: [...chunks],
+                  currentChunk: chunk,
+                  isComplete: false,
+                  error,
+                  messageId
+                });
               }
             } catch (parseError) {
               console.error('[LLM API] Failed to parse tool event:', parseError);
