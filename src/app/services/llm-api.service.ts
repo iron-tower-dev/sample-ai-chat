@@ -312,7 +312,25 @@ export class LlmApiService {
             try {
               const toolStr = trimmedLine.substring(5).trim(); // Remove 'tool:' prefix
               console.log('[LLM API] Tool string to parse:', toolStr);
-              const toolJson = JSON.parse(toolStr);
+              
+              // Handle double-encoded JSON (same as metadata and followup questions)
+              let toolJson;
+              try {
+                // First parse attempt - might be a JSON string
+                const firstParse = JSON.parse(toolStr);
+                
+                // If the result is a string, parse it again (double-encoded JSON)
+                if (typeof firstParse === 'string') {
+                  toolJson = JSON.parse(firstParse);
+                  console.log('[LLM API] Detected double-encoded tool JSON, parsed twice');
+                } else {
+                  toolJson = firstParse;
+                }
+              } catch (initialError) {
+                // If first parse fails, log and skip
+                throw initialError;
+              }
+              
               console.log('[LLM API] Parsed tool JSON:', toolJson);
               console.log('[LLM API] toolJson.action value:', toolJson.action);
               console.log('[LLM API] toolJson.action type:', typeof toolJson.action);

@@ -173,14 +173,17 @@ export class SourceCitationService {
     const result = content.replace(sourcePattern, (match, identifiers) => {
       console.log('[SourceCitationService] Found citation:', match, 'identifiers:', identifiers);
       
-      // Check if this contains UUID pattern(s) - UUIDs are wrapped in curly braces
-      const hasUUIDs = identifiers.includes('{') && identifiers.includes('}');
+      // Check if this contains UUID pattern(s)
+      // UUIDs can be with or without braces: {UUID} or just UUID
+      // UUID format: 8-4-4-4-12 hex digits
+      const uuidRegex = /[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}/gi;
+      const hasUUIDs = uuidRegex.test(identifiers);
       console.log('[SourceCitationService] hasUUIDs:', hasUUIDs, 'citationMetadata exists:', !!citationMetadata);
       
       if (hasUUIDs && citationMetadata && Object.keys(citationMetadata).length > 0) {
         // Extract all UUIDs from the identifiers string
-        // UUIDs can be comma-separated like: {UUID1}, {UUID2}
-        const uuidPattern = /\{[^}]+\}/g;
+        // UUIDs can be with or without braces
+        const uuidPattern = /\{?[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}\}?/gi;
         const uuids = identifiers.match(uuidPattern) || [];
         
         if (uuids.length === 0) {
@@ -193,35 +196,27 @@ export class SourceCitationService {
         
         for (const uuid of uuids) {
           console.log('[SourceCitationService] Looking up UUID:', uuid);
-          console.log('[SourceCitationService] Available keys:', Object.keys(citationMetadata).slice(0, 5));
-          console.log('[SourceCitationService] All available keys:', Object.keys(citationMetadata));
-          console.log('[SourceCitationService] citationMetadata type:', typeof citationMetadata);
-          console.log('[SourceCitationService] Full metadata object:', citationMetadata);
           
-          // Debug: Check if any keys match our UUID
-          const matchingKey = Object.keys(citationMetadata).find(k => k === uuid);
-          console.log('[SourceCitationService] Exact match found in keys?:', !!matchingKey, matchingKey);
+          // Normalize UUID format: metadata keys always have braces
+          // Response text may or may not have braces
+          let normalizedUuid = uuid;
+          if (!uuid.startsWith('{')) {
+            normalizedUuid = '{' + uuid + '}';
+          }
+          console.log('[SourceCitationService] Normalized UUID for lookup:', normalizedUuid);
           
-          // Debug: Compare first key with our UUID for character differences
-          const firstKey = Object.keys(citationMetadata)[0];
-          console.log('[SourceCitationService] First key:', firstKey);
-          console.log('[SourceCitationService] UUID to find:', uuid);
-          console.log('[SourceCitationService] Keys equal?:', firstKey === uuid);
-          console.log('[SourceCitationService] First key length:', firstKey?.length, 'UUID length:', uuid.length);
-          
-          // Try to find metadata with or without braces
-          // First try with braces, then without
-          let docMetadata = citationMetadata[uuid];
-          let lookupKey = uuid;
-          console.log('[SourceCitationService] Direct lookup citationMetadata["' + uuid + '"] =', docMetadata);
+          // Try lookup with normalized (braced) UUID
+          let docMetadata = citationMetadata[normalizedUuid];
+          let lookupKey = normalizedUuid;
+          console.log('[SourceCitationService] Lookup result:', docMetadata ? 'FOUND' : 'NOT FOUND');
           
           if (!docMetadata) {
-            // Try without braces
+            // Try without braces as fallback
             const uuidWithoutBraces = uuid.replace(/[{}]/g, '');
             console.log('[SourceCitationService] Trying without braces:', uuidWithoutBraces);
             docMetadata = citationMetadata[uuidWithoutBraces];
             lookupKey = uuidWithoutBraces;
-            console.log('[SourceCitationService] Without braces citationMetadata["' + uuidWithoutBraces + '"] =', docMetadata);
+            console.log('[SourceCitationService] Without braces result:', docMetadata ? 'FOUND' : 'NOT FOUND');
           }
           
           if (docMetadata) {
