@@ -329,12 +329,33 @@ export class LlmApiService {
           } else if (!followupQuestionsReceived && trimmedLine.includes('followup_and_topic_questions:')) {
             // Parse followup questions
             try {
-              const followupStr = trimmedLine.substring(trimmedLine.indexOf('{'));
-              followupQuestions = JSON.parse(followupStr);
-              followupQuestionsReceived = true;
-              console.log('[LLM API] Received followup questions:', followupQuestions);
+              // Find the start of the JSON (either '{' for object or '[' for array)
+              const jsonStartIndex = Math.max(
+                trimmedLine.indexOf('{'),
+                trimmedLine.indexOf('[')
+              );
+              
+              if (jsonStartIndex === -1) {
+                console.warn('[LLM API] No valid JSON start found in followup questions line:', trimmedLine);
+                continue;
+              }
+              
+              const followupStr = trimmedLine.substring(jsonStartIndex);
+              const parsedData = JSON.parse(followupStr);
+              
+              // Validate the structure matches expected format: { topic: string, followups: string[] }
+              if (parsedData && typeof parsedData === 'object' && 
+                  'topic' in parsedData && 'followups' in parsedData &&
+                  Array.isArray(parsedData.followups)) {
+                followupQuestions = parsedData;
+                followupQuestionsReceived = true;
+                console.log('[LLM API] Received followup questions:', followupQuestions);
+              } else {
+                console.warn('[LLM API] Followup questions data does not match expected format:', parsedData);
+              }
             } catch (parseError) {
               console.error('Failed to parse followup questions:', parseError);
+              console.error('[LLM API] Problematic line:', trimmedLine);
             }
           }
         }
