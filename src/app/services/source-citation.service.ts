@@ -115,13 +115,14 @@ export class SourceCitationService {
       return null;
     }
 
-    // eDoc: use edocid (various casing) query param
+    // eDoc: use get_document endpoint with filepath and filename
     if (sourceName === 'edoc') {
-      const edocId = md['edocid'] || md['eDocId'] || md['EDocId'] || md['edocID'];
-      if (edocId) {
-        const id = encodeURIComponent(String(edocId));
-        // Use API base URL for eDoc endpoint
-        return `${environment.apiUrl}/edoc?edocid=${id}`;
+      const pathname = md['PathName'];
+      const filename = md['FileName'];
+      if (pathname && filename) {
+        const filepath = encodeURIComponent(String(pathname));
+        const fn = encodeURIComponent(String(filename));
+        return `${environment.apiUrl}/get_document?filepath=${filepath}&filename=${fn}`;
       }
       return null;
     }
@@ -239,14 +240,13 @@ export class SourceCitationService {
             
             const label = title; // No brackets
             
-              // Check if we can build an external URL
-              if (docMetadata.eDocID || docMetadata.PathName) {
-                const edocId = docMetadata.eDocID || docMetadata.edocID;
-                if (edocId) {
-                  const url = `${environment.apiUrl}/edoc?edocid=${encodeURIComponent(edocId)}`;
-                  citations.push(`<a class="inline-source-citation" href="${url}" target="_blank" rel="noopener noreferrer" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`);
-                  continue;
-                }
+              // Check if we can build an external URL using PathName and FileName
+              if (docMetadata.PathName && docMetadata.FileName) {
+                const filepath = encodeURIComponent(docMetadata.PathName);
+                const filename = encodeURIComponent(docMetadata.FileName);
+                const url = `${environment.apiUrl}/get_document?filepath=${filepath}&filename=${filename}`;
+                citations.push(`<a class="inline-source-citation" href="${url}" target="_blank" rel="noopener noreferrer" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`);
+                continue;
               }
             
             // No external URL, make it a clickable link for preview (use javascript:void(0) to prevent navigation)
@@ -303,14 +303,13 @@ export class SourceCitationService {
               
               const label = title; // No brackets
               
-              // Check if we can build an external URL
-              if (metadata.eDocID || metadata.PathName) {
-                const edocId = metadata.eDocID || metadata.edocID;
-                if (edocId) {
-                  const url = `${environment.apiUrl}/edoc?edocid=${encodeURIComponent(edocId)}`;
-                  citations.push(`<a class="inline-source-citation" href="${url}" target="_blank" rel="noopener noreferrer" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`);
-                  break; // Found and processed, continue to next sourceId
-                }
+              // Check if we can build an external URL using PathName and FileName
+              if (metadata.PathName && metadata.FileName) {
+                const filepath = encodeURIComponent(metadata.PathName);
+                const filename = encodeURIComponent(metadata.FileName);
+                const url = `${environment.apiUrl}/get_document?filepath=${filepath}&filename=${filename}`;
+                citations.push(`<a class="inline-source-citation" href="${url}" target="_blank" rel="noopener noreferrer" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`);
+                break; // Found and processed, continue to next sourceId
               }
               
               // No external URL, make it a clickable link for preview (use javascript:void(0) to prevent navigation)

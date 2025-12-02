@@ -99,8 +99,8 @@ export class MarkdownContentComponent implements AfterViewChecked {
                 const uuidAttr = newLink.getAttribute('data-uuid');
                 const externalUrl = newLink.getAttribute('href');
                 
-                // If there's an external eDoc URL, open PDF popup
-                if (externalUrl && externalUrl.includes('/edoc?edocid=')) {
+                // If there's an external document URL, open PDF popup
+                if (externalUrl && (externalUrl.includes('/get_document?') || externalUrl.includes('/edoc?edocid='))) {
                     console.log('[MarkdownContent] Opening PDF popup for:', externalUrl);
                     this.openPdfPopup(externalUrl, docDataAttr);
                     return;
