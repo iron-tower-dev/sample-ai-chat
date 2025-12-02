@@ -146,7 +146,9 @@ export class LlmApiService {
           
           // Skip empty lines
           if (!trimmedLine) continue;
-
+          
+          console.log('[LLM API] Processing line:', trimmedLine.substring(0, 50));
+          
           // SSE format: "data: <content>"
           if (trimmedLine.startsWith('data: ')) {
             let content = trimmedLine.substring(6); // Remove "data: " prefix
@@ -306,15 +308,20 @@ export class LlmApiService {
             });
           } else if (trimmedLine.startsWith('tool:')) {
             // Parse tool event: tool: {"action": "..."}
+            console.log('[LLM API] FOUND TOOL EVENT, line:', trimmedLine);
             try {
               const toolStr = trimmedLine.substring(5).trim(); // Remove 'tool:' prefix
+              console.log('[LLM API] Tool string to parse:', toolStr);
               const toolJson = JSON.parse(toolStr);
+              console.log('[LLM API] Parsed tool JSON:', toolJson);
               if (toolJson.action) {
                 currentTooling = toolJson.action;
+                console.log('[LLM API] Set currentTooling to:', currentTooling);
                 console.log('[LLM API] Received tool event:', toolJson.action);
               }
             } catch (parseError) {
-              console.error('Failed to parse tool event:', parseError);
+              console.error('[LLM API] Failed to parse tool event:', parseError);
+              console.error('[LLM API] Problematic tool line:', trimmedLine);
             }
           } else if (!metadataReceived && trimmedLine.includes('metadata:')) {
             // Parse metadata (comes after the SSE stream)

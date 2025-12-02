@@ -1,0 +1,28 @@
+Based on the search results, there are two primary procedures that manage unescorted access at Palo Verde Nuclear Generating Station:
+
+1. 20DP-0SK40 "PVNGS UNESCORTED ACCESS SCREENING" (Latest Revision: 050)
+
+This is the main procedure that manages unescorted access authorization and screening. It covers:
+
+Background investigations for unescorted access
+Initial and updated unescorted access authorizations
+Reinstatement processes for unescorted access
+All regulatory requirements for security screening
+Fitness for Duty program coordination
+Behavioral observation programs
+Random drug and alcohol testing requirements
+Psychological assessments
+The procedure outlines the complete workflow for granting, maintaining, and revoking unescorted access privileges to protect the protected areas of the plant [Source: {9F69364A-E6E6-4D01-A1AC-A7E9A1793E10}].
+
+2. 20DP-0SK39 "Palo Verde Badging Procedure" (Latest Revision: 042)
+
+This procedure works in conjunction with 20DP-0SK40 and manages the administrative and system aspects of unescorted access:
+
+ACAD badge issuance and management
+Biometric system enrollment
+Coordination with Security Screening Information System (SSIS)
+Administrative verification processes for unescorted access requests
+Badge replacement and maintenance
+The badging procedure ensures that all administrative requirements are met before ACAD badges are issued to individuals with unescorted authorization [Source: {FA205FD1-7739-C377-84CE-7B63C3A00000}].
+
+Primary Answer: The procedure that primarily manages unescorted access is 20DP-0SK40 "PVNGS UNESCORTED ACCESS SCREENING" as it contains the core security screening and authorization requirements, while 20DP-0SK39 "Palo Verde Badging Procedure" handles the administrative badge issuance process.

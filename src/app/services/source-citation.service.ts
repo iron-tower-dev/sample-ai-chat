@@ -192,15 +192,22 @@ export class SourceCitationService {
         const seenTitles = new Set<string>();
         
         for (const uuid of uuids) {
+          console.log('[SourceCitationService] Looking up UUID:', uuid);
+          console.log('[SourceCitationService] Available keys:', Object.keys(citationMetadata).slice(0, 5));
+          
           // Try to find metadata with or without braces
           // First try with braces, then without
           let docMetadata = citationMetadata[uuid];
           let lookupKey = uuid;
+          console.log('[SourceCitationService] Direct lookup result for', uuid, ':', docMetadata ? 'FOUND' : 'NOT FOUND');
+          
           if (!docMetadata) {
             // Try without braces
             const uuidWithoutBraces = uuid.replace(/[{}]/g, '');
+            console.log('[SourceCitationService] Trying without braces:', uuidWithoutBraces);
             docMetadata = citationMetadata[uuidWithoutBraces];
             lookupKey = uuidWithoutBraces;
+            console.log('[SourceCitationService] Without braces result:', docMetadata ? 'FOUND' : 'NOT FOUND');
           }
           
           if (docMetadata) {

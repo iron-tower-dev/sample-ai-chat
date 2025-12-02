@@ -1,0 +1,25 @@
+The user is asking about a procedure that manages unescorted access. This sounds like it would be related to security procedures at Palo Verde Nuclear Generating Station. I should search for documents related to unescorted access procedures.
+
+Let me start by searching the eDoc collection for documents related to unescorted access, as this would likely be a procedure document.Great! I found several documents related to unescorted access procedures. Based on the search results, I can see that there are at least two primary procedures that manage unescorted access:
+
+1. **20DP-0SK40** - "PVNGS UNESCORTED ACCESS SCREENING" - This appears to be the main procedure for managing unescorted access, covering background investigations, screening processes, and all the requirements for unescorted access authorization.
+
+2. **20DP-0SK39** - "Palo Verde Badging Procedure" - This procedure covers the badging process and is involved in managing unescorted access through the issuance of ACAD badges and management of access systems.
+
+Let me get the latest revisions of these documents to provide the most current information.Now I have the latest revisions: 20DP-0SK40 Rev. 050 and 20DP-0SK39 Rev. 042. Based on the search results and the latest revision information, I can provide a comprehensive answer about which procedures manage unescorted access at Palo Verde.
+
+From the search results, I can see that:
+
+1. **20DP-0SK40** (PVNGS UNESCORTED ACCESS SCREENING) is the primary procedure that manages unescorted access. It covers:
+   - Background investigations
+   - Screening processes
+   - Initial and updated unescorted access authorizations
+   - Reinstatement processes
+   - All regulatory requirements for fitness for duty and security screening
+
+2. **20DP-0SK39** (Palo Verde Badging Procedure) is also involved in managing unescorted access through:
+   - Issuance of ACAD badges
+   - Management of access systems
+   - Coordination with the unescorted access request workflow
+
+The search results clearly show that 20DP-0SK40 is the main procedure for unescorted access management, while 20DP-0SK39 handles the badging and administrative aspects of unescorted access. 
