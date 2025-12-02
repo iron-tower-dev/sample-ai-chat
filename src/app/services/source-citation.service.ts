@@ -236,7 +236,7 @@ export class SourceCitationService {
               metadata: docMetadata
             }));
             
-            const label = `[${title}]`;
+            const label = title; // No brackets
             
             // Check if we can build an external URL
             if (docMetadata.eDocID || docMetadata.PathName) {
@@ -248,8 +248,8 @@ export class SourceCitationService {
               }
             }
             
-            // No external URL, make it a clickable link for preview
-            citations.push(`<a class="inline-source-citation" href="#" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`);
+            // No external URL, make it a clickable link for preview (use javascript:void(0) to prevent navigation)
+            citations.push(`<a class="inline-source-citation" href="javascript:void(0)" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`);
           } else {
             console.warn('[SourceCitationService] No metadata found for UUID:', uuid);
           }
@@ -300,7 +300,7 @@ export class SourceCitationService {
                 metadata: metadata
               }));
               
-              const label = `[${title}]`;
+              const label = title; // No brackets
               
               // Check if we can build an external URL
               if (metadata.eDocID || metadata.PathName) {
@@ -312,8 +312,8 @@ export class SourceCitationService {
                 }
               }
               
-              // No external URL, make it a clickable link for preview
-              citations.push(`<a class="inline-source-citation" href="#" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`);
+              // No external URL, make it a clickable link for preview (use javascript:void(0) to prevent navigation)
+              citations.push(`<a class="inline-source-citation" href="javascript:void(0)" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`);
               break; // Found and processed, continue to next sourceId
             }
           }
@@ -376,13 +376,13 @@ export class SourceCitationService {
 
               // Build a clickable link when possible
               const url = this.buildDocumentUrl(document, sourceId);
-              const label = `[${document.title}]`;
+              const label = document.title; // No brackets
               if (url) {
                 // External URL - open in new tab, but also provide data for preview
                 citations.push(`<a class=\"inline-source-citation\" href=\"${url}\" target=\"_blank\" rel=\"noopener noreferrer\" title=\"${document.title}\" data-doc=\"${docData}\" data-external-url=\"${url}\">${label}</a>`);
               } else {
-                // No external URL - make it a clickable link that will show preview
-                citations.push(`<a class=\"inline-source-citation\" href=\"#\" title=\"${document.title}\" data-doc=\"${docData}\">${label}</a>`);
+                // No external URL - make it a clickable link that will show preview (use javascript:void(0) to prevent navigation)
+                citations.push(`<a class=\"inline-source-citation\" href=\"javascript:void(0)\" title=\"${document.title}\" data-doc=\"${docData}\">${label}</a>`);
               }
             }
           } else {
