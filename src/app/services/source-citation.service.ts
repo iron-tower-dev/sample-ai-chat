@@ -146,7 +146,11 @@ export class SourceCitationService {
   ): string {
     console.log('[SourceCitationService] Processing content:', content.substring(0, 200));
     console.log('[SourceCitationService] RAG documents count:', ragDocuments.length);
-    console.log('[SourceCitationService] Citation metadata:', citationMetadata ? 'present with ' + Object.keys(citationMetadata).length + ' keys' : 'NOT PROVIDED');
+    if (citationMetadata) {
+      console.log('[SourceCitationService] Citation metadata: present with ' + Object.keys(citationMetadata).length + ' keys:', Object.keys(citationMetadata).slice(0, 3));
+    } else {
+      console.log('[SourceCitationService] Citation metadata: NOT PROVIDED');
+    }
     
     // Create lookup maps for quick access
     const docByIndex = new Map<number, RAGDocument>();
@@ -188,9 +192,19 @@ export class SourceCitationService {
         const seenTitles = new Set<string>();
         
         for (const uuid of uuids) {
-          const docMetadata = citationMetadata[uuid];
+          // Try to find metadata with or without braces
+          // First try with braces, then without
+          let docMetadata = citationMetadata[uuid];
+          let lookupKey = uuid;
+          if (!docMetadata) {
+            // Try without braces
+            const uuidWithoutBraces = uuid.replace(/[{}]/g, '');
+            docMetadata = citationMetadata[uuidWithoutBraces];
+            lookupKey = uuidWithoutBraces;
+          }
           
           if (docMetadata) {
+            console.log('[SourceCitationService] Found metadata for UUID', uuid, 'using key:', lookupKey);
             const title = docMetadata.DocumentTitle || 'Unknown Document';
             
             // Skip duplicates
