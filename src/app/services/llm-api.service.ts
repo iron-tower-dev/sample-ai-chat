@@ -401,7 +401,26 @@ export class LlmApiService {
               
               // Validate the structure is an object (metadata should be a key-value map)
               if (parsedData && typeof parsedData === 'object' && !Array.isArray(parsedData)) {
-                metadata = parsedData;
+                // Normalize malformed UUID keys: "{UUID" -> "{UUID}" or "UUID" -> "{UUID}"
+                const normalizedMetadata: Record<string, any> = {};
+                for (const [key, value] of Object.entries(parsedData)) {
+                  let normalizedKey = key;
+                  
+                  // Check if key looks like a UUID (with or without braces)
+                  // UUID format: 8-4-4-4-12 hex digits
+                  const uuidPattern = /^"?\{?([0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12})\}?"?$/i;
+                  const match = key.match(uuidPattern);
+                  
+                  if (match) {
+                    // Normalize to format: {UUID}
+                    normalizedKey = `{${match[1]}}`;
+                    console.log('[LLM API] Normalized metadata key:', key, '->', normalizedKey);
+                  }
+                  
+                  normalizedMetadata[normalizedKey] = value;
+                }
+                
+                metadata = normalizedMetadata;
                 metadataReceived = true;
                 console.log('[LLM API] Received metadata with', Object.keys(metadata).length, 'documents');
                 console.log('[LLM API] First 3 metadata keys:', Object.keys(metadata).slice(0, 3));
