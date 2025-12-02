@@ -245,7 +245,7 @@ export class SourceCitationService {
                 const filepath = encodeURIComponent(docMetadata.PathName);
                 const filename = encodeURIComponent(docMetadata.FileName);
                 const url = `${environment.apiUrl}/get_document?filepath=${filepath}&filename=${filename}`;
-                citations.push(`<a class="inline-source-citation" href="${url}" target="_blank" rel="noopener noreferrer" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`);
+                citations.push(`<a class="inline-source-citation" href="${url}" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`);
                 continue;
               }
             
@@ -308,7 +308,7 @@ export class SourceCitationService {
                 const filepath = encodeURIComponent(metadata.PathName);
                 const filename = encodeURIComponent(metadata.FileName);
                 const url = `${environment.apiUrl}/get_document?filepath=${filepath}&filename=${filename}`;
-                citations.push(`<a class="inline-source-citation" href="${url}" target="_blank" rel="noopener noreferrer" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`);
+                citations.push(`<a class="inline-source-citation" href="${url}" title="${title}" data-doc="${docData}" data-uuid="${uuid}">${label}</a>`);
                 break; // Found and processed, continue to next sourceId
               }
               
@@ -378,8 +378,8 @@ export class SourceCitationService {
               const url = this.buildDocumentUrl(document, sourceId);
               const label = document.title; // No brackets
               if (url) {
-                // External URL - open in new tab, but also provide data for preview
-                citations.push(`<a class=\"inline-source-citation\" href=\"${url}\" target=\"_blank\" rel=\"noopener noreferrer\" title=\"${document.title}\" data-doc=\"${docData}\" data-external-url=\"${url}\">${label}</a>`);
+                // External URL - will be opened in popup by click handler
+                citations.push(`<a class=\"inline-source-citation\" href=\"${url}\" title=\"${document.title}\" data-doc=\"${docData}\" data-external-url=\"${url}\">${label}</a>`);
               } else {
                 // No external URL - make it a clickable link that will show preview (use javascript:void(0) to prevent navigation)
                 citations.push(`<a class=\"inline-source-citation\" href=\"javascript:void(0)\" title=\"${document.title}\" data-doc=\"${docData}\">${label}</a>`);

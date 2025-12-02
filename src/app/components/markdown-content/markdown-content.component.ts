@@ -94,13 +94,16 @@ export class MarkdownContentComponent implements AfterViewChecked {
             
             newLink.addEventListener('click', (event: Event) => {
                 event.preventDefault();
+                event.stopPropagation();
                 
                 const docDataAttr = newLink.getAttribute('data-doc');
                 const uuidAttr = newLink.getAttribute('data-uuid');
                 const externalUrl = newLink.getAttribute('href');
                 
-                // If there's an external document URL, open PDF popup
-                if (externalUrl && (externalUrl.includes('/get_document?') || externalUrl.includes('/edoc?edocid='))) {
+                console.log('[MarkdownContent] Citation clicked, href:', externalUrl);
+                
+                // If there's an external document URL (not javascript:void(0)), open PDF popup
+                if (externalUrl && externalUrl !== 'javascript:void(0)' && externalUrl !== '#') {
                     console.log('[MarkdownContent] Opening PDF popup for:', externalUrl);
                     this.openPdfPopup(externalUrl, docDataAttr);
                     return;
