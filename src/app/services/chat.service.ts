@@ -162,8 +162,9 @@ export class ChatService {
                     }
 
                     // Store metadata for citations
-                    if (currentChunk.metadata && !citationMetadata) {
+                    if (currentChunk.metadata) {
                         citationMetadata = currentChunk.metadata;
+                        console.log('[ChatService] Updating citation metadata with', Object.keys(citationMetadata).length, 'keys');
                         this.updateMessageCitationMetadata(assistantMessageId, citationMetadata);
                     }
                     
@@ -265,6 +266,7 @@ export class ChatService {
     }
 
     private updateMessageCitationMetadata(messageId: string, citationMetadata: Record<string, any>): void {
+        console.log('[ChatService] updateMessageCitationMetadata called for message', messageId, 'with metadata keys:', Object.keys(citationMetadata));
         this.conversations.update(convs =>
             convs.map(conv => ({
                 ...conv,
@@ -275,6 +277,7 @@ export class ChatService {
                 )
             }))
         );
+        console.log('[ChatService] Citation metadata updated in conversations');
     }
     
     private updateMessageFollowupQuestions(messageId: string, followupQuestions: { topic: string; followups: string[] }): void {

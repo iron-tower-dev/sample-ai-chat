@@ -46,13 +46,23 @@ import { ThinkingSectionComponent } from '../thinking-section/thinking-section.c
       
       <div class="message-content">
         @if (message().role === 'assistant') {
-          @if (isLoading() && !message().content) {
+          <!-- Show tooling indicator when loading and tooling text is present -->
+          @if (isLoading() && message().toolingText) {
+            <div class="tooling-indicator">
+              <mat-spinner diameter="16"></mat-spinner>
+              <span>{{ message().toolingText }}</span>
+            </div>
+          }
+          
+          @if (isLoading() && !message().content && !message().toolingText) {
             <div class="thinking-indicator">
               <mat-spinner diameter="20"></mat-spinner>
-              <span>{{ message().toolingText || 'Generating response...' }}</span>
+              <span>Generating response...</span>
             </div>
-          } @else {
-            <!-- Thinking section -->
+          }
+          
+          @if (message().content) {
+            <!-- Thinking section (collapsed by default) -->
             @if (message().thinkingText || message().toolingText) {
               <app-thinking-section
                 [thinkingText]="message().thinkingText || ''"

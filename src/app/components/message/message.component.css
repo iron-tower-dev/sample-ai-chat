@@ -117,6 +117,45 @@
     flex-shrink: 0;
 }
 
+/* Tooling indicator - prominent display like ChatGPT */
+.tooling-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    background: rgba(var(--mat-primary-rgb, 99, 102, 241), 0.08);
+    border-left: 3px solid var(--mat-primary);
+    border-radius: 8px;
+    color: var(--mat-on-surface);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.tooling-indicator mat-spinner {
+    flex-shrink: 0;
+}
+
+.tooling-indicator span {
+    color: var(--mat-primary);
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Dark theme support for tooling indicator */
+:host-context(.dark-theme) .tooling-indicator {
+    background: rgba(var(--mat-primary-rgb, 99, 102, 241), 0.15);
+    border-left-color: var(--mat-primary);
+}
+
 /* Override text color for user messages */
 .user-message .message-content,
 .user-message .message-content * {

@@ -1,0 +1,22 @@
+Based on my analysis of the Palo Verde procedures, there are two key procedures that manage unescorted access, with each serving different but complementary roles:
+
+Primary Procedure: 20DP-0SK40 "Access Authorization" (Revision 050)
+This is the main procedure that manages unescorted access authorization. It covers the comprehensive process including:
+
+Initial, updated, and reinstated unescorted access authorization
+Program elements and requirements for trustworthiness and reliability
+Background investigations and screening processes
+Fitness for Duty Program integration
+Behavioral Observation Program
+Access denial and review procedures
+Licensee information sharing [Source: {DD8F69B2-1358-C5CE-964F-93B296A00000}][Source: {876A0C2F-617D-C01B-9CCE-93B296A00000}]
+Supporting Procedure: 20DP-0SK39 "Palo Verde Badging Procedure" (Revision 042)
+This procedure manages the physical aspects of unescorted access, specifically:
+
+Badge issuance requirements for unescorted access
+ACAD badge management and control
+Verification of authorization requirements before issuing badges
+Termination and reactivation of unescorted access badges [Source: {0A7369D5-0CBB-CB9E-97CD-828469F00000}][Source: {393DDF27-812F-C387-9E24-828469F00000}]
+Answer to Your Question:
+
+The procedure that manages unescorted access is 20DP-0SK40 "Access Authorization". This is the primary procedure that governs the authorization process for unescorted access, including all screening, evaluation, and approval requirements. The Palo Verde Badging Procedure (20DP-0SK39) supports this by managing the physical badge issuance process once authorization has been granted.

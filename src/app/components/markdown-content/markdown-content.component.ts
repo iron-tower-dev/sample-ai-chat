@@ -44,6 +44,7 @@ export class MarkdownContentComponent implements AfterViewChecked {
             
             console.log('[MarkdownContent] Content changed:', markdownContent?.substring(0, 100));
             console.log('[MarkdownContent] RAG docs:', docs?.length || 0);
+            console.log('[MarkdownContent] Citation metadata:', metadata);
             console.log('[MarkdownContent] Citation metadata keys:', metadata ? Object.keys(metadata).length : 0);
             
             if (markdownContent) {

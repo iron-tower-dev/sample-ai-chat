@@ -360,7 +360,7 @@ export class LlmApiService {
               console.error('Failed to parse metadata:', parseError);
               console.error('[LLM API] Problematic line:', trimmedLine);
             }
-          }
+          } else if (!followupQuestionsReceived && trimmedLine.includes('followup_questions:')) {
             // Parse followup questions
             try {
               // Extract content after the colon
