@@ -319,14 +319,48 @@ export class LlmApiService {
           } else if (!metadataReceived && trimmedLine.includes('metadata:')) {
             // Parse metadata (comes after the SSE stream)
             try {
-              const metadataStr = trimmedLine.substring(trimmedLine.indexOf('{'));
-              metadata = JSON.parse(metadataStr);
-              metadataReceived = true;
-              console.log('[LLM API] Received metadata with', metadata ? Object.keys(metadata).length : 0, 'documents');
+              // Extract content after 'metadata:'
+              const colonIndex = trimmedLine.indexOf(':');
+              if (colonIndex === -1) {
+                console.warn('[LLM API] No colon found in metadata line:', trimmedLine);
+                continue;
+              }
+              
+              let metadataStr = trimmedLine.substring(colonIndex + 1).trim();
+              
+              // Handle double-encoded JSON: if the backend returns a JSON string containing JSON,
+              // we need to parse twice (same as followup questions)
+              let parsedData;
+              try {
+                // First parse attempt - might be a JSON string
+                const firstParse = JSON.parse(metadataStr);
+                
+                // If the result is a string, parse it again (double-encoded JSON)
+                if (typeof firstParse === 'string') {
+                  parsedData = JSON.parse(firstParse);
+                  console.log('[LLM API] Detected double-encoded metadata JSON, parsed twice');
+                } else {
+                  parsedData = firstParse;
+                }
+              } catch (initialError) {
+                // If first parse fails, log and skip
+                throw initialError;
+              }
+              
+              // Validate the structure is an object (metadata should be a key-value map)
+              if (parsedData && typeof parsedData === 'object' && !Array.isArray(parsedData)) {
+                metadata = parsedData;
+                metadataReceived = true;
+                console.log('[LLM API] Received metadata with', Object.keys(metadata).length, 'documents');
+                console.log('[LLM API] First 3 metadata keys:', Object.keys(metadata).slice(0, 3));
+              } else {
+                console.warn('[LLM API] Metadata data does not match expected format (should be object):', parsedData);
+              }
             } catch (parseError) {
               console.error('Failed to parse metadata:', parseError);
+              console.error('[LLM API] Problematic line:', trimmedLine);
             }
-          } else if (!followupQuestionsReceived && trimmedLine.includes('followup_and_topic_questions:')) {
+          }
             // Parse followup questions
             try {
               // Extract content after the colon
