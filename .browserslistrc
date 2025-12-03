@@ -1,0 +1,12 @@
+# Browsers that we support
+# Targeting modern browsers that support ES2022+ features including top-level await
+
+last 2 Chrome versions
+last 2 Firefox versions
+last 2 Safari versions
+last 2 Edge versions
+
+# Exclude older browsers that don't support top-level await
+not IE 11
+not dead
+not op_mini all

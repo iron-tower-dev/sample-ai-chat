@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as pdfjsLib from 'pdfjs-dist';
-
-// Configure worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.1.392/pdf.worker.min.mjs';
+import { AnnotationFactory } from 'annotpdf';
 
 export interface BoundingBox {
   x1: number;
@@ -22,6 +19,7 @@ export class PdfViewerService {
   /**
    * Parse bounding boxes from JSON string format
    * Format: {"42": [[80, 213, 880, 548]], "43": [[66, 61, 931, 965]]}
+   * Coordinates are normalized (0-1000 range)
    */
   parseBoundingBoxes(boundingBoxesJson: string): PageBoundingBoxes {
     try {
@@ -47,79 +45,71 @@ export class PdfViewerService {
   }
 
   /**
-   * Load a PDF document from a blob URL
+   * Add rectangle annotations to a PDF document
+   * Coordinates are normalized (0-1000) and will be converted to PDF page coordinates
+   * @param pdfData The PDF file as Uint8Array
+   * @param boundingBoxes Map of page numbers to bounding boxes
+   * @returns Annotated PDF as Uint8Array
    */
-  async loadPdfDocument(url: string): Promise<pdfjsLib.PDFDocumentProxy> {
-    const loadingTask = pdfjsLib.getDocument(url);
-    return await loadingTask.promise;
-  }
-
-  /**
-   * Render a PDF page to a canvas with highlights
-   */
-  async renderPageWithHighlights(
-    pdfDocument: pdfjsLib.PDFDocumentProxy,
-    pageNumber: number,
-    canvas: HTMLCanvasElement,
-    highlights: BoundingBox[] = [],
-    scale: number = 1.5
-  ): Promise<void> {
-    const page = await pdfDocument.getPage(pageNumber);
-    const viewport = page.getViewport({ scale });
-
-    const context = canvas.getContext('2d');
-    if (!context) {
-      throw new Error('Could not get canvas context');
+  async addAnnotationsToPdf(
+    pdfData: Uint8Array,
+    boundingBoxes: PageBoundingBoxes
+  ): Promise<Uint8Array> {
+    try {
+      console.log('[PdfViewerService] Creating annotation factory');
+      const factory = new AnnotationFactory(pdfData);
+      
+      // Note: We assume PDF pages are standard size (US Letter: 612 x 792 points)
+      // or we use a fixed scale. The coordinates are normalized (0-1000)
+      // and we'll convert them assuming standard page dimensions.
+      // This is a simplification - ideally we'd get actual page dimensions.
+      const DEFAULT_PAGE_WIDTH = 612;  // Standard US Letter width in points
+      const DEFAULT_PAGE_HEIGHT = 792; // Standard US Letter height in points
+      
+      // Add annotations for each page
+      for (const [pageKey, boxes] of Object.entries(boundingBoxes)) {
+        const pageIdx = parseInt(pageKey, 10);
+        
+        console.log(`[PdfViewerService] Processing page ${pageIdx} with ${boxes.length} boxes`);
+        
+        // Add each bounding box as a square annotation
+        for (const box of boxes) {
+          // Convert normalized coordinates (0-1000) to PDF page coordinates
+          // Assuming standard page dimensions
+          const x0 = (box.x1 / 1000) * DEFAULT_PAGE_WIDTH;
+          const y0 = (box.y1 / 1000) * DEFAULT_PAGE_HEIGHT;
+          const x1 = (box.x2 / 1000) * DEFAULT_PAGE_WIDTH;
+          const y1 = (box.y2 / 1000) * DEFAULT_PAGE_HEIGHT;
+          
+          // PDF coordinate system has origin at bottom-left
+          // rect format: [x0, y0, x1, y1]
+          const rect = [x0, y0, x1, y1];
+          
+          console.log(`[PdfViewerService] Adding annotation at [${x0.toFixed(2)}, ${y0.toFixed(2)}, ${x1.toFixed(2)}, ${y1.toFixed(2)}]`);
+          
+          // Add square annotation with yellow fill and minimal border
+          factory.createSquareAnnotation({
+            page: pageIdx,
+            rect: rect,
+            contents: '',
+            author: '',
+            color: { r: 255, g: 255, b: 0 },
+            fill: { r: 255, g: 255, b: 0 },
+            opacity: 0.3,
+            border: {
+              border_width: 0
+            }
+          });
+        }
+      }
+      
+      console.log('[PdfViewerService] Writing annotated PDF');
+      const annotatedPdf = factory.write();
+      return annotatedPdf;
+    } catch (error) {
+      console.error('[PdfViewerService] Error adding annotations:', error);
+      throw error;
     }
-
-    canvas.height = viewport.height;
-    canvas.width = viewport.width;
-
-    // Render PDF page
-    const renderContext = {
-      canvasContext: context,
-      viewport: viewport
-    };
-
-    await page.render(renderContext).promise;
-
-    // Draw highlights on top
-    if (highlights.length > 0) {
-      this.drawHighlights(context, highlights, viewport, scale);
-    }
-  }
-
-  /**
-   * Draw bounding box highlights on the canvas
-   */
-  private drawHighlights(
-    context: CanvasRenderingContext2D,
-    highlights: BoundingBox[],
-    viewport: pdfjsLib.PageViewport,
-    scale: number
-  ): void {
-    context.save();
-    
-    highlights.forEach(box => {
-      // Convert PDF coordinates to canvas coordinates
-      // PDF coordinates: origin at bottom-left
-      // Canvas coordinates: origin at top-left
-      const x = box.x1 * scale;
-      const y = viewport.height - (box.y2 * scale); // Flip Y coordinate
-      const width = (box.x2 - box.x1) * scale;
-      const height = (box.y2 - box.y1) * scale;
-
-      // Draw semi-transparent yellow highlight
-      context.fillStyle = 'rgba(255, 255, 0, 0.3)';
-      context.fillRect(x, y, width, height);
-
-      // Draw border
-      context.strokeStyle = 'rgba(255, 200, 0, 0.8)';
-      context.lineWidth = 2;
-      context.strokeRect(x, y, width, height);
-    });
-
-    context.restore();
   }
 
   /**
