@@ -334,10 +334,33 @@ export class CitationPreviewModalComponent {
   pdfUrl = signal<SafeResourceUrl | null>(null);
 
   constructor() {
-    // Build PDF URL when component initializes
+    // Fetch PDF as blob when component initializes
     if (this.citationData) {
+      this.loadPdfAsBlob();
+    }
+  }
+  
+  private async loadPdfAsBlob(): Promise<void> {
+    try {
       const url = this.buildPdfUrl(this.citationData);
-      this.pdfUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(url));
+      console.log('[CitationPreviewModal] Fetching PDF from:', url);
+      
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch PDF: ${response.status} ${response.statusText}`);
+      }
+      
+      const blob = await response.blob();
+      console.log('[CitationPreviewModal] PDF blob received, size:', blob.size);
+      
+      // Create a blob URL and set it as the iframe source
+      const blobUrl = URL.createObjectURL(blob);
+      this.pdfUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl));
+      
+      console.log('[CitationPreviewModal] PDF blob URL created:', blobUrl);
+    } catch (error) {
+      console.error('[CitationPreviewModal] Error loading PDF:', error);
+      // Keep pdfUrl as null to show loading/error state
     }
   }
 
