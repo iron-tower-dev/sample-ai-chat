@@ -517,19 +517,23 @@ export class CitationPreviewModalComponent implements AfterViewInit, OnDestroy {
   }
 
   navigateToChunk(chunk: ChunkMetadata): void {
+    console.log('[CitationPreviewModal] Navigating to chunk:', chunk);
+    
     // Set as current chunk
     this.currentChunk.set(chunk);
     
     // Navigate to first page of chunk using iframe page navigation
-    if (chunk.pages && chunk.pages.length > 0 && this.pdfIframe) {
+    if (chunk.pages && chunk.pages.length > 0 && this.annotatedBlobUrl) {
       const firstPage = Math.min(...chunk.pages);
-      const iframe = this.pdfIframe.nativeElement;
+      console.log('[CitationPreviewModal] Navigating to page:', firstPage);
+      
       // Update iframe src with page parameter
-      if (this.annotatedBlobUrl) {
-        const urlWithPage = `${this.annotatedBlobUrl}#page=${firstPage}`;
-        const safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(urlWithPage);
-        this.pdfUrl.set(safeUrl);
-      }
+      // Note: PDF page numbering in URL fragments typically starts at 1
+      const urlWithPage = `${this.annotatedBlobUrl}#page=${firstPage + 1}`;
+      const safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(urlWithPage);
+      this.pdfUrl.set(safeUrl);
+      
+      console.log('[CitationPreviewModal] Updated PDF URL with page fragment:', urlWithPage);
     }
   }
 
