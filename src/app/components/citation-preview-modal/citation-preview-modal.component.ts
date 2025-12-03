@@ -523,35 +523,30 @@ export class CitationPreviewModalComponent implements AfterViewInit, OnDestroy {
     this.currentChunk.set(chunk);
     
     // Navigate to first page of chunk
-    if (chunk.pages && chunk.pages.length > 0) {
+    if (chunk.pages && chunk.pages.length > 0 && this.annotatedBlobUrl) {
       const firstPage = Math.min(...chunk.pages);
       console.log('[CitationPreviewModal] Navigating to page:', firstPage);
       
       // Note: PDF page numbering in URL fragments typically starts at 1
       const targetPage = firstPage + 1;
       
-      // Try to navigate the iframe directly
+      // Force iframe to reload with the page fragment by updating src
+      // We need to create a new URL reference to trigger change detection
+      const urlWithPage = `${this.annotatedBlobUrl}#page=${targetPage}`;
+      console.log('[CitationPreviewModal] Setting iframe URL to:', urlWithPage);
+      
+      // Sanitize and set the URL
+      const safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(urlWithPage);
+      this.pdfUrl.set(safeUrl);
+      
+      // Force the iframe to reload by toggling the src if the browser doesn't respond to fragment changes
       if (this.pdfIframe?.nativeElement) {
         const iframe = this.pdfIframe.nativeElement;
-        
-        // Method 1: Use iframe's contentWindow to navigate
-        try {
-          if (iframe.contentWindow) {
-            const newUrl = `${this.annotatedBlobUrl}#page=${targetPage}`;
-            iframe.contentWindow.location.replace(newUrl);
-            console.log('[CitationPreviewModal] Navigated iframe to page:', targetPage);
-          }
-        } catch (error) {
-          // If direct navigation fails, update the src attribute
-          console.log('[CitationPreviewModal] Direct navigation failed, updating src');
-          if (this.annotatedBlobUrl) {
-            const urlWithPage = `${this.annotatedBlobUrl}#page=${targetPage}`;
-            const safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(urlWithPage);
-            this.pdfUrl.set(safeUrl);
-          }
-        }
-      } else {
-        console.warn('[CitationPreviewModal] iframe not available yet');
+        // Set src directly as well to ensure the browser processes it
+        setTimeout(() => {
+          iframe.src = urlWithPage;
+          console.log('[CitationPreviewModal] Directly set iframe src');
+        }, 0);
       }
     }
   }
