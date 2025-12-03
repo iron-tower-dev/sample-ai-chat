@@ -522,18 +522,37 @@ export class CitationPreviewModalComponent implements AfterViewInit, OnDestroy {
     // Set as current chunk
     this.currentChunk.set(chunk);
     
-    // Navigate to first page of chunk using iframe page navigation
-    if (chunk.pages && chunk.pages.length > 0 && this.annotatedBlobUrl) {
+    // Navigate to first page of chunk
+    if (chunk.pages && chunk.pages.length > 0) {
       const firstPage = Math.min(...chunk.pages);
       console.log('[CitationPreviewModal] Navigating to page:', firstPage);
       
-      // Update iframe src with page parameter
       // Note: PDF page numbering in URL fragments typically starts at 1
-      const urlWithPage = `${this.annotatedBlobUrl}#page=${firstPage + 1}`;
-      const safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(urlWithPage);
-      this.pdfUrl.set(safeUrl);
+      const targetPage = firstPage + 1;
       
-      console.log('[CitationPreviewModal] Updated PDF URL with page fragment:', urlWithPage);
+      // Try to navigate the iframe directly
+      if (this.pdfIframe?.nativeElement) {
+        const iframe = this.pdfIframe.nativeElement;
+        
+        // Method 1: Use iframe's contentWindow to navigate
+        try {
+          if (iframe.contentWindow) {
+            const newUrl = `${this.annotatedBlobUrl}#page=${targetPage}`;
+            iframe.contentWindow.location.replace(newUrl);
+            console.log('[CitationPreviewModal] Navigated iframe to page:', targetPage);
+          }
+        } catch (error) {
+          // If direct navigation fails, update the src attribute
+          console.log('[CitationPreviewModal] Direct navigation failed, updating src');
+          if (this.annotatedBlobUrl) {
+            const urlWithPage = `${this.annotatedBlobUrl}#page=${targetPage}`;
+            const safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(urlWithPage);
+            this.pdfUrl.set(safeUrl);
+          }
+        }
+      } else {
+        console.warn('[CitationPreviewModal] iframe not available yet');
+      }
     }
   }
 
