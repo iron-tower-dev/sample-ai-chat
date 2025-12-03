@@ -169,7 +169,7 @@ export class MarkdownContentComponent implements AfterViewChecked {
     }
     
     private openPdfPopup(edocUrl: string, docDataAttr: string | null): void {
-        console.log('[MarkdownContent] Opening PDF popup window');
+        console.log('[MarkdownContent] Opening PDF in modal');
         
         // Parse document metadata if available
         let docMetadata: any = null;
@@ -182,192 +182,38 @@ export class MarkdownContentComponent implements AfterViewChecked {
             }
         }
         
-        // Create popup window
-        const popupWidth = 1200;
-        const popupHeight = 800;
-        const left = (window.screen.width - popupWidth) / 2;
-        const top = (window.screen.height - popupHeight) / 2;
-        
-        const popup = window.open(
-            '',
-            'PDFViewer',
-            `width=${popupWidth},height=${popupHeight},left=${left},top=${top},resizable=yes,scrollbars=yes`
-        );
-        
-        if (!popup) {
-            console.error('[MarkdownContent] Failed to open popup window (blocked by browser?)');
-            alert('Please allow popups for this site to view documents.');
+        // Ensure we have the required PathName and FileName for the modal
+        if (!docMetadata || !docMetadata.PathName || !docMetadata.FileName) {
+            console.error('[MarkdownContent] Missing PathName or FileName in metadata');
+            alert('Cannot open document: Missing required metadata');
             return;
         }
         
-        // Write the HTML structure to the popup
-        popup.document.write(`
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>${docMetadata?.DocumentTitle || 'Document Viewer'}</title>
-<style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #eef1f5;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
-  #top-header {
-    height: 55px;
-    background: #1b3455;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    font-size: 18px;
-    font-weight: bold;
-    box-sizing: border-box;
-  }
-  #close-btn {
-    background: #ffffff;
-    color: #1b3455;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  #close-btn:hover {
-    background: #e0e0e0;
-  }
-  #content-wrapper {
-    display: flex;
-    flex: 1;
-    overflow: hidden;
-  }
-  #pdf-viewer {
-    flex: 2;
-    background: #f0f2f5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-  #pdf-frame {
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
-  #loading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 18px;
-    color: #666;
-  }
-  #sidebar {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    background: #ffffff;
-    border-left: 1px solid #ddd;
-    min-width: 300px;
-  }
-  #sidebar h3 {
-    margin-top: 0;
-    color: #1b3455;
-  }
-  .metadata-item {
-    margin-bottom: 12px;
-    padding: 8px;
-    background: #f5f5f5;
-    border-radius: 4px;
-  }
-  .metadata-item strong {
-    display: block;
-    color: #1b3455;
-    margin-bottom: 4px;
-  }
-</style>
-</head>
-<body>
-  <div id="top-header">
-    <span>Document Viewer - ${docMetadata?.DocumentTitle || 'PDF'}</span>
-    <button id="close-btn" onclick="window.close()">Close</button>
-  </div>
-  <div id="content-wrapper">
-    <div id="pdf-viewer">
-      <div id="loading">Loading PDF...</div>
-      <iframe id="pdf-frame" style="display:none;"></iframe>
-    </div>
-    <div id="sidebar">
-      <h3>Document Information</h3>
-      <div id="metadata"></div>
-    </div>
-  </div>
-  <script>
-    const edocUrl = ${JSON.stringify(edocUrl)};
-    const metadata = ${JSON.stringify(docMetadata || {})};
-    
-    // Populate metadata sidebar
-    const metadataDiv = document.getElementById('metadata');
-    if (metadata && Object.keys(metadata).length > 0) {
-      let html = '';
-      if (metadata.DocumentTitle) {
-        html += \`<div class="metadata-item"><strong>Title:</strong> \${metadata.DocumentTitle}</div>\`;
-      }
-      if (metadata.Revision) {
-        html += \`<div class="metadata-item"><strong>Revision:</strong> \${metadata.Revision}</div>\`;
-      }
-      if (metadata.SWMSTitle) {
-        html += \`<div class="metadata-item"><strong>SWMS Title:</strong> \${metadata.SWMSTitle}</div>\`;
-      }
-      if (metadata.SWMSStatus) {
-        html += \`<div class="metadata-item"><strong>SWMS Status:</strong> \${metadata.SWMSStatus}</div>\`;
-      }
-      if (metadata.Category) {
-        html += \`<div class="metadata-item"><strong>Category:</strong> \${metadata.Category}</div>\`;
-      }
-      if (metadata.DocType) {
-        html += \`<div class="metadata-item"><strong>Document Type:</strong> \${metadata.DocType}</div>\`;
-      }
-      if (metadata.eDocID) {
-        html += \`<div class="metadata-item"><strong>eDoc ID:</strong> \${metadata.eDocID}</div>\`;
-      }
-      metadataDiv.innerHTML = html;
-    } else {
-      metadataDiv.innerHTML = '<p>No metadata available</p>';
-    }
-    
-    // Load the PDF
-    async function loadPdf() {
-      try {
-        console.log('Fetching PDF from:', edocUrl);
-        const response = await fetch(edocUrl);
-        if (!response.ok) throw new Error('Failed to fetch PDF: ' + response.status);
+        // Open the citation preview modal with the metadata
+        // The modal expects DocumentCitationMetadata format
+        const citationData = {
+            DocumentTitle: docMetadata.DocumentTitle || 'Unknown Document',
+            eDocID: docMetadata.eDocID || docMetadata.edocID || null,
+            Revision: docMetadata.Revision || 'N/A',
+            PathName: docMetadata.PathName,
+            FileName: docMetadata.FileName,
+            SWMSStatus: docMetadata.SWMSStatus || '',
+            SWMSTitle: docMetadata.SWMSTitle || '',
+            Category: docMetadata.Category || 'Unknown',
+            DocType: docMetadata.DocType || 'Document',
+            Chunks: docMetadata.Chunks || [] // Empty array if no chunks
+        };
         
-        const blob = await response.blob();
-        const blobUrl = URL.createObjectURL(blob);
+        console.log('[MarkdownContent] Opening modal with citation data:', citationData);
         
-        const frame = document.getElementById('pdf-frame');
-        frame.src = blobUrl;
-        frame.style.display = 'block';
-        
-        document.getElementById('loading').style.display = 'none';
-      } catch (err) {
-        console.error('Error loading PDF:', err);
-        document.getElementById('loading').textContent = 'Error loading PDF: ' + err.message;
-      }
-    }
-    
-    loadPdf();
-  </script>
-</body>
-</html>
-        `);
-        popup.document.close();
+        this.dialog.open(CitationPreviewModalComponent, {
+            data: citationData,
+            width: '90vw',
+            height: '85vh',
+            maxWidth: '1400px',
+            disableClose: false,
+            panelClass: 'citation-preview-dialog'
+        });
     }
     
     private openCitationPreview(document: RAGDocument): void {
