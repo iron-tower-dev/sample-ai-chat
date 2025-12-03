@@ -151,8 +151,10 @@ export class ChatService {
 
                     if (currentChunk.toolingText !== fullToolingText) {
                         fullToolingText = currentChunk.toolingText;
+                        // Capitalize first character of tooling text
+                        const capitalizedTooling = this.capitalizeFirstChar(fullToolingText);
                         console.log('[ChatService] Updating tooling text');
-                        this.updateMessageToolingText(assistantMessageId, fullToolingText);
+                        this.updateMessageToolingText(assistantMessageId, capitalizedTooling);
                     }
 
                     if (currentChunk.responseText !== fullResponseText) {
@@ -172,6 +174,16 @@ export class ChatService {
                     if (currentChunk.followupQuestions && !followupQuestions) {
                         followupQuestions = currentChunk.followupQuestions;
                         this.updateMessageFollowupQuestions(assistantMessageId, followupQuestions);
+                        
+                        // Update conversation title from topic if this is a new conversation
+                        if (conversationId && followupQuestions.topic) {
+                            const currentConv = this.conversations().find(c => c.id === conversationId);
+                            // Only update if it's still the default title
+                            if (currentConv && currentConv.title.startsWith('Conversation ')) {
+                                const capitalizedTopic = this.capitalizeFirstChar(followupQuestions.topic);
+                                this.updateConversationTitle(conversationId, capitalizedTopic);
+                            }
+                        }
                     }
                 }
 
@@ -532,5 +544,10 @@ export class ChatService {
 
     private generateId(): string {
         return Math.random().toString(36).substr(2, 9);
+    }
+    
+    private capitalizeFirstChar(text: string): string {
+        if (!text || text.length === 0) return text;
+        return text.charAt(0).toUpperCase() + text.slice(1);
     }
 }
