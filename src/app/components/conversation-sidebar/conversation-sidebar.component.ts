@@ -51,7 +51,10 @@ import { Conversation } from '../../models/chat.models';
                 class="conversation-item">
                 <div class="conversation-content">
                   <div class="conversation-header">
-                    <h3 class="conversation-title">{{ conversation.title }}</h3>
+                    <h3 
+                      class="conversation-title"
+                      [matTooltip]="conversation.title"
+                      matTooltipPosition="right">{{ conversation.title }}</h3>
                     <button 
                       mat-icon-button
                       (click)="deleteConversation(conversation.id, $event)"

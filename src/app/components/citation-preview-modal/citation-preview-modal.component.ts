@@ -1,12 +1,13 @@
-import { Component, signal, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy, inject, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { DocumentCitationMetadata } from '../../models/chat.models';
+import { DocumentCitationMetadata, ChunkMetadata } from '../../models/chat.models';
 import { environment } from '../../../environments/environment';
+import { PdfViewerService, PageBoundingBoxes } from '../../services/pdf-viewer.service';
+import type { PDFDocumentProxy } from 'pdfjs-dist';
 
 @Component({
   selector: 'app-citation-preview-modal',
@@ -32,16 +33,28 @@ import { environment } from '../../../environments/environment';
       <div class="modal-body">
         <!-- PDF Viewer -->
         <div class="pdf-viewer">
-          @if (pdfUrl()) {
-            <iframe 
-              [src]="pdfUrl()" 
-              class="pdf-frame"
-              title="PDF Document Preview">
-            </iframe>
-          } @else {
+          @if (isLoading()) {
             <div class="loading-state">
               <mat-icon>description</mat-icon>
               <p>Loading document...</p>
+            </div>
+          } @else if (errorMessage()) {
+            <div class="error-state">
+              <mat-icon>error</mat-icon>
+              <p>{{ errorMessage() }}</p>
+            </div>
+          } @else {
+            <div class="pdf-controls">
+              <button mat-icon-button (click)="previousPage()" [disabled]="currentPage() === 1">
+                <mat-icon>chevron_left</mat-icon>
+              </button>
+              <span class="page-info">Page {{ currentPage() }} of {{ totalPages() }}</span>
+              <button mat-icon-button (click)="nextPage()" [disabled]="currentPage() === totalPages()">
+                <mat-icon>chevron_right</mat-icon>
+              </button>
+            </div>
+            <div class="canvas-container">
+              <canvas #pdfCanvas></canvas>
             </div>
           }
         </div>
@@ -55,7 +68,9 @@ import { environment } from '../../../environments/environment';
                 <button 
                   mat-button 
                   class="chunk-btn"
-                  [matTooltip]="'Relevance: ' + (chunk.relevance_score * 100).toFixed(1) + '%'">
+                  [class.active]="isChunkActive(chunk)"
+                  [matTooltip]="'Relevance: ' + (chunk.relevance_score * 100).toFixed(1) + '%'"
+                  (click)="navigateToChunk(chunk)">
                   <div class="chunk-info">
                     <span class="chunk-id">Chunk {{ chunk.chunk_id }}</span>
                     <span class="chunk-pages">Pages: {{ formatPages(chunk.pages) }}</span>
@@ -156,13 +171,39 @@ import { environment } from '../../../environments/environment';
       position: relative;
     }
 
-    .pdf-frame {
-      width: 100%;
-      height: 100%;
-      border: none;
+    .pdf-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 12px;
+      background: #ffffff;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     }
 
-    .loading-state {
+    .page-info {
+      font-size: 14px;
+      color: rgba(0, 0, 0, 0.87);
+      min-width: 100px;
+      text-align: center;
+    }
+
+    .canvas-container {
+      flex: 1;
+      overflow: auto;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px;
+    }
+
+    .canvas-container canvas {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      background: white;
+    }
+
+    .loading-state,
+    .error-state {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -171,7 +212,12 @@ import { environment } from '../../../environments/environment';
       color: rgba(0, 0, 0, 0.54);
     }
 
-    .loading-state mat-icon {
+    .error-state {
+      color: #d32f2f;
+    }
+
+    .loading-state mat-icon,
+    .error-state mat-icon {
       font-size: 64px;
       width: 64px;
       height: 64px;
@@ -217,6 +263,20 @@ import { environment } from '../../../environments/environment';
 
     .chunk-btn:hover {
       background: #e3f2fd;
+    }
+
+    .chunk-btn.active {
+      background: #1976d2;
+      border-color: #1565c0;
+    }
+
+    .chunk-btn.active .chunk-id,
+    .chunk-btn.active .chunk-pages {
+      color: white;
+    }
+
+    .chunk-btn.active .chunk-score {
+      color: #ffd700;
     }
 
     .chunk-info {
@@ -294,10 +354,28 @@ import { environment } from '../../../environments/environment';
       border-left-color: rgba(255, 255, 255, 0.12);
     }
 
-    :host-context(.dark-theme) .sidebar-section h3 {
+    :host-context(.dark-theme) .metadata-value {
       color: rgba(255, 255, 255, 0.87);
     }
 
+    :host-context(.dark-theme) .pdf-controls {
+      background: #1e1e1e;
+      border-bottom-color: rgba(255, 255, 255, 0.12);
+    }
+
+    :host-context(.dark-theme) .page-info {
+      color: rgba(255, 255, 255, 0.87);
+    }
+
+    :host-context(.dark-theme) .error-state {
+      color: #ef5350;
+    }
+
+    :host-context(.dark-theme) .chunk-btn.active {
+      background: #1976d2;
+      border-color: #1565c0;
+    }
+  `,
     :host-context(.dark-theme) .chunk-btn {
       background: #2c2c2c;
       border-color: rgba(255, 255, 255, 0.12);
@@ -325,24 +403,52 @@ import { environment } from '../../../environments/environment';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CitationPreviewModalComponent {
-  private sanitizer = inject(DomSanitizer);
+export class CitationPreviewModalComponent implements AfterViewInit, OnDestroy {
   private dialogRef = inject(MatDialogRef<CitationPreviewModalComponent>);
+  private pdfViewerService = inject(PdfViewerService);
   
   citationData: DocumentCitationMetadata = inject(MAT_DIALOG_DATA);
 
-  pdfUrl = signal<SafeResourceUrl | null>(null);
+  @ViewChild('pdfCanvas') pdfCanvas!: ElementRef<HTMLCanvasElement>;
+
+  // State signals
+  isLoading = signal(true);
+  errorMessage = signal<string | null>(null);
+  currentPage = signal(1);
+  totalPages = signal(1);
+  
+  // PDF document and data
+  private pdfDocument: PDFDocumentProxy | null = null;
   private rawBlobUrl: string | null = null;
+  private currentChunk = signal<ChunkMetadata | null>(null);
+  private allHighlights: Map<number, PageBoundingBoxes> = new Map();
 
   constructor() {
-    // Fetch PDF as blob when component initializes
+    // Initialize by loading the PDF
     if (this.citationData) {
-      this.loadPdfAsBlob();
+      this.loadPdfDocument();
+    }
+  }
+
+  ngAfterViewInit(): void {
+    // Render initial page if PDF is already loaded
+    if (this.pdfDocument && this.pdfCanvas) {
+      this.renderCurrentPage();
+    }
+  }
+
+  ngOnDestroy(): void {
+    // Clean up blob URL
+    if (this.rawBlobUrl) {
+      URL.revokeObjectURL(this.rawBlobUrl);
     }
   }
   
-  private async loadPdfAsBlob(): Promise<void> {
+  private async loadPdfDocument(): Promise<void> {
     try {
+      this.isLoading.set(true);
+      this.errorMessage.set(null);
+
       const url = this.buildPdfUrl(this.citationData);
       console.log('[CitationPreviewModal] Fetching PDF from:', url);
       
@@ -354,16 +460,86 @@ export class CitationPreviewModalComponent {
       const blob = await response.blob();
       console.log('[CitationPreviewModal] PDF blob received, size:', blob.size);
       
-      // Create a blob URL and set it as the iframe source
+      // Create a blob URL
       const blobUrl = URL.createObjectURL(blob);
-      this.rawBlobUrl = blobUrl; // Store raw URL for opening in new tab
-      this.pdfUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl));
+      this.rawBlobUrl = blobUrl;
       
-      console.log('[CitationPreviewModal] PDF blob URL created:', blobUrl);
+      // Load PDF with PDF.js
+      this.pdfDocument = await this.pdfViewerService.loadPdfDocument(blobUrl);
+      this.totalPages.set(this.pdfDocument.numPages);
+      
+      // Parse all chunk highlights
+      this.parseChunkHighlights();
+      
+      console.log('[CitationPreviewModal] PDF loaded successfully, pages:', this.pdfDocument.numPages);
+      
+      this.isLoading.set(false);
+      
+      // Render first page after view is initialized
+      if (this.pdfCanvas) {
+        await this.renderCurrentPage();
+      }
     } catch (error) {
       console.error('[CitationPreviewModal] Error loading PDF:', error);
-      // Keep pdfUrl as null to show loading/error state
+      this.errorMessage.set('Failed to load PDF document');
+      this.isLoading.set(false);
     }
+  }
+
+  private parseChunkHighlights(): void {
+    this.citationData.Chunks.forEach((chunk, index) => {
+      if (chunk.bounding_boxes) {
+        const parsed = this.pdfViewerService.parseBoundingBoxes(chunk.bounding_boxes);
+        this.allHighlights.set(index, parsed);
+      }
+    });
+  }
+
+  private async renderCurrentPage(): Promise<void> {
+    if (!this.pdfDocument || !this.pdfCanvas) {
+      return;
+    }
+
+    const canvas = this.pdfCanvas.nativeElement;
+    const pageNum = this.currentPage();
+    
+    // Get highlights for current page
+    const highlights = this.getCurrentPageHighlights();
+    
+    try {
+      await this.pdfViewerService.renderPageWithHighlights(
+        this.pdfDocument,
+        pageNum,
+        canvas,
+        highlights
+      );
+    } catch (error) {
+      console.error('[CitationPreviewModal] Error rendering page:', error);
+    }
+  }
+
+  private getCurrentPageHighlights() {
+    const pageNum = this.currentPage().toString();
+    const highlights = [];
+    
+    // Get highlights from current chunk if one is selected
+    const chunk = this.currentChunk();
+    if (chunk) {
+      const chunkIndex = this.citationData.Chunks.indexOf(chunk);
+      const chunkHighlights = this.allHighlights.get(chunkIndex);
+      if (chunkHighlights && chunkHighlights[pageNum]) {
+        highlights.push(...chunkHighlights[pageNum]);
+      }
+    } else {
+      // Show all highlights on current page
+      this.allHighlights.forEach(pageBboxes => {
+        if (pageBboxes[pageNum]) {
+          highlights.push(...pageBboxes[pageNum]);
+        }
+      });
+    }
+    
+    return highlights;
   }
 
   private buildPdfUrl(data: DocumentCitationMetadata): string {
@@ -377,6 +553,36 @@ export class CitationPreviewModalComponent {
 
   closeModal(): void {
     this.dialogRef.close();
+  }
+
+  async previousPage(): Promise<void> {
+    if (this.currentPage() > 1) {
+      this.currentPage.set(this.currentPage() - 1);
+      await this.renderCurrentPage();
+    }
+  }
+
+  async nextPage(): Promise<void> {
+    if (this.currentPage() < this.totalPages()) {
+      this.currentPage.set(this.currentPage() + 1);
+      await this.renderCurrentPage();
+    }
+  }
+
+  async navigateToChunk(chunk: ChunkMetadata): Promise<void> {
+    // Set as current chunk
+    this.currentChunk.set(chunk);
+    
+    // Navigate to first page of chunk
+    if (chunk.pages && chunk.pages.length > 0) {
+      const firstPage = Math.min(...chunk.pages);
+      this.currentPage.set(firstPage);
+      await this.renderCurrentPage();
+    }
+  }
+
+  isChunkActive(chunk: ChunkMetadata): boolean {
+    return this.currentChunk() === chunk;
   }
 
   async openInNewTab(): Promise<void> {

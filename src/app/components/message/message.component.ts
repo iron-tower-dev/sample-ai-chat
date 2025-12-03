@@ -61,7 +61,7 @@ import { ThinkingSectionComponent } from '../thinking-section/thinking-section.c
             </div>
           }
           
-          @if (message().content) {
+          @if (message().content && message().content.trim().length > 0) {
             <!-- Thinking section (collapsed by default) -->
             @if (message().thinkingText || message().toolingText) {
               <app-thinking-section
@@ -138,7 +138,12 @@ export class MessageComponent {
       try {
         const msg = this.message();
         if (msg) {
-          const content = msg.content || '';
+          let content = msg.content || '';
+          // Filter out "Thinking" text - don't show it in the main content area
+          const trimmedContent = content.trim();
+          if (trimmedContent.toLowerCase() === 'thinking' || trimmedContent === '') {
+            content = '';
+          }
           this.processedContent.set(content);
         }
       } catch (e) {
