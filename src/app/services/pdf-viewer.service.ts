@@ -77,11 +77,18 @@ export class PdfViewerService {
           // Convert normalized coordinates (0-1000) to PDF page coordinates
           // Assuming standard page dimensions
           const x0 = (box.x1 / 1000) * DEFAULT_PAGE_WIDTH;
-          const y0 = (box.y1 / 1000) * DEFAULT_PAGE_HEIGHT;
           const x1 = (box.x2 / 1000) * DEFAULT_PAGE_WIDTH;
-          const y1 = (box.y2 / 1000) * DEFAULT_PAGE_HEIGHT;
           
-          // PDF coordinate system has origin at bottom-left
+          // PDF coordinate system has origin at BOTTOM-LEFT with Y increasing upward
+          // API coordinates have origin at TOP-LEFT with Y increasing downward
+          // We need to flip the Y coordinates
+          const y0_normalized = box.y1 / 1000;
+          const y1_normalized = box.y2 / 1000;
+          
+          // Convert from top-left origin to bottom-left origin
+          const y0 = DEFAULT_PAGE_HEIGHT - (y1_normalized * DEFAULT_PAGE_HEIGHT);
+          const y1 = DEFAULT_PAGE_HEIGHT - (y0_normalized * DEFAULT_PAGE_HEIGHT);
+          
           // rect format: [x0, y0, x1, y1]
           const rect = [x0, y0, x1, y1];
           

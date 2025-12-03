@@ -45,12 +45,11 @@ import { PdfViewerService, PageBoundingBoxes } from '../../services/pdf-viewer.s
             </div>
           } @else {
             <div class="iframe-container">
-              <iframe 
-                #pdfIframe
+              <embed 
+                #pdfEmbed
                 [src]="pdfUrl()"
                 type="application/pdf"
                 class="pdf-iframe">
-              </iframe>
             </div>
           }
         </div>
@@ -407,7 +406,7 @@ export class CitationPreviewModalComponent implements AfterViewInit, OnDestroy {
   
   citationData: DocumentCitationMetadata = inject(MAT_DIALOG_DATA);
 
-  @ViewChild('pdfIframe') pdfIframe!: ElementRef<HTMLIFrameElement>;
+  @ViewChild('pdfEmbed') pdfEmbed!: ElementRef<HTMLEmbedElement>;
 
   // State signals
   isLoading = signal(true);
@@ -522,31 +521,25 @@ export class CitationPreviewModalComponent implements AfterViewInit, OnDestroy {
     // Set as current chunk
     this.currentChunk.set(chunk);
     
-    // Navigate to first page of chunk
+    // Navigate to first page of chunk by updating the PDF URL with page fragment
     if (chunk.pages && chunk.pages.length > 0 && this.annotatedBlobUrl) {
       const firstPage = Math.min(...chunk.pages);
-      console.log('[CitationPreviewModal] Navigating to page:', firstPage);
-      
       // Note: PDF page numbering in URL fragments typically starts at 1
       const targetPage = firstPage + 1;
       
-      // Force iframe to reload with the page fragment by updating src
-      // We need to create a new URL reference to trigger change detection
-      const urlWithPage = `${this.annotatedBlobUrl}#page=${targetPage}`;
-      console.log('[CitationPreviewModal] Setting iframe URL to:', urlWithPage);
+      console.log('[CitationPreviewModal] Navigating to page:', targetPage);
       
-      // Sanitize and set the URL
+      // Create new URL with page fragment
+      const urlWithPage = `${this.annotatedBlobUrl}#page=${targetPage}`;
+      
+      // Update both the signal and the element directly
       const safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(urlWithPage);
       this.pdfUrl.set(safeUrl);
       
-      // Force the iframe to reload by toggling the src if the browser doesn't respond to fragment changes
-      if (this.pdfIframe?.nativeElement) {
-        const iframe = this.pdfIframe.nativeElement;
-        // Set src directly as well to ensure the browser processes it
-        setTimeout(() => {
-          iframe.src = urlWithPage;
-          console.log('[CitationPreviewModal] Directly set iframe src');
-        }, 0);
+      // Also try to set the src directly on the embed element
+      if (this.pdfEmbed?.nativeElement) {
+        this.pdfEmbed.nativeElement.src = urlWithPage;
+        console.log('[CitationPreviewModal] Set embed src to:', urlWithPage);
       }
     }
   }
