@@ -377,10 +377,34 @@ export class CitationPreviewModalComponent {
     this.dialogRef.close();
   }
 
-  openInNewTab(): void {
+  async openInNewTab(): Promise<void> {
     if (this.citationData) {
-      const url = this.buildPdfUrl(this.citationData);
-      window.open(url, '_blank');
+      // Check if we already have a blob URL
+      const currentUrl = this.pdfUrl();
+      if (currentUrl) {
+        // Extract the blob URL from the SafeResourceUrl
+        const urlString = currentUrl.toString();
+        // Open the existing blob URL
+        window.open(urlString, '_blank');
+      } else {
+        // Fetch and create a new blob URL
+        try {
+          const url = this.buildPdfUrl(this.citationData);
+          console.log('[CitationPreviewModal] Fetching PDF for new tab:', url);
+          
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(`Failed to fetch PDF: ${response.status}`);
+          }
+          
+          const blob = await response.blob();
+          const blobUrl = URL.createObjectURL(blob);
+          window.open(blobUrl, '_blank');
+        } catch (error) {
+          console.error('[CitationPreviewModal] Error opening PDF in new tab:', error);
+          alert('Failed to open PDF in new tab');
+        }
+      }
     }
   }
 
