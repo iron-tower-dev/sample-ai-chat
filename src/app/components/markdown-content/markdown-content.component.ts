@@ -76,7 +76,10 @@ export class MarkdownContentComponent implements AfterViewChecked {
     ngAfterViewChecked(): void {
         // Attach click handlers to citation links after the view has been updated
         if (!this.clickHandlersAttached) {
-            this.attachCitationClickHandlers();
+            // Use setTimeout to ensure DOM is fully updated
+            setTimeout(() => {
+                this.attachCitationClickHandlers();
+            }, 0);
             this.clickHandlersAttached = true;
         }
     }
@@ -85,14 +88,17 @@ export class MarkdownContentComponent implements AfterViewChecked {
         const element = this.elementRef.nativeElement as HTMLElement;
         const citationLinks = element.querySelectorAll('.inline-source-citation');
         
-        console.log('[MarkdownContent] Found', citationLinks.length, 'citation links to attach handlers to');
+        console.log('[MarkdownContent] Attaching handlers to', citationLinks.length, 'citation links');
         
-        citationLinks.forEach((link) => {
+        citationLinks.forEach((link, index) => {
+            console.log(`[MarkdownContent] Link ${index}:`, link.getAttribute('href'), 'class:', link.className);
+            
             // Remove any existing click handlers to avoid duplicates
             const newLink = link.cloneNode(true) as HTMLElement;
             link.parentNode?.replaceChild(newLink, link);
             
             newLink.addEventListener('click', (event: Event) => {
+                console.log('[MarkdownContent] *** CLICK HANDLER FIRED ***');
                 event.preventDefault();
                 event.stopPropagation();
                 
