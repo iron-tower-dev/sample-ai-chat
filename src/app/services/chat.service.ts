@@ -115,6 +115,8 @@ export class ChatService {
             let citationMetadata: Record<string, any> | undefined;
             let followupQuestions: { topic: string; followups: string[] } | undefined;
 
+            let apiMessageIdStored = false;
+            
             await this.llmApi.sendMessage(request, (streamData) => {
                 console.log('[ChatService] Streaming callback invoked', streamData);
                 const { currentChunk, isComplete, error, messageId: apiMessageId } = streamData;
@@ -129,10 +131,13 @@ export class ChatService {
                     return;
                 }
 
-                // Store API message ID for feedback
-                if (apiMessageId) {
+                // Store API message ID for feedback (only once)
+                if (apiMessageId && !apiMessageIdStored) {
                     console.log('[ChatService] Got API message ID:', apiMessageId);
                     this.updateMessageApiMessageId(assistantMessageId, apiMessageId);
+                    apiMessageIdStored = true;
+                } else if (!apiMessageId && !apiMessageIdStored) {
+                    console.warn('[ChatService] API message ID not available in stream response');
                 }
 
                 if (currentChunk) {
@@ -430,16 +435,28 @@ export class ChatService {
         try {
             // Find the message to get its API message_id
             let apiMessageId: string | undefined;
+            let messageFound = false;
             for (const conv of this.conversations()) {
                 const msg = conv.messages.find(m => m.id === messageId);
                 if (msg) {
+                    messageFound = true;
                     apiMessageId = msg.apiMessageId;
+                    console.log('[ChatService] Found message for feedback:', {
+                        messageId: msg.id,
+                        role: msg.role,
+                        apiMessageId: msg.apiMessageId,
+                        hasContent: !!msg.content
+                    });
                     break;
                 }
             }
 
+            if (!messageFound) {
+                throw new Error(`Message with ID ${messageId} not found in any conversation`);
+            }
+
             if (!apiMessageId) {
-                throw new Error('API message_id not found for this message');
+                throw new Error('API message_id not found for this message. The message may be from an older session or the API did not return a message ID.');
             }
 
             // Create feedback object
