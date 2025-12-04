@@ -1,7 +1,6 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
-import { ChatMessage, Conversation, ChatRequest, ChatResponse, DocumentSource, RAGDocument, MessageFeedback } from '../models/chat.models';
+import { ChatMessage, Conversation, DocumentSource, MessageFeedback } from '../models/chat.models';
 import { UserConfigService } from './user-config.service';
-import { environment } from '../../environments/environment';
 import { LlmApiService, LLMRequest, FeedbackRequest } from './llm-api.service';
 
 @Injectable({
@@ -227,22 +226,6 @@ export class ChatService {
         console.log('[ChatService] Conversations updated');
     }
 
-    private updateMessageRAGDocuments(messageId: string, ragDocuments: RAGDocument[] | Record<string, RAGDocument>): void {
-        // Convert map to array if needed for backward compatibility
-        const docsArray = Array.isArray(ragDocuments) ? ragDocuments : Object.values(ragDocuments);
-        
-        this.conversations.update(convs =>
-            convs.map(conv => ({
-                ...conv,
-                messages: conv.messages.map(msg =>
-                    msg.id === messageId
-                        ? { ...msg, ragDocuments: docsArray }
-                        : msg
-                )
-            }))
-        );
-    }
-
     private updateMessageApiMessageId(messageId: string, apiMessageId: string): void {
         this.conversations.update(convs =>
             convs.map(conv => ({
@@ -308,96 +291,6 @@ export class ChatService {
                 )
             }))
         );
-    }
-
-    private convertToRAGDocumentsMap(retrievedSources: any[], datasetName?: string): Record<string, RAGDocument> {
-        if (!retrievedSources || retrievedSources.length === 0) {
-            return {};
-        }
-
-        const documentsMap: Record<string, RAGDocument> = {};
-
-        retrievedSources.forEach((source) => {
-            // Determine document title based on dataset type
-            let title: string;
-            const metadata = source.metadata || {};
-            
-            if (datasetName === 'NRCAdams' && metadata.AccessionNumber) {
-                title = metadata.AccessionNumber;
-            } else if (metadata.DocumentTitle) {
-                title = metadata.DocumentTitle;
-            } else if (metadata.documentName) {
-                title = metadata.documentName;
-            } else {
-                title = source.source_id || 'Unknown Document';
-            }
-
-            const docSource: DocumentSource = {
-                id: source.source_id || 'unknown',
-                name: datasetName || 'Unknown Source',
-                type: datasetName === 'NRCAdams' ? 'external' : 'internal',
-                requiresAuth: datasetName !== 'NRCAdams'
-            };
-
-            // Use source_id as the key in the map
-            const sourceId = source.source_id || this.generateId();
-            documentsMap[sourceId] = {
-                id: this.generateId(),
-                title,
-                content: source.text || '',
-                source: docSource,
-                metadata: {
-                    ...metadata,
-                    documentName: title,
-                    dateAdded: new Date()
-                },
-                relevanceScore: metadata.distance ? 1 - metadata.distance : undefined
-            };
-        });
-
-        return documentsMap;
-    }
-
-    private convertToRAGDocuments(retrievedSources: any[], datasetName?: string): RAGDocument[] {
-        if (!retrievedSources || retrievedSources.length === 0) {
-            return [];
-        }
-
-        return retrievedSources.map((source, index) => {
-            // Determine document title based on dataset type
-            let title: string;
-            const metadata = source.metadata || {};
-            
-            if (datasetName === 'NRCAdams' && metadata.AccessionNumber) {
-                title = metadata.AccessionNumber;
-            } else if (metadata.DocumentTitle) {
-                title = metadata.DocumentTitle;
-            } else if (metadata.documentName) {
-                title = metadata.documentName;
-            } else {
-                title = source.source_id || `Document ${index + 1}`;
-            }
-
-            const docSource: DocumentSource = {
-                id: source.source_id || 'unknown',
-                name: datasetName || 'Unknown Source',
-                type: datasetName === 'NRCAdams' ? 'external' : 'internal',
-                requiresAuth: datasetName !== 'NRCAdams'
-            };
-
-            return {
-                id: this.generateId(),
-                title,
-                content: source.text || '',
-                source: docSource,
-                metadata: {
-                    ...metadata,
-                    documentName: title,
-                    dateAdded: new Date()
-                },
-                relevanceScore: metadata.distance ? 1 - metadata.distance : undefined
-            };
-        });
     }
 
     createNewConversation(title?: string): string {

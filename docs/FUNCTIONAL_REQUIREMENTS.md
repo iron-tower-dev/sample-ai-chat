@@ -295,73 +295,22 @@ This specification covers all user-facing features and system behaviors for the 
 
 ### 3.4 Document Source Management
 
-#### FR-015: View Available Document Sources
-**Priority**: High  
-**Description**: Users can see which document sources are available to search.
+**Note**: Document selector UI is not yet implemented. Document source management is handled server-side.
 
-**Acceptance Criteria**:
-- Document selector button accessible in chat interface
-- Clicking opens document selector dialog
-- Dialog displays list of all available sources
-- Each source shows:
-  - Name
-  - Type (external/internal)
-  - Authorization indicator (if restricted)
-- Sources organized by type
-- Unauthorized sources shown as disabled with explanation
-
-**Dependencies**: None
-
----
-
-#### FR-016: Select Document Sources
-**Priority**: High  
-**Description**: Users can choose which document sources to include in queries.
-
-**Acceptance Criteria**:
-- Each available source has checkbox
-- User checks/unchecks sources to select/deselect
-- Multiple sources can be selected
-- Selection persists during session
-- Selected sources used for subsequent queries
-- Visual indicator shows number of selected sources
-- Default: All authorized sources selected
-
-**Dependencies**: FR-015
-
----
-
-#### FR-017: Apply Metadata Filters
-**Priority**: Medium  
-**Description**: Users can filter documents by metadata fields.
-
-**Acceptance Criteria**:
-- Document selector shows expandable metadata filters per source
-- Available metadata fields displayed (e.g., Author, Category, Date, Tags)
-- Users can select specific metadata values
-- Multiple filters can be applied
-- Filters narrow down searchable documents
-- Clear indication of active filters
-- "Clear Filters" option available
-- Filters persist during session
-
-**Dependencies**: FR-015, FR-016
-
----
-
-#### FR-018: Authorization-Based Source Filtering
+#### FR-015: Authorization-Based Source Filtering (Server-Side)
 **Priority**: High  
 **Description**: System restricts document sources based on user authorization.
 
 **Acceptance Criteria**:
-- System checks user's AD group membership
-- Internal sources only shown if user in allowed groups
-- Unauthorized sources displayed as disabled in selector
-- Tooltip explains authorization requirement
+- System checks user's AD group membership (server-side)
+- Internal sources only accessible if user in allowed groups
 - External sources always available to authenticated users
 - Authorization checked before each query
+- Unauthorized access returns appropriate error message
 
-**Dependencies**: FR-015
+**Dependencies**: None
+
+**Future Enhancement**: FR-015-A: Implement client-side document selector UI for source selection and metadata filtering.
 
 ---
 
@@ -505,36 +454,9 @@ This specification covers all user-facing features and system behaviors for the 
 
 ### 3.8 Model Selection
 
-#### FR-027: View Available Models
-**Priority**: Low  
-**Description**: Users can see which AI models are available.
+**Note**: Model selection UI is not yet implemented. The backend uses a default model.
 
-**Acceptance Criteria**:
-- Model selector accessible in chat interface
-- Displays list of available models
-- Each model shows:
-  - Name
-  - Description
-  - Capabilities
-  - Token limits
-- Unavailable models shown as disabled
-
-**Dependencies**: None
-
----
-
-#### FR-028: Select AI Model
-**Priority**: Low  
-**Description**: Users can choose which AI model to use.
-
-**Acceptance Criteria**:
-- User selects model from list
-- Selection applies to new messages in conversation
-- Model preference persists during session
-- Visual indicator shows current model
-- Default model selected automatically
-
-**Dependencies**: FR-027
+**Future Enhancement**: FR-027: Implement model selector UI allowing users to choose between available AI models.
 
 ---
 
@@ -700,9 +622,9 @@ This specification covers all user-facing features and system behaviors for the 
 
 | Priority | Features |
 |----------|----------|
-| **High** | FR-001, FR-002, FR-003, FR-005, FR-006, FR-007, FR-010, FR-015, FR-016, FR-018, FR-021, FR-022, FR-024, FR-026, FR-029, FR-030, FR-031 |
-| **Medium** | FR-004, FR-008, FR-009, FR-012, FR-013, FR-017, FR-019, FR-020, FR-025 |
-| **Low** | FR-011, FR-014, FR-023, FR-027, FR-028 |
+| **High** | FR-001, FR-002, FR-003, FR-005, FR-006, FR-007, FR-010, FR-015, FR-021, FR-022, FR-024, FR-026, FR-029, FR-030, FR-031 |
+| **Medium** | FR-004, FR-008, FR-009, FR-012, FR-013, FR-019, FR-020, FR-025 |
+| **Low** | FR-011, FR-014, FR-023 |
 
 ---
 

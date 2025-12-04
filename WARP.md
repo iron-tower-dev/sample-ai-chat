@@ -43,12 +43,12 @@ ng generate service <name>         # Generate new service
 
 #### ChatService (`src/app/services/chat.service.ts`)
 Central service for chat functionality using signals:
-- **State**: `conversations`, `currentConversationId`, `availableModels`, `documentSources`, `isLoading`
+- **State**: `conversations`, `currentConversationId`, `documentSources`, `isLoading`
 - **Computed Signals**: `currentConversation`, `currentMessages`, `hasConversations`
 - Manages conversation lifecycle (create, select, delete)
-- Handles message sending with simulated API responses (TODO: replace with actual API)
+- Handles message sending via LlmApiService with streaming SSE responses
 - Persists conversations to localStorage
-- Feedback submission (TODO: implement backend API call)
+- Feedback submission integrated with backend API
 
 #### DocumentService (`src/app/services/document.service.ts`)
 Manages RAG (Retrieval-Augmented Generation) document integration:
@@ -86,22 +86,27 @@ Key components:
 - `ChatInterfaceComponent`: Main chat UI with message input and display
 - `MessageComponent`: Individual message with feedback controls (thumbs up/down)
 - `ConversationSidebarComponent`: List and manage conversations
-- `DocumentSelectorComponent`: Select document sources and apply metadata filters
-- `ModelSelectorComponent`: Choose LLM model
+- `ChatLayoutComponent`: Layout container with sidenav for chat interface
+- `AppToolbarComponent`: Application toolbar with navigation and theme controls
 - `RAGDocumentLinkComponent`: Document links with hover previews
 - `MarkdownContentComponent`: Renders markdown/LaTeX content
-- `ThemeToggleComponent`: Toggle light/dark/system theme
+- `ThemeSelectorDialogComponent`: Theme selection dialog
+- `CitationPreviewModalComponent`: Modal for viewing document citations
+- `FeedbackDialogComponent`: Dialog for submitting message feedback
+- `FollowupQuestionsComponent`: Displays suggested followup questions
+- `ThinkingSectionComponent`: Shows LLM thinking and tooling process
 
 ### Data Models (`src/app/models/chat.models.ts`)
 
 Core interfaces:
-- `ChatMessage`: Message with content, role, timestamp, optional feedback and RAG documents
+- `ChatMessage`: Message with content, role, timestamp, optional feedback, RAG documents, citation metadata, thinking/tooling text, and followup questions
+- `MessageFeedback`: Feedback info with type (positive/negative) and optional comment
 - `Conversation`: Container for messages with metadata
 - `RAGDocument`: Document with source, metadata, and relevance score
 - `DocumentSource`: Source config with auth requirements and allowed groups
-- `LLMModel`: Model info with availability and token limits
-- `ChatRequest`/`ChatResponse`: API request/response structures
-- `DocumentFilter`: Metadata-based document filtering
+- `DocumentMetadata`: Document metadata with flexible fields
+- `DocumentCitationMetadata`: Metadata for document citations including chunks and bounding boxes
+- `ChunkMetadata`: Chunk info with pages, bounding boxes, and relevance scores
 
 ### State Management Pattern
 
@@ -120,15 +125,22 @@ This application uses **Angular Signals** exclusively for state management:
 - Theme classes: `.light-theme` and `.dark-theme`
 - Prettier configuration: 100 char width, single quotes, Angular HTML parser
 
-### TODO Items / Backend Integration
+### LLM API Integration
 
-Several areas are stubbed for backend integration:
-1. **ChatService.sendMessage()**: Replace `simulateAPIResponse()` with actual API call
-2. **ChatService.submitFeedback()**: Implement feedback API endpoint
-3. **DocumentService.loadDocuments()**: Load documents from backend
-4. **DocumentService.searchDocuments()**: Implement document search API
-5. **Authorization**: Implement AD group checking for internal documents
-6. **Real-time Updates**: Consider WebSocket integration for streaming responses
+The application integrates with an LLM backend via:
+- **LlmApiService**: Handles SSE streaming responses from LLM API
+- **Streaming Support**: Real-time streaming of thinking, tooling, and response text
+- **Citation Metadata**: Automatic extraction and linking of source documents
+- **Followup Questions**: Dynamic generation of suggested followup questions
+- **Feedback API**: Integrated feedback submission with message IDs
+
+### TODO Items / Future Enhancements
+
+1. **DocumentService.loadDocuments()**: Load documents from backend (currently uses mock data)
+2. **DocumentService.searchDocuments()**: Implement document search API
+3. **Authorization**: Implement AD group checking for internal documents
+4. **User Profile**: Implement profile management functionality
+5. **Sign Out**: Implement authentication/sign out functionality
 
 ## Angular Coding Standards
 

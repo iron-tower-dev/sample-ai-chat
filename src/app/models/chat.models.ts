@@ -76,47 +76,5 @@ export interface ChunkMetadata {
     relevance_score: number;
 }
 
-export interface ChatRequest {
-    user_id: string;
-    ad_group: string;
-    prompt: string;
-    message_id: string;
-    session_id: string;
-    system_prompt?: string;
-    persona?: string;
-    tool_override?: 'searchdoc' | 'querydb';
-    filtered_dataset?: any;
-    metadata_filters?: any;
-}
 
-export interface DocumentFilter {
-    sourceId: string;
-    metadataFilters: Record<string, any>;
-}
-
-export interface ChatResponse {
-    thread_id: string;
-    tool_call_reasoning: string;
-    generated_reasoning: string;
-    generated_response: string;
-    guardrail_reasoning: string;
-    guardrail_response: string;
-    cited_sources: CitedSource[];
-    retrieved_sources: RetrievedSource[];
-    topic: string;
-    summary: string;
-    retrieval_time: number;
-    generation_time: number;
-    guardrail_time: number;
-}
-
-export interface CitedSource {
-    text: string;
-    metadata: DocumentMetadata;
-}
-
-export interface RetrievedSource {
-    text: string;
-    metadata: DocumentMetadata;
-}
 

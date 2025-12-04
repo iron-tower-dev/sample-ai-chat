@@ -69,8 +69,4 @@ export class ChatLayoutComponent {
       }
     });
   }
-
-  toggleSidebar(): void {
-    this.sidenav.toggle();
-  }
 }

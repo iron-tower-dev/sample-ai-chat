@@ -112,19 +112,18 @@ The AI Chat Assistant is a web-based conversational interface that enables users
 ```
 App (Root)
 ├── AppToolbarComponent
-│   └── ThemeToggleComponent
 ├── RouterOutlet
     └── ChatLayoutComponent
         ├── ConversationSidebarComponent
         └── ChatInterfaceComponent
-            ├── DocumentSelectorComponent
             ├── MessageComponent
             │   ├── MarkdownContentComponent
             │   ├── ThinkingSectionComponent
             │   ├── RAGDocumentLinkComponent
-            │   ├── CitationPreviewModalComponent
-            │   └── FollowupQuestionsComponent
-            └── FeedbackDialogComponent
+            │   └── FeedbackDialogComponent
+            ├── FollowupQuestionsComponent
+            ├── ThemeSelectorDialogComponent
+            └── CitationPreviewModalComponent
 ```
 
 ### 3.2 Component Design Patterns
@@ -305,38 +304,33 @@ interface DocumentSource {
 
 ### 5.2 API Request/Response Models
 
-**ChatRequest**
+**LLMRequest** (used by LlmApiService)
 ```typescript
-interface ChatRequest {
-  user_id: string;
-  ad_group: string;
-  prompt: string;
-  message_id: string;
+interface LLMRequest {
+  user_query: string;
+  username: string;
   session_id: string;
-  system_prompt?: string;
-  persona?: string;
-  tool_override?: 'searchdoc' | 'querydb';
-  filtered_dataset?: any;
-  metadata_filters?: any;
 }
 ```
 
-**ChatResponse**
+**LLMResponseChunk** (streaming response)
 ```typescript
-interface ChatResponse {
-  thread_id: string;
-  tool_call_reasoning: string;
-  generated_reasoning: string;
-  generated_response: string;
-  guardrail_reasoning: string;
-  guardrail_response: string;
-  cited_sources: CitedSource[];
-  retrieved_sources: RetrievedSource[];
-  topic: string;
-  summary: string;
-  retrieval_time: number;
-  generation_time: number;
-  guardrail_time: number;
+interface LLMResponseChunk {
+  thinkingText: string;
+  toolingText: string;
+  responseText: string;
+  metadata?: Record<string, any>;
+  followupQuestions?: { topic: string; followups: string[] };
+  isComplete: boolean;
+}
+```
+
+**FeedbackRequest**
+```typescript
+interface FeedbackRequest {
+  message_id: string;
+  feedback_sign: 'positive' | 'negative' | 'neutral';
+  feedback_text: string;
 }
 ```
 
@@ -629,13 +623,16 @@ environment.ts {
 4. **Export**: Download conversations as PDF/Markdown
 5. **Voice Input**: Speech-to-text for message input
 
-### 13.2 Technical Debt
+### 13.2 Technical Debt and Future Work
 
-1. Replace simulated API responses with real backend
-2. Implement server-side conversation persistence
-3. Add comprehensive error handling
-4. Implement authentication flow
-5. Add telemetry and analytics
+1. **DocumentService.loadDocuments()**: Implement actual API calls (currently uses mock data)
+2. **DocumentService.searchDocuments()**: Implement document search API
+3. **Authorization**: Implement AD group checking for internal documents
+4. **User Profile**: Implement profile management functionality
+5. **Sign Out**: Implement authentication/sign out functionality
+6. **Server-side persistence**: Move conversation storage from localStorage to backend
+7. **Error handling**: Add comprehensive error handling and retry logic
+8. **Telemetry**: Add analytics and usage tracking
 
 ---
 

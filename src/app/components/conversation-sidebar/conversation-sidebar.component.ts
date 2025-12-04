@@ -1,4 +1,4 @@
-import { Component, signal, computed, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,7 +8,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ChatService } from '../../services/chat.service';
-import { Conversation } from '../../models/chat.models';
 
 @Component({
   selector: 'app-conversation-sidebar',
@@ -77,8 +76,6 @@ import { Conversation } from '../../models/chat.models';
 export class ConversationSidebarComponent {
   private chatService = inject(ChatService);
 
-  isCollapsed = signal(false);
-
   // Computed signals
   readonly conversations = computed(() => {
     // Show most recent first (reverse chronological order)
@@ -102,33 +99,5 @@ export class ConversationSidebarComponent {
     if (confirm('Are you sure you want to delete this conversation? This action cannot be undone.')) {
       this.chatService.deleteConversation(conversationId);
     }
-  }
-
-  formatLastUpdated(date: Date): string {
-    const now = new Date();
-    const diff = now.getTime() - date.getTime();
-    const minutes = Math.floor(diff / 60000);
-    const hours = Math.floor(diff / 3600000);
-    const days = Math.floor(diff / 86400000);
-
-    if (minutes < 1) {
-      return 'Just now';
-    } else if (minutes < 60) {
-      return `${minutes}m ago`;
-    } else if (hours < 24) {
-      return `${hours}h ago`;
-    } else if (days < 7) {
-      return `${days}d ago`;
-    } else {
-      return date.toLocaleDateString();
-    }
-  }
-
-  getConversationPreview(conversation: Conversation): string {
-    const lastMessage = conversation.messages[conversation.messages.length - 1];
-    if (!lastMessage) return '';
-
-    const preview = lastMessage.content;
-    return preview.length > 100 ? preview.substring(0, 100) + '...' : preview;
   }
 }
