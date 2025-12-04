@@ -85,8 +85,15 @@ export class LlmApiService {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      // Extract message ID from header
-      messageId = response.headers.get('x-message-id') || undefined;
+      // Extract message ID from header (case-insensitive, try both)
+      // Debug: log all available headers
+      console.log('[LLM API] Response headers available:');
+      response.headers.forEach((value, key) => {
+        console.log(`  ${key}: ${value}`);
+      });
+      
+      messageId = response.headers.get('X-Message-Id') || response.headers.get('x-message-id') || undefined;
+      console.log('[LLM API] Extracted message ID:', messageId);
 
       const reader = response.body?.getReader();
       if (!reader) {
