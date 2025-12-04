@@ -535,5 +535,5 @@ export class LlmApiService {
 export interface FeedbackRequest {
   message_id: string;
   feedback_sign: 'positive' | 'negative' | 'neutral';
-  feedback_text?: string;
+  feedback_text: string;
 }

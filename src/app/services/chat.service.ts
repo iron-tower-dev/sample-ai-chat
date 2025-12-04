@@ -470,7 +470,7 @@ export class ChatService {
             const feedbackRequest: FeedbackRequest = {
                 message_id: apiMessageId,
                 feedback_sign: type,
-                feedback_text: comment
+                feedback_text: comment || ''
             };
 
             await this.llmApi.submitFeedback(feedbackRequest);

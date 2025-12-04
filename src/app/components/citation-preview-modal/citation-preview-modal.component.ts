@@ -64,8 +64,8 @@ import { PdfViewerService, PageBoundingBoxes } from '../../services/pdf-viewer.s
                   mat-button 
                   class="chunk-btn"
                   [class.active]="isChunkActive(chunk)"
-                  [matTooltip]="'Relevance: ' + (chunk.relevance_score * 100).toFixed(1) + '%'"
-                  (click)="navigateToChunk(chunk)">
+                  [matTooltip]="'Relevance: ' + (chunk.relevance_score * 100).toFixed(1) + '% - Click to highlight this chunk'"
+                  (click)="selectChunk(chunk)">
                   <div class="chunk-info">
                     <span class="chunk-id">Chunk {{ chunk.chunk_id }}</span>
                     <span class="chunk-pages">Pages: {{ formatPages(chunk.pages) }}</span>
@@ -515,33 +515,15 @@ export class CitationPreviewModalComponent implements AfterViewInit, OnDestroy {
     this.dialogRef.close();
   }
 
-  navigateToChunk(chunk: ChunkMetadata): void {
-    console.log('[CitationPreviewModal] Navigating to chunk:', chunk);
+  selectChunk(chunk: ChunkMetadata): void {
+    console.log('[CitationPreviewModal] Selected chunk:', chunk);
     
-    // Set as current chunk
+    // Set as current chunk to highlight it in the UI
     this.currentChunk.set(chunk);
     
-    // Navigate to first page of chunk by updating the PDF URL with page fragment
-    if (chunk.pages && chunk.pages.length > 0 && this.annotatedBlobUrl) {
-      const firstPage = Math.min(...chunk.pages);
-      // Note: PDF page numbering in URL fragments typically starts at 1
-      const targetPage = firstPage + 1;
-      
-      console.log('[CitationPreviewModal] Navigating to page:', targetPage);
-      
-      // Create new URL with page fragment
-      const urlWithPage = `${this.annotatedBlobUrl}#page=${targetPage}`;
-      
-      // Update both the signal and the element directly
-      const safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(urlWithPage);
-      this.pdfUrl.set(safeUrl);
-      
-      // Also try to set the src directly on the embed element
-      if (this.pdfEmbed?.nativeElement) {
-        this.pdfEmbed.nativeElement.src = urlWithPage;
-        console.log('[CitationPreviewModal] Set embed src to:', urlWithPage);
-      }
-    }
+    // Note: Browser native PDF viewers don't reliably support programmatic page navigation
+    // The highlights for this chunk are already visible in the PDF viewer
+    // Users can manually scroll to the pages listed on the chunk button
   }
 
   isChunkActive(chunk: ChunkMetadata): boolean {
@@ -557,7 +539,8 @@ export class CitationPreviewModalComponent implements AfterViewInit, OnDestroy {
 
   formatPages(pages: number[]): string {
     if (!pages || pages.length === 0) return 'N/A';
-    if (pages.length === 1) return pages[0].toString();
-    return `${pages[0]}-${pages[pages.length - 1]}`;
+    // Add 1 to convert from 0-indexed to 1-indexed page numbers
+    if (pages.length === 1) return (pages[0] + 1).toString();
+    return `${pages[0] + 1}-${pages[pages.length - 1] + 1}`;
   }
 }
