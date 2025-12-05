@@ -1,0 +1,1132 @@
+data: "\n<think>"
+
+data: "The"
+
+data: " user"
+
+data: " is"
+
+data: " asking"
+
+data: " about"
+
+data: " the"
+
+data: " formulas"
+
+data: " for"
+
+data: " alpha"
+
+data: " and"
+
+data: " beta"
+
+data: " decay"
+
+data: "."
+
+data: " This"
+
+data: " is"
+
+data: " a"
+
+data: " general"
+
+data: " physics"
+
+data: "/n"
+
+data: "uclear"
+
+data: " chemistry"
+
+data: " question"
+
+data: " about"
+
+data: " radioactive"
+
+data: " decay"
+
+data: " equations"
+
+data: "."
+
+data: " This"
+
+data: " doesn"
+
+data: "'t"
+
+data: " seem"
+
+data: " to"
+
+data: " require"
+
+data: " any"
+
+data: " specific"
+
+data: " tools"
+
+data: " from"
+
+data: " the"
+
+data: " Palo"
+
+data: " Verde"
+
+data: " Nuclear"
+
+data: " Generating"
+
+data: " Station"
+
+data: " database"
+
+data: " or"
+
+data: " document"
+
+data: " collections"
+
+data: " -"
+
+data: " it"
+
+data: "'s"
+
+data: " asking"
+
+data: " for"
+
+data: " fundamental"
+
+data: " physics"
+
+data: " formulas"
+
+data: " that"
+
+data: " should"
+
+data: " be"
+
+data: " common"
+
+data: " knowledge"
+
+data: ".\n\n"
+
+data: "I"
+
+data: " should"
+
+data: " provide"
+
+data: " the"
+
+data: " basic"
+
+data: " equations"
+
+data: " for"
+
+data: " alpha"
+
+data: " and"
+
+data: " beta"
+
+data: " decay"
+
+data: " without"
+
+data: " needing"
+
+data: " to"
+
+data: " use"
+
+data: " the"
+
+data: " query"
+
+data: " tools"
+
+data: ","
+
+data: " as"
+
+data: " this"
+
+data: " is"
+
+data: " general"
+
+data: " scientific"
+
+data: " information"
+
+data: " rather"
+
+data: " than"
+
+data: " plant"
+
+data: "-specific"
+
+data: " information"
+
+data: ".\n\n"
+
+data: "Alpha"
+
+data: " decay"
+
+data: ":"
+
+data: " A"
+
+data: " parent"
+
+data: " nucleus"
+
+data: " dec"
+
+data: "ays"
+
+data: " by"
+
+data: " emitting"
+
+data: " an"
+
+data: " alpha"
+
+data: " particle"
+
+data: " ("
+
+data: "hel"
+
+data: "ium"
+
+data: " nucleus"
+
+data: ":"
+
+data: " "
+
+data: "2"
+
+data: " pro"
+
+data: "tons"
+
+data: " +"
+
+data: " "
+
+data: "2"
+
+data: " neut"
+
+data: "rons"
+
+data: ")\n"
+
+data: "Beta"
+
+data: " decay"
+
+data: ":"
+
+data: " Can"
+
+data: " be"
+
+data: " beta"
+
+data: "-minus"
+
+data: " ("
+
+data: "electron"
+
+data: " emission"
+
+data: ")"
+
+data: " or"
+
+data: " beta"
+
+data: "-plus"
+
+data: " ("
+
+data: "posit"
+
+data: "ron"
+
+data: " emission"
+
+data: "),"
+
+data: " or"
+
+data: " electron"
+
+data: " capture"
+
+data: "\n\n"
+
+data: "Let"
+
+data: " me"
+
+data: " provide"
+
+data: " these"
+
+data: " fundamental"
+
+data: " equations"
+
+data: "."
+
+data: "</think>"
+
+data: "\n"
+
+data: "<"
+
+data: "response"
+
+data: ">\n"
+
+data: "The"
+
+data: " fundamental"
+
+data: " decay"
+
+data: " equations"
+
+data: " for"
+
+data: " alpha"
+
+data: " and"
+
+data: " beta"
+
+data: " decay"
+
+data: " are"
+
+data: ":\n\n"
+
+data: "##"
+
+data: " Alpha"
+
+data: " Decay"
+
+data: "\n"
+
+data: "$$"
+
+data: "\\"
+
+data: "ce"
+
+data: "{"
+
+data: "_{"
+
+data: "Z"
+
+data: "}"
+
+data: "^{"
+
+data: "A"
+
+data: "}"
+
+data: "X"
+
+data: " ->"
+
+data: " _"
+
+data: "{"
+
+data: "Z"
+
+data: "-"
+
+data: "2"
+
+data: "}"
+
+data: "^{"
+
+data: "A"
+
+data: "-"
+
+data: "4"
+
+data: "}"
+
+data: "Y"
+
+data: " +"
+
+data: " _"
+
+data: "{"
+
+data: "2"
+
+data: "}"
+
+data: "^{"
+
+data: "4"
+
+data: "}"
+
+data: "He"
+
+data: "}"
+
+data: "$$"
+
+data: "\n\n"
+
+data: "Where"
+
+data: ":\n"
+
+data: "-"
+
+data: " $_"
+
+data: "{"
+
+data: "Z"
+
+data: "}"
+
+data: "^{"
+
+data: "A"
+
+data: "}"
+
+data: "X"
+
+data: "$"
+
+data: " ="
+
+data: " parent"
+
+data: " nucleus"
+
+data: " ("
+
+data: "atomic"
+
+data: " number"
+
+data: " Z"
+
+data: ","
+
+data: " mass"
+
+data: " number"
+
+data: " A"
+
+data: ")"
+
+data: "  \n"
+
+data: "-"
+
+data: " $_"
+
+data: "{"
+
+data: "Z"
+
+data: "-"
+
+data: "2"
+
+data: "}"
+
+data: "^{"
+
+data: "A"
+
+data: "-"
+
+data: "4"
+
+data: "}"
+
+data: "Y"
+
+data: "$"
+
+data: " ="
+
+data: " daughter"
+
+data: " nucleus"
+
+data: "\n"
+
+data: "-"
+
+data: " $_"
+
+data: "{"
+
+data: "2"
+
+data: "}"
+
+data: "^{"
+
+data: "4"
+
+data: "}"
+
+data: "He"
+
+data: "$"
+
+data: " ="
+
+data: " alpha"
+
+data: " particle"
+
+data: " ("
+
+data: "hel"
+
+data: "ium"
+
+data: " nucleus"
+
+data: ")\n\n"
+
+data: "**"
+
+data: "Example"
+
+data: "**:"
+
+data: " Uran"
+
+data: "ium"
+
+data: "-"
+
+data: "23"
+
+data: "8"
+
+data: " decay"
+
+data: " to"
+
+data: " Thor"
+
+data: "ium"
+
+data: "-"
+
+data: "23"
+
+data: "4"
+
+data: "\n"
+
+data: "$$"
+
+data: "\\"
+
+data: "ce"
+
+data: "{"
+
+data: "_{"
+
+data: "92"
+
+data: "}"
+
+data: "^{"
+
+data: "23"
+
+data: "8"
+
+data: "}"
+
+data: "U"
+
+data: " ->"
+
+data: " _"
+
+data: "{"
+
+data: "90"
+
+data: "}"
+
+data: "^{"
+
+data: "23"
+
+data: "4"
+
+data: "}"
+
+data: "Th"
+
+data: " +"
+
+data: " _"
+
+data: "{"
+
+data: "2"
+
+data: "}"
+
+data: "^{"
+
+data: "4"
+
+data: "}"
+
+data: "He"
+
+data: "}"
+
+data: "$$"
+
+data: "\n\n"
+
+data: "##"
+
+data: " Beta"
+
+data: " Decay"
+
+data: "\n\n"
+
+data: "###"
+
+data: " Beta"
+
+data: "-M"
+
+data: "inus"
+
+data: " Decay"
+
+data: " ("
+
+data: "\u03b2"
+
+data: "\u207b"
+
+data: ")\n"
+
+data: "$$"
+
+data: "\\"
+
+data: "ce"
+
+data: "{"
+
+data: "_{"
+
+data: "Z"
+
+data: "}"
+
+data: "^{"
+
+data: "A"
+
+data: "}"
+
+data: "X"
+
+data: " ->"
+
+data: " _"
+
+data: "{"
+
+data: "Z"
+
+data: "+"
+
+data: "1"
+
+data: "}"
+
+data: "^{"
+
+data: "A"
+
+data: "}"
+
+data: "Y"
+
+data: " +"
+
+data: " _"
+
+data: "{-"
+
+data: "1"
+
+data: "}"
+
+data: "^{"
+
+data: "0"
+
+data: "}"
+
+data: "e"
+
+data: " +"
+
+data: " \\"
+
+data: "over"
+
+data: "line"
+
+data: "{\\"
+
+data: "nu"
+
+data: "}_"
+
+data: "e"
+
+data: "}"
+
+data: "$$"
+
+data: "\n\n"
+
+data: "Where"
+
+data: " a"
+
+data: " neutron"
+
+data: " converts"
+
+data: " to"
+
+data: " a"
+
+data: " proton"
+
+data: ","
+
+data: " emitting"
+
+data: " an"
+
+data: " electron"
+
+data: " and"
+
+data: " an"
+
+data: " ant"
+
+data: "ine"
+
+data: "utr"
+
+data: "ino"
+
+data: ".\n\n"
+
+data: "**"
+
+data: "Example"
+
+data: "**:"
+
+data: " Carbon"
+
+data: "-"
+
+data: "14"
+
+data: " decay"
+
+data: " to"
+
+data: " Nit"
+
+data: "rogen"
+
+data: "-"
+
+data: "14"
+
+data: "\n"
+
+data: "$$"
+
+data: "\\"
+
+data: "ce"
+
+data: "{"
+
+data: "_{"
+
+data: "6"
+
+data: "}"
+
+data: "^{"
+
+data: "14"
+
+data: "}"
+
+data: "C"
+
+data: " ->"
+
+data: " _"
+
+data: "{"
+
+data: "7"
+
+data: "}"
+
+data: "^{"
+
+data: "14"
+
+data: "}"
+
+data: "N"
+
+data: " +"
+
+data: " _"
+
+data: "{-"
+
+data: "1"
+
+data: "}"
+
+data: "^{"
+
+data: "0"
+
+data: "}"
+
+data: "e"
+
+data: " +"
+
+data: " \\"
+
+data: "over"
+
+data: "line"
+
+data: "{\\"
+
+data: "nu"
+
+data: "}_"
+
+data: "e"
+
+data: "}"
+
+data: "$$"
+
+data: "\n\n"
+
+data: "###"
+
+data: " Beta"
+
+data: "-"
+
+data: "Plus"
+
+data: " Decay"
+
+data: " ("
+
+data: "\u03b2"
+
+data: "\u207a"
+
+data: ")"
+
+data: " \n"
+
+data: "$$"
+
+data: "\\"
+
+data: "ce"
+
+data: "{"
+
+data: "_{"
+
+data: "Z"
+
+data: "}"
+
+data: "^{"
+
+data: "A"
+
+data: "}"
+
+data: "X"
+
+data: " ->"
+
+data: " _"
+
+data: "{"
+
+data: "Z"
+
+data: "-"
+
+data: "1"
+
+data: "}"
+
+data: "^{"
+
+data: "A"
+
+data: "}"
+
+data: "Y"
+
+data: " +"
+
+data: " _"
+
+data: "{"
+
+data: "+"
+
+data: "1"
+
+data: "}"
+
+data: "^{"
+
+data: "0"
+
+data: "}"
+
+data: "e"
+
+data: " +"
+
+data: " \\"
+
+data: "nu"
+
+data: "_e"
+
+data: "}"
+
+data: "$$"
+
+data: "\n\n"
+
+data: "Where"
+
+data: " a"
+
+data: " proton"
+
+data: " converts"
+
+data: " to"
+
+data: " a"
+
+data: " neutron"
+
+data: ","
+
+data: " emitting"
+
+data: " a"
+
+data: " posit"
+
+data: "ron"
+
+data: " and"
+
+data: " a"
+
+data: " neutr"
+
+data: "ino"
+
+data: ".\n\n"
+
+data: "**"
+
+data: "Example"
+
+data: "**:"
+
+data: " Flu"
+
+data: "or"
+
+data: "ine"
+
+data: "-"
+
+data: "18"
+
+data: " decay"
+
+data: " to"
+
+data: " Oxygen"
+
+data: "-"
+
+data: "18"
+
+data: "\n"
+
+data: "$$"
+
+data: "\\"
+
+data: "ce"
+
+data: "{"
+
+data: "_{"
+
+data: "9"
+
+data: "}"
+
+data: "^{"
+
+data: "18"
+
+data: "}"
+
+data: "F"
+
+data: " ->"
+
+data: " _"
+
+data: "{"
+
+data: "8"
+
+data: "}"
+
+data: "^{"
+
+data: "18"
+
+data: "}"
+
+data: "O"
+
+data: " +"
+
+data: " _"
+
+data: "{"
+
+data: "+"
+
+data: "1"
+
+data: "}"
+
+data: "^{"
+
+data: "0"
+
+data: "}"
+
+data: "e"
+
+data: " +"
+
+data: " \\"
+
+data: "nu"
+
+data: "_e"
+
+data: "}"
+
+data: "$$"
+
+data: "\n"
+
+data: "</"
+
+data: "response"
+
+data: ">"
+
+followup_and_topic_questions: "{\n    \"topic\": \"radioactive decay\",\n    \"followups\": [\n        \"What is the difference between alpha and beta decay?\",\n        \"How does one calculate the half-life of a radioactive substance using the decay equation?\"\n    ]\n}"
+
+metadata: {}
+

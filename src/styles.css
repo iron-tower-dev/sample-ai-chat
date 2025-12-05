@@ -1,58 +1,47 @@
 /* Angular Material theming */
 @import './styles/themes.scss';
 
-/* Global KaTeX positioning fixes */
+/* Global KaTeX styling */
 .katex {
-    font-size: 1.1em !important;
-    line-height: 1.2 !important;
+    font-size: 1.1em;
+}
+
+/* Inline math styling */
+.math-inline {
+    display: inline;
+    white-space: nowrap;
 }
 
 .math-inline .katex {
-    vertical-align: baseline !important;
-    display: inline-block !important;
+    display: inline;
+    white-space: normal;
 }
 
-.math-inline .katex .mfrac {
-    vertical-align: -0.5ex !important;
+/* Display math (block) styling */
+.math-block {
+    display: block;
+    margin: 1em 0;
+    text-align: center;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
-.math-inline .katex .msupsub {
-    vertical-align: baseline !important;
+.math-block .katex {
+    display: inline-block;
 }
 
-.math-inline .katex .vlist-t {
-    display: inline-table !important;
-    vertical-align: baseline !important;
+/* Math error styling */
+.math-error {
+    color: #d32f2f;
+    background-color: #ffebee;
+    padding: 0.25em 0.5em;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
 }
 
-.math-inline .katex .vlist-r {
-    display: table-row !important;
-}
-
-.math-inline .katex .vlist {
-    display: table-cell !important;
-    vertical-align: baseline !important;
-}
-
-.math-inline .katex .msupsub .vlist-s {
-    display: table-cell !important;
-    vertical-align: baseline !important;
-    font-size: 0.75em !important;
-}
-
-.math-inline .katex .mfrac .vlist-t {
-    display: inline-table !important;
-    vertical-align: middle !important;
-}
-
-.math-inline .katex .mfrac .vlist-r {
-    display: table-row !important;
-}
-
-.math-inline .katex .mfrac .vlist {
-    display: table-cell !important;
-    vertical-align: middle !important;
-    text-align: center !important;
+:host-context(.dark-theme) .math-error {
+    color: #ef5350;
+    background-color: rgba(244, 67, 54, 0.1);
 }
 
 /* Legacy theme variables for backward compatibility */

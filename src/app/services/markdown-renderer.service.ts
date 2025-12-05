@@ -27,7 +27,8 @@ export class MarkdownRendererService {
                 const html = katex.renderToString(cleanMath, {
                     displayMode: true,
                     throwOnError: false,
-                    strict: false
+                    strict: false,
+                    trust: true  // Allow \ce and other trusted commands
                 });
                 return `<div class="math-block" style="margin: 1em 0; text-align: center;">${html}</div>`;
             } catch (error) {
@@ -44,36 +45,13 @@ export class MarkdownRendererService {
                 const html = katex.renderToString(cleanMath, {
                     displayMode: false,
                     throwOnError: false,
-                    strict: false
+                    strict: false,
+                    trust: true  // Allow \ce and other trusted commands
                 });
 
-                // Fix subscript and superscript positioning issues
-                let modifiedHtml = html;
-                
-                // Fix subscript positioning - subscripts should be lower, not higher
-                modifiedHtml = modifiedHtml.replace(/style="top:([0-9.]+)em/g, (match, value) => {
-                    const numValue = parseFloat(value);
-                    // Only adjust if it's a positive value (subscripts)
-                    if (numValue > 0) {
-                        // Keep subscripts at their proper lower position
-                        return match;
-                    }
-                    // For superscripts (negative values), reduce the height slightly
-                    const adjusted = numValue * 0.7;
-                    return `style="top:${adjusted}em`;
-                });
-                
-                // Reduce excessive heights that cause extra line spacing
-                modifiedHtml = modifiedHtml.replace(/style="height:([0-9.]+)em"/g, (match, value) => {
-                    const numValue = parseFloat(value);
-                    if (numValue > 1.5) {
-                        return `style="height:${Math.min(numValue * 0.5, 1.2)}em"`;
-                    }
-                    return match;
-                });
-
-                // Add wrapper with baseline alignment and controlled line height
-                return `<span class="math-inline" style="vertical-align: baseline; display: inline-block; line-height: 1.2; margin: 0; padding: 0;">${modifiedHtml}</span>`;
+                // No aggressive position modifications - KaTeX handles this correctly
+                // Just wrap with a container that prevents line height issues
+                return `<span class="math-inline">${html}</span>`;
             } catch (error) {
                 console.warn('Inline LaTeX rendering error:', error, 'for content:', mathContent);
                 return `<code class="math-error">$${this.escapeHtml(mathContent)}$</code>`;
@@ -91,7 +69,8 @@ export class MarkdownRendererService {
                 const html = katex.renderToString(cleanCode, {
                     displayMode: true,
                     throwOnError: false,
-                    strict: false
+                    strict: false,
+                    trust: true  // Allow \ce and other trusted commands
                 });
                 return `<div class="math-block">${html}</div>`;
             } catch (error) {
@@ -107,7 +86,8 @@ export class MarkdownRendererService {
                 const html = katex.renderToString(cleanCode, {
                     displayMode: false,
                     throwOnError: false,
-                    strict: false
+                    strict: false,
+                    trust: true  // Allow \ce and other trusted commands
                 });
                 return `<span class="math-inline">${html}</span>`;
             } catch (error) {
