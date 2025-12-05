@@ -20,8 +20,8 @@ export class MarkdownRendererService {
     }
 
     private removeCeWrapper(math: string): string {
-        // Remove \ce{...} wrapper, handling nested braces
-        // Match \ce{ and then find the matching closing brace
+        // Remove \ce{...} wrapper and convert chemistry notation to standard LaTeX
+        // Chemistry notation uses _{} and ^{} without a base, which isn't valid in standard LaTeX
         let result = math;
         let changed = true;
         
@@ -47,8 +47,13 @@ export class MarkdownRendererService {
                 }
                 
                 if (end !== -1) {
-                    // Replace \ce{content} with just content
-                    const content = result.substring(start, end);
+                    let content = result.substring(start, end);
+                    
+                    // Convert chemistry notation subscripts/superscripts to standard LaTeX
+                    // In chemistry notation: _{Z}^{A}X means subscript Z, superscript A, then X
+                    // In standard LaTeX: we need {}_{Z}^{A}X (empty base for sub/superscripts)
+                    content = content.replace(/^(_\{|\^\{)/g, '{}$1');
+                    
                     result = result.substring(0, ceIndex) + content + result.substring(end + 1);
                     changed = true;
                 }
