@@ -19,6 +19,29 @@ export class MarkdownRendererService {
         });
     }
 
+    private convertChemistryNotation(math: string): string {
+        // Convert chemistry notation: _{sub}^{sup}Element -> Element_{sub}^{sup}
+        // This works for both \ce{} wrapped and unwrapped notation
+        let result = math;
+        
+        // Pattern 1: _{...}^{...}Letter  (both subscript and superscript)
+        result = result.replace(/(_\{[^}]+\})(\^\{[^}]+\})([A-Za-z]+)/g, (match, sub, sup, element) => {
+            return element + sub + sup;
+        });
+        
+        // Pattern 2: _{...}Letter  (just subscript) - but not if followed by ^
+        result = result.replace(/(_\{[^}]+\})([A-Za-z]+)(?!\^)/g, (match, sub, element) => {
+            return element + sub;
+        });
+        
+        // Pattern 3: ^{...}Letter  (just superscript)
+        result = result.replace(/(\^\{[^}]+\})([A-Za-z]+)/g, (match, sup, element) => {
+            return element + sup;
+        });
+        
+        return result;
+    }
+
     private removeCeWrapper(math: string): string {
         // Remove \ce{...} wrapper and convert chemistry notation to standard LaTeX
         // Chemistry notation: _{Z}^{A}X means element X with subscript Z and superscript A
@@ -88,8 +111,9 @@ export class MarkdownRendererService {
         // First handle display math with $$ delimiters (must be done before inline $)
         let processed = text.replace(/\$\$([\s\S]+?)\$\$/g, (match, mathContent) => {
             try {
-                // Remove \ce{} wrapper if present (mhchem not available)
-                const cleanMath = this.removeCeWrapper(mathContent.trim());
+                // Remove \ce{} wrapper and convert chemistry notation
+                let cleanMath = this.removeCeWrapper(mathContent.trim());
+                cleanMath = this.convertChemistryNotation(cleanMath);
                 
                 const html = katex.renderToString(cleanMath, {
                     displayMode: true,
@@ -106,8 +130,9 @@ export class MarkdownRendererService {
         // Then handle inline math with single $ delimiters
         processed = processed.replace(/\$([^$\n]+)\$/g, (match, mathContent) => {
             try {
-                // Remove \ce{} wrapper if present (mhchem not available)
-                const cleanMath = this.removeCeWrapper(mathContent.trim());
+                // Remove \ce{} wrapper and convert chemistry notation
+                let cleanMath = this.removeCeWrapper(mathContent.trim());
+                cleanMath = this.convertChemistryNotation(cleanMath);
                 
                 const html = katex.renderToString(cleanMath, {
                     displayMode: false,
