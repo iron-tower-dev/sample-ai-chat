@@ -20,8 +20,24 @@ export class MarkdownRendererService {
     }
 
     private processInlineMath(text: string): string {
-        // Handle inline math with $ delimiters
-        return text.replace(/\$([^$]+)\$/g, (match, mathContent) => {
+        // First handle display math with $$ delimiters (must be done before inline $)
+        let processed = text.replace(/\$\$([\s\S]+?)\$\$/g, (match, mathContent) => {
+            try {
+                const cleanMath = mathContent.trim();
+                const html = katex.renderToString(cleanMath, {
+                    displayMode: true,
+                    throwOnError: false,
+                    strict: false
+                });
+                return `<div class="math-block" style="margin: 1em 0; text-align: center;">${html}</div>`;
+            } catch (error) {
+                console.warn('Display LaTeX rendering error:', error, 'for content:', mathContent);
+                return `<pre class="math-error">$$${this.escapeHtml(mathContent)}$$</pre>`;
+            }
+        });
+
+        // Then handle inline math with single $ delimiters
+        processed = processed.replace(/\$([^$\n]+)\$/g, (match, mathContent) => {
             try {
                 // Clean up the math content
                 const cleanMath = mathContent.trim();
@@ -31,23 +47,40 @@ export class MarkdownRendererService {
                     strict: false
                 });
 
-                // Modify the KaTeX HTML to fix superscript positioning and line height
-                let modifiedHtml = html.replace(/style="top:-3\.063em/g, 'style="top:-0.3em');
-                // Fix line height issues by reducing the height of strut elements moderately
-                modifiedHtml = modifiedHtml.replace(/style="height:0\.8141em"/g, 'style="height:0.3em"');
-                modifiedHtml = modifiedHtml.replace(/style="height:0\.6833em"/g, 'style="height:0.2em"');
-                // Aggressively reduce the height of the pstrut elements that create the extra line
-                modifiedHtml = modifiedHtml.replace(/style="height:2\.7em"/g, 'style="height:0.1em"');
-                // Fix the quadratic equation block positioning
-                modifiedHtml = modifiedHtml.replace(/style="height:1\.3845em;vertical-align:-0\.345em"/g, 'style="height:0.8em;vertical-align:0em"');
+                // Fix subscript and superscript positioning issues
+                let modifiedHtml = html;
+                
+                // Fix subscript positioning - subscripts should be lower, not higher
+                modifiedHtml = modifiedHtml.replace(/style="top:([0-9.]+)em/g, (match, value) => {
+                    const numValue = parseFloat(value);
+                    // Only adjust if it's a positive value (subscripts)
+                    if (numValue > 0) {
+                        // Keep subscripts at their proper lower position
+                        return match;
+                    }
+                    // For superscripts (negative values), reduce the height slightly
+                    const adjusted = numValue * 0.7;
+                    return `style="top:${adjusted}em`;
+                });
+                
+                // Reduce excessive heights that cause extra line spacing
+                modifiedHtml = modifiedHtml.replace(/style="height:([0-9.]+)em"/g, (match, value) => {
+                    const numValue = parseFloat(value);
+                    if (numValue > 1.5) {
+                        return `style="height:${Math.min(numValue * 0.5, 1.2)}em"`;
+                    }
+                    return match;
+                });
 
-                // Add simple inline styles to fix positioning and prevent extra line spacing
-                return `<span class="math-inline" style="vertical-align: baseline; display: inline-block; line-height: 1; margin: 0; padding: 0;">${modifiedHtml}</span>`;
+                // Add wrapper with baseline alignment and controlled line height
+                return `<span class="math-inline" style="vertical-align: baseline; display: inline-block; line-height: 1.2; margin: 0; padding: 0;">${modifiedHtml}</span>`;
             } catch (error) {
                 console.warn('Inline LaTeX rendering error:', error, 'for content:', mathContent);
                 return `<code class="math-error">$${this.escapeHtml(mathContent)}$</code>`;
             }
         });
+        
+        return processed;
     }
 
     private processCodeBlock(code: string, language: string | undefined): string {
@@ -150,7 +183,7 @@ export class MarkdownRendererService {
 
     // Utility method to check if content contains math
     containsMath(content: string): boolean {
-        return /\$[^$]+\$/.test(content) || /```(?:latex|math)/.test(content);
+        return /\$\$[\s\S]+?\$\$/.test(content) || /\$[^$]+\$/.test(content) || /```(?:latex|math)/.test(content);
     }
 
     // Utility method to check if content contains markdown

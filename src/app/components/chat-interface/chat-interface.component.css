@@ -95,6 +95,11 @@
     gap: 1rem;
 }
 
+.followup-questions-container {
+    margin-top: 1rem;
+    width: 100%;
+}
+
 .welcome-icon {
     width: 80px;
     height: 80px;

@@ -539,8 +539,29 @@ export class CitationPreviewModalComponent implements AfterViewInit, OnDestroy {
 
   formatPages(pages: number[]): string {
     if (!pages || pages.length === 0) return 'N/A';
+    // Remove duplicates and sort
+    const uniquePages = [...new Set(pages)].sort((a, b) => a - b);
     // Add 1 to convert from 0-indexed to 1-indexed page numbers
-    if (pages.length === 1) return (pages[0] + 1).toString();
-    return `${pages[0] + 1}-${pages[pages.length - 1] + 1}`;
+    if (uniquePages.length === 1) return (uniquePages[0] + 1).toString();
+    
+    // Group consecutive pages into ranges
+    const ranges: string[] = [];
+    let start = uniquePages[0];
+    let end = uniquePages[0];
+    
+    for (let i = 1; i < uniquePages.length; i++) {
+      if (uniquePages[i] === end + 1) {
+        end = uniquePages[i];
+      } else {
+        // Add the current range
+        ranges.push(start === end ? `${start + 1}` : `${start + 1}-${end + 1}`);
+        start = uniquePages[i];
+        end = uniquePages[i];
+      }
+    }
+    // Add the last range
+    ranges.push(start === end ? `${start + 1}` : `${start + 1}-${end + 1}`);
+    
+    return ranges.join(', ');
   }
 }

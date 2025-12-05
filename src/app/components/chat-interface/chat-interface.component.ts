@@ -50,6 +50,16 @@ import { FollowupQuestionsComponent } from '../followup-questions/followup-quest
           </app-message>
         }
         
+        <!-- Followup Questions (shown at bottom of messages) -->
+        @if (followupQuestions() && !isLoading()) {
+          <div class="followup-questions-container">
+            <app-followup-questions
+              [questions]="followupQuestions()"
+              (questionSelected)="onFollowupQuestionSelected($event)">
+            </app-followup-questions>
+          </div>
+        }
+        
         <!-- Scroll to Bottom Button -->
         @if (!autoScrollEnabled() && currentMessages().length > 0) {
           <button 
@@ -65,12 +75,6 @@ import { FollowupQuestionsComponent } from '../followup-questions/followup-quest
       <!-- Input Area -->
       <div class="input-area">
         <div class="input-wrapper">
-          <!-- Followup Questions -->
-          <app-followup-questions
-            [questions]="followupQuestions()"
-            (questionSelected)="onFollowupQuestionSelected($event)">
-          </app-followup-questions>
-          
           <div class="input-container">
             <textarea
               #messageInput
@@ -146,16 +150,19 @@ export class ChatInterfaceComponent implements AfterViewInit {
       }
     });
 
-    // Auto-scroll while loading (for streaming responses)
+    // Disable auto-scroll during streaming so user can read from top
     effect(() => {
       const loading = this.isLoading();
       
       if (loading) {
-        this.startAutoScroll();
+        // Disable auto-scroll when streaming starts
+        this.autoScrollEnabled.set(false);
       } else {
-        this.stopAutoScroll();
-        // Scroll one final time after loading completes
-        setTimeout(() => this.scrollToBottom(), 150);
+        // Scroll to bottom after loading completes (followup questions appear)
+        setTimeout(() => {
+          this.autoScrollEnabled.set(true);
+          this.scrollToBottom();
+        }, 150);
       }
     });
 
@@ -171,29 +178,6 @@ export class ChatInterfaceComponent implements AfterViewInit {
     });
   }
 
-  private scrollInterval: any = null;
-
-  private startAutoScroll(): void {
-    // Clear any existing interval
-    this.stopAutoScroll();
-    
-    // Scroll immediately
-    this.scrollToBottom();
-    
-    // Then scroll periodically while loading (for streaming)
-    this.scrollInterval = setInterval(() => {
-      if (this.isLoading() && this.autoScrollEnabled()) {
-        this.scrollToBottom();
-      }
-    }, 100); // Scroll every 100ms during streaming
-  }
-
-  private stopAutoScroll(): void {
-    if (this.scrollInterval) {
-      clearInterval(this.scrollInterval);
-      this.scrollInterval = null;
-    }
-  }
 
   async sendMessage(): Promise<void> {
     const message = this.currentMessage().trim();
@@ -202,8 +186,9 @@ export class ChatInterfaceComponent implements AfterViewInit {
       return;
     }
 
-    // Enable auto-scroll for new messages
+    // Scroll to show user's message, but disable auto-scroll during response streaming
     this.autoScrollEnabled.set(true);
+    setTimeout(() => this.scrollToBottom(), 50);
 
     try {
       await this.chatService.sendMessage(message);
@@ -238,17 +223,15 @@ export class ChatInterfaceComponent implements AfterViewInit {
     element.scrollTop = element.scrollHeight;
   }
 
-  // Detect if user scrolled up manually
+  // Detect if user scrolled to bottom manually
   onMessagesScroll(event: Event): void {
     if (!this.scrollContainer?.nativeElement) return;
     
     const element = this.scrollContainer.nativeElement;
     const scrolledToBottom = element.scrollHeight - element.scrollTop <= element.clientHeight + 100;
     
-    // Disable auto-scroll if user scrolled up
-    if (!scrolledToBottom && !this.isLoading()) {
-      this.autoScrollEnabled.set(false);
-    } else {
+    // Only re-enable auto-scroll if user manually scrolls to bottom (not during loading)
+    if (scrolledToBottom && !this.isLoading()) {
       this.autoScrollEnabled.set(true);
     }
   }
