@@ -21,7 +21,8 @@ export class MarkdownRendererService {
 
     private removeCeWrapper(math: string): string {
         // Remove \ce{...} wrapper and convert chemistry notation to standard LaTeX
-        // Chemistry notation uses _{} and ^{} without a base, which isn't valid in standard LaTeX
+        // Chemistry notation: _{Z}^{A}X means element X with subscript Z and superscript A
+        // Standard LaTeX: X_{Z}^{A} - subscripts/superscripts come AFTER the base element
         let result = math;
         let changed = true;
         
@@ -49,10 +50,22 @@ export class MarkdownRendererService {
                 if (end !== -1) {
                     let content = result.substring(start, end);
                     
-                    // Convert chemistry notation subscripts/superscripts to standard LaTeX
-                    // In chemistry notation: _{Z}^{A}X means subscript Z, superscript A, then X
-                    // In standard LaTeX: we need {}_{Z}^{A}X (empty base for sub/superscripts)
-                    content = content.replace(/^(_\{|\^\{)/g, '{}$1');
+                    // Convert chemistry notation: _{Z}^{A}X -> X_{Z}^{A}
+                    // This regex captures subscript, superscript, and the following element
+                    content = content.replace(/(_{[^}]+})(\^{[^}]+})?\s*(\w+)/g, (match, sub, sup, element) => {
+                        // Reorder: element comes first, then subscript, then superscript
+                        return element + sub + (sup || '');
+                    });
+                    
+                    // Also handle cases with just subscript: _{Z}X -> X_{Z}
+                    content = content.replace(/_{([^}]+)}\s*(\w+)(?![_{^])/g, (match, sub, element) => {
+                        return element + '_{' + sub + '}';
+                    });
+                    
+                    // And cases with just superscript: ^{A}X -> X^{A}
+                    content = content.replace(/\^{([^}]+)}\s*(\w+)(?![_{^])/g, (match, sup, element) => {
+                        return element + '^{' + sup + '}';
+                    });
                     
                     result = result.substring(0, ceIndex) + content + result.substring(end + 1);
                     changed = true;
