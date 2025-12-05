@@ -19,16 +19,56 @@ export class MarkdownRendererService {
         });
     }
 
+    private removeCeWrapper(math: string): string {
+        // Remove \ce{...} wrapper, handling nested braces
+        // Match \ce{ and then find the matching closing brace
+        let result = math;
+        let changed = true;
+        
+        while (changed) {
+            changed = false;
+            const ceIndex = result.indexOf('\\ce{');
+            if (ceIndex !== -1) {
+                // Find the matching closing brace
+                let depth = 0;
+                let start = ceIndex + 4; // After '\ce{'
+                let end = -1;
+                
+                for (let i = start; i < result.length; i++) {
+                    if (result[i] === '{') {
+                        depth++;
+                    } else if (result[i] === '}') {
+                        if (depth === 0) {
+                            end = i;
+                            break;
+                        }
+                        depth--;
+                    }
+                }
+                
+                if (end !== -1) {
+                    // Replace \ce{content} with just content
+                    const content = result.substring(start, end);
+                    result = result.substring(0, ceIndex) + content + result.substring(end + 1);
+                    changed = true;
+                }
+            }
+        }
+        
+        return result;
+    }
+
     private processInlineMath(text: string): string {
         // First handle display math with $$ delimiters (must be done before inline $)
         let processed = text.replace(/\$\$([\s\S]+?)\$\$/g, (match, mathContent) => {
             try {
-                const cleanMath = mathContent.trim();
+                // Remove \ce{} wrapper if present (mhchem not available)
+                const cleanMath = this.removeCeWrapper(mathContent.trim());
+                
                 const html = katex.renderToString(cleanMath, {
                     displayMode: true,
                     throwOnError: false,
-                    strict: false,
-                    trust: true  // Allow \ce and other trusted commands
+                    strict: false
                 });
                 return `<div class="math-block" style="margin: 1em 0; text-align: center;">${html}</div>`;
             } catch (error) {
@@ -40,17 +80,15 @@ export class MarkdownRendererService {
         // Then handle inline math with single $ delimiters
         processed = processed.replace(/\$([^$\n]+)\$/g, (match, mathContent) => {
             try {
-                // Clean up the math content
-                const cleanMath = mathContent.trim();
+                // Remove \ce{} wrapper if present (mhchem not available)
+                const cleanMath = this.removeCeWrapper(mathContent.trim());
+                
                 const html = katex.renderToString(cleanMath, {
                     displayMode: false,
                     throwOnError: false,
-                    strict: false,
-                    trust: true  // Allow \ce and other trusted commands
+                    strict: false
                 });
 
-                // No aggressive position modifications - KaTeX handles this correctly
-                // Just wrap with a container that prevents line height issues
                 return `<span class="math-inline">${html}</span>`;
             } catch (error) {
                 console.warn('Inline LaTeX rendering error:', error, 'for content:', mathContent);
@@ -64,13 +102,13 @@ export class MarkdownRendererService {
     private processCodeBlock(code: string, language: string | undefined): string {
         if (language === 'latex' || language === 'math') {
             try {
-                // Clean up the code content
-                const cleanCode = code.trim();
+                // Remove \ce{} wrapper if present (mhchem not available)
+                const cleanCode = this.removeCeWrapper(code.trim());
+                
                 const html = katex.renderToString(cleanCode, {
                     displayMode: true,
                     throwOnError: false,
-                    strict: false,
-                    trust: true  // Allow \ce and other trusted commands
+                    strict: false
                 });
                 return `<div class="math-block">${html}</div>`;
             } catch (error) {
@@ -79,22 +117,6 @@ export class MarkdownRendererService {
             }
         }
 
-        // Handle inline math with $ delimiters
-        if (language === 'inline-math') {
-            try {
-                const cleanCode = code.trim();
-                const html = katex.renderToString(cleanCode, {
-                    displayMode: false,
-                    throwOnError: false,
-                    strict: false,
-                    trust: true  // Allow \ce and other trusted commands
-                });
-                return `<span class="math-inline">${html}</span>`;
-            } catch (error) {
-                console.warn('Inline LaTeX rendering error:', error, 'for content:', code);
-                return `<code class="math-error">${this.escapeHtml(code)}</code>`;
-            }
-        }
 
         // Default code block rendering
         const escapedCode = this.escapeHtml(code);

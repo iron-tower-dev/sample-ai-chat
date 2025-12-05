@@ -157,13 +157,8 @@ export class ChatInterfaceComponent implements AfterViewInit {
       if (loading) {
         // Disable auto-scroll when streaming starts
         this.autoScrollEnabled.set(false);
-      } else {
-        // Scroll to bottom after loading completes (followup questions appear)
-        setTimeout(() => {
-          this.autoScrollEnabled.set(true);
-          this.scrollToBottom();
-        }, 150);
       }
+      // Don't auto-scroll when loading completes - let user manually scroll to see followup questions
     });
 
     // Scroll when conversation changes
