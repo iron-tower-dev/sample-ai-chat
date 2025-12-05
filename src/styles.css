@@ -6,38 +6,13 @@
     font-size: 1.1em;
 }
 
-/* Inline math styling */
+/* Inline math styling - minimal, let KaTeX handle positioning */
 .math-inline {
-    display: inline-block;
-    vertical-align: baseline;
-    white-space: nowrap;
+    display: inline;
 }
 
 .math-inline .katex {
-    display: inline;
-    vertical-align: baseline;
-}
-
-/* Fix subscript/superscript positioning in inline math */
-.math-inline .katex .msupsub {
-    position: relative;
-    top: 0.3em;
-}
-
-/* Individual adjustments for subscripts */
-.math-inline .katex .msupsub .vlist-t .vlist-r .vlist {
-    position: relative;
-}
-
-/* Lower subscripts that appear too high */
-.math-inline .katex .msupsub .vlist-t .vlist-r .vlist > span {
-    position: relative !important;
-}
-
-/* Adjust the entire vlist container */
-.math-inline .katex .vlist-t {
-    display: inline-table;
-    vertical-align: -0.3em;
+    font-size: inherit;
 }
 
 /* Display math (block) styling */

@@ -1,0 +1,197 @@
+content_script_bundle.js:1 Attempting initialization Fri Dec 05 2025 14:49:23 GMT-0700 (Mountain Standard Time)
+debug_node-DTOmNMDH.mjs:17812 Angular is running in development mode.
+markdown-content.component.ts:39 [MarkdownContent] Content changed: 
+The fundamental decay equations for alpha and beta decay are:
+
+## Alpha Decay
+$$\ce{_{Z}^{A}X -> _{
+markdown-content.component.ts:40 [MarkdownContent] RAG docs: 0
+markdown-content.component.ts:41 [MarkdownContent] Citation metadata: {}
+markdown-content.component.ts:42 [MarkdownContent] Citation metadata keys: 0
+source-citation.service.ts:153 [SourceCitationService] Processing content: 
+The fundamental decay equations for alpha and beta decay are:
+
+## Alpha Decay
+$$\ce{_{Z}^{A}X -> _{Z-2}^{A-4}Y + _{2}^{4}He}$$
+
+Where:
+- $_{Z}^{A}X$ = parent nucleus (atomic number Z, mass number A) 
+source-citation.service.ts:154 [SourceCitationService] RAG documents count: 0
+source-citation.service.ts:156 [SourceCitationService] Citation metadata: present with 0 keys: []
+source-citation.service.ts:409 [SourceCitationService] Processed result (first 200 chars): 
+The fundamental decay equations for alpha and beta decay are:
+
+## Alpha Decay
+$$\ce{_{Z}^{A}X -> _{Z-2}^{A-4}Y + _{2}^{4}He}$$
+
+Where:
+- $_{Z}^{A}X$ = parent nucleus (atomic number Z, mass number A) 
+markdown-content.component.ts:49 [MarkdownContent] After citation processing: 
+The fundamental decay equations for alpha and beta decay are:
+
+## Alpha Decay
+$$\ce{_{Z}^{A}X -> _{Z-2}^{A-4}Y + _{2}^{4}He}$$
+
+Where:
+- $_{Z}^{A}X$ = parent nucleus (atomic number Z, mass number A) 
+markdown-renderer.service.ts:53 [LaTeX] Original: _{Z}^{A}X -> _{Z-2}^{A-4}Y + _{2}^{4}He
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{Z}^{A}X -> X_{Z}^{A}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{Z-2}^{A-4}Y -> Y_{Z-2}^{A-4}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{2}^{4}He -> He_{2}^{4}
+markdown-renderer.service.ts:77 [LaTeX] Converted: X_{Z}^{A} -> Y_{Z-2}^{A-4} + He_{2}^{4}
+markdown-renderer.service.ts:53 [LaTeX] Original: _{92}^{238}U -> _{90}^{234}Th + _{2}^{4}He
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{92}^{238}U -> U_{92}^{238}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{90}^{234}Th -> Th_{90}^{234}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{2}^{4}He -> He_{2}^{4}
+markdown-renderer.service.ts:77 [LaTeX] Converted: U_{92}^{238} -> Th_{90}^{234} + He_{2}^{4}
+markdown-renderer.service.ts:53 [LaTeX] Original: _{Z}^{A}X -> _{Z+1}^{A}Y + _{-1}^{0}e + \overline{\nu}_e
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{Z}^{A}X -> X_{Z}^{A}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{Z+1}^{A}Y -> Y_{Z+1}^{A}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{-1}^{0}e -> e_{-1}^{0}
+markdown-renderer.service.ts:77 [LaTeX] Converted: X_{Z}^{A} -> Y_{Z+1}^{A} + e_{-1}^{0} + \overline{\nu}_e
+markdown-renderer.service.ts:53 [LaTeX] Original: _{6}^{14}C -> _{7}^{14}N + _{-1}^{0}e + \overline{\nu}_e
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{6}^{14}C -> C_{6}^{14}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{7}^{14}N -> N_{7}^{14}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{-1}^{0}e -> e_{-1}^{0}
+markdown-renderer.service.ts:77 [LaTeX] Converted: C_{6}^{14} -> N_{7}^{14} + e_{-1}^{0} + \overline{\nu}_e
+markdown-renderer.service.ts:53 [LaTeX] Original: _{Z}^{A}X -> _{Z-1}^{A}Y + _{+1}^{0}e + \nu_e
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{Z}^{A}X -> X_{Z}^{A}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{Z-1}^{A}Y -> Y_{Z-1}^{A}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{+1}^{0}e -> e_{+1}^{0}
+markdown-renderer.service.ts:77 [LaTeX] Converted: X_{Z}^{A} -> Y_{Z-1}^{A} + e_{+1}^{0} + \nu_e
+markdown-renderer.service.ts:53 [LaTeX] Original: _{9}^{18}F -> _{8}^{18}O + _{+1}^{0}e + \nu_e
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{9}^{18}F -> F_{9}^{18}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{8}^{18}O -> O_{8}^{18}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{+1}^{0}e -> e_{+1}^{0}
+markdown-renderer.service.ts:77 [LaTeX] Converted: F_{9}^{18} -> O_{8}^{18} + e_{+1}^{0} + \nu_e
+markdown-content.component.ts:39 [MarkdownContent] Content changed: 
+The fundamental decay equations for alpha and beta decay are:
+
+## Alpha Decay
+$$\ce{_{Z}^{A}X -> _{
+markdown-content.component.ts:40 [MarkdownContent] RAG docs: 0
+markdown-content.component.ts:41 [MarkdownContent] Citation metadata: {}
+markdown-content.component.ts:42 [MarkdownContent] Citation metadata keys: 0
+source-citation.service.ts:153 [SourceCitationService] Processing content: 
+The fundamental decay equations for alpha and beta decay are:
+
+## Alpha Decay
+$$\ce{_{Z}^{A}X -> _{Z-2}^{A-4}Y + _{2}^{4}He}$$
+
+Where:
+- $_{Z}^{A}X$ = parent nucleus (atomic number Z, mass number A) 
+source-citation.service.ts:154 [SourceCitationService] RAG documents count: 0
+source-citation.service.ts:156 [SourceCitationService] Citation metadata: present with 0 keys: []
+source-citation.service.ts:409 [SourceCitationService] Processed result (first 200 chars): 
+The fundamental decay equations for alpha and beta decay are:
+
+## Alpha Decay
+$$\ce{_{Z}^{A}X -> _{Z-2}^{A-4}Y + _{2}^{4}He}$$
+
+Where:
+- $_{Z}^{A}X$ = parent nucleus (atomic number Z, mass number A) 
+markdown-content.component.ts:49 [MarkdownContent] After citation processing: 
+The fundamental decay equations for alpha and beta decay are:
+
+## Alpha Decay
+$$\ce{_{Z}^{A}X -> _{Z-2}^{A-4}Y + _{2}^{4}He}$$
+
+Where:
+- $_{Z}^{A}X$ = parent nucleus (atomic number Z, mass number A) 
+markdown-renderer.service.ts:53 [LaTeX] Original: _{Z}^{A}X -> _{Z-2}^{A-4}Y + _{2}^{4}He
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{Z}^{A}X -> X_{Z}^{A}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{Z-2}^{A-4}Y -> Y_{Z-2}^{A-4}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{2}^{4}He -> He_{2}^{4}
+markdown-renderer.service.ts:77 [LaTeX] Converted: X_{Z}^{A} -> Y_{Z-2}^{A-4} + He_{2}^{4}
+markdown-renderer.service.ts:53 [LaTeX] Original: _{92}^{238}U -> _{90}^{234}Th + _{2}^{4}He
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{92}^{238}U -> U_{92}^{238}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{90}^{234}Th -> Th_{90}^{234}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{2}^{4}He -> He_{2}^{4}
+markdown-renderer.service.ts:77 [LaTeX] Converted: U_{92}^{238} -> Th_{90}^{234} + He_{2}^{4}
+markdown-renderer.service.ts:53 [LaTeX] Original: _{Z}^{A}X -> _{Z+1}^{A}Y + _{-1}^{0}e + \overline{\nu}_e
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{Z}^{A}X -> X_{Z}^{A}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{Z+1}^{A}Y -> Y_{Z+1}^{A}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{-1}^{0}e -> e_{-1}^{0}
+markdown-renderer.service.ts:77 [LaTeX] Converted: X_{Z}^{A} -> Y_{Z+1}^{A} + e_{-1}^{0} + \overline{\nu}_e
+markdown-renderer.service.ts:53 [LaTeX] Original: _{6}^{14}C -> _{7}^{14}N + _{-1}^{0}e + \overline{\nu}_e
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{6}^{14}C -> C_{6}^{14}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{7}^{14}N -> N_{7}^{14}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{-1}^{0}e -> e_{-1}^{0}
+markdown-renderer.service.ts:77 [LaTeX] Converted: C_{6}^{14} -> N_{7}^{14} + e_{-1}^{0} + \overline{\nu}_e
+markdown-renderer.service.ts:53 [LaTeX] Original: _{Z}^{A}X -> _{Z-1}^{A}Y + _{+1}^{0}e + \nu_e
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{Z}^{A}X -> X_{Z}^{A}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{Z-1}^{A}Y -> Y_{Z-1}^{A}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{+1}^{0}e -> e_{+1}^{0}
+markdown-renderer.service.ts:77 [LaTeX] Converted: X_{Z}^{A} -> Y_{Z-1}^{A} + e_{+1}^{0} + \nu_e
+markdown-renderer.service.ts:53 [LaTeX] Original: _{9}^{18}F -> _{8}^{18}O + _{+1}^{0}e + \nu_e
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{9}^{18}F -> F_{9}^{18}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{8}^{18}O -> O_{8}^{18}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{+1}^{0}e -> e_{+1}^{0}
+markdown-renderer.service.ts:77 [LaTeX] Converted: F_{9}^{18} -> O_{8}^{18} + e_{+1}^{0} + \nu_e
+markdown-content.component.ts:39 [MarkdownContent] Content changed: 
+The fundamental decay equations for alpha and beta decay are:
+
+## Alpha Decay
+$$\ce{_{Z}^{A}X -> _{
+markdown-content.component.ts:40 [MarkdownContent] RAG docs: 0
+markdown-content.component.ts:41 [MarkdownContent] Citation metadata: {}
+markdown-content.component.ts:42 [MarkdownContent] Citation metadata keys: 0
+source-citation.service.ts:153 [SourceCitationService] Processing content: 
+The fundamental decay equations for alpha and beta decay are:
+
+## Alpha Decay
+$$\ce{_{Z}^{A}X -> _{Z-2}^{A-4}Y + _{2}^{4}He}$$
+
+Where:
+- $_{Z}^{A}X$ = parent nucleus (atomic number Z, mass number A) 
+source-citation.service.ts:154 [SourceCitationService] RAG documents count: 0
+source-citation.service.ts:156 [SourceCitationService] Citation metadata: present with 0 keys: []
+source-citation.service.ts:409 [SourceCitationService] Processed result (first 200 chars): 
+The fundamental decay equations for alpha and beta decay are:
+
+## Alpha Decay
+$$\ce{_{Z}^{A}X -> _{Z-2}^{A-4}Y + _{2}^{4}He}$$
+
+Where:
+- $_{Z}^{A}X$ = parent nucleus (atomic number Z, mass number A) 
+markdown-content.component.ts:49 [MarkdownContent] After citation processing: 
+The fundamental decay equations for alpha and beta decay are:
+
+## Alpha Decay
+$$\ce{_{Z}^{A}X -> _{Z-2}^{A-4}Y + _{2}^{4}He}$$
+
+Where:
+- $_{Z}^{A}X$ = parent nucleus (atomic number Z, mass number A) 
+markdown-renderer.service.ts:53 [LaTeX] Original: _{Z}^{A}X -> _{Z-2}^{A-4}Y + _{2}^{4}He
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{Z}^{A}X -> X_{Z}^{A}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{Z-2}^{A-4}Y -> Y_{Z-2}^{A-4}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{2}^{4}He -> He_{2}^{4}
+markdown-renderer.service.ts:77 [LaTeX] Converted: X_{Z}^{A} -> Y_{Z-2}^{A-4} + He_{2}^{4}
+markdown-renderer.service.ts:53 [LaTeX] Original: _{92}^{238}U -> _{90}^{234}Th + _{2}^{4}He
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{92}^{238}U -> U_{92}^{238}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{90}^{234}Th -> Th_{90}^{234}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{2}^{4}He -> He_{2}^{4}
+markdown-renderer.service.ts:77 [LaTeX] Converted: U_{92}^{238} -> Th_{90}^{234} + He_{2}^{4}
+markdown-renderer.service.ts:53 [LaTeX] Original: _{Z}^{A}X -> _{Z+1}^{A}Y + _{-1}^{0}e + \overline{\nu}_e
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{Z}^{A}X -> X_{Z}^{A}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{Z+1}^{A}Y -> Y_{Z+1}^{A}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{-1}^{0}e -> e_{-1}^{0}
+markdown-renderer.service.ts:77 [LaTeX] Converted: X_{Z}^{A} -> Y_{Z+1}^{A} + e_{-1}^{0} + \overline{\nu}_e
+markdown-renderer.service.ts:53 [LaTeX] Original: _{6}^{14}C -> _{7}^{14}N + _{-1}^{0}e + \overline{\nu}_e
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{6}^{14}C -> C_{6}^{14}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{7}^{14}N -> N_{7}^{14}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{-1}^{0}e -> e_{-1}^{0}
+markdown-renderer.service.ts:77 [LaTeX] Converted: C_{6}^{14} -> N_{7}^{14} + e_{-1}^{0} + \overline{\nu}_e
+markdown-renderer.service.ts:53 [LaTeX] Original: _{Z}^{A}X -> _{Z-1}^{A}Y + _{+1}^{0}e + \nu_e
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{Z}^{A}X -> X_{Z}^{A}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{Z-1}^{A}Y -> Y_{Z-1}^{A}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{+1}^{0}e -> e_{+1}^{0}
+markdown-renderer.service.ts:77 [LaTeX] Converted: X_{Z}^{A} -> Y_{Z-1}^{A} + e_{+1}^{0} + \nu_e
+markdown-renderer.service.ts:53 [LaTeX] Original: _{9}^{18}F -> _{8}^{18}O + _{+1}^{0}e + \nu_e
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{9}^{18}F -> F_{9}^{18}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{8}^{18}O -> O_{8}^{18}
+markdown-renderer.service.ts:61 [LaTeX] Pattern 1: _{+1}^{0}e -> e_{+1}^{0}
+markdown-renderer.service.ts:77 [LaTeX] Converted: F_{9}^{18} -> O_{8}^{18} + e_{+1}^{0} + \nu_e
+markdown-content.component.ts:84 [MarkdownContent] Attaching handlers to 0 citation links
+markdown-content.component.ts:84 [MarkdownContent] Attaching handlers to 0 citation links
+markdown-content.component.ts:84 [MarkdownContent] Attaching handlers to 0 citation links
