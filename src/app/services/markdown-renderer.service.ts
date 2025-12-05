@@ -49,25 +49,33 @@ export class MarkdownRendererService {
                 
                 if (end !== -1) {
                     let content = result.substring(start, end);
+                    console.log('[LaTeX] Original:', content);
                     
-                    // Convert chemistry notation: _{Z}^{A}X -> X_{Z}^{A}
-                    // This regex captures subscript, superscript, and the following element
-                    content = content.replace(/(_{[^}]+})(\^{[^}]+})?\s*(\w+)/g, (match, sub, sup, element) => {
-                        // Reorder: element comes first, then subscript, then superscript
-                        return element + sub + (sup || '');
+                    // Convert: _{subscript}^{superscript}Element -> Element_{subscript}^{superscript}
+                    // Handle all combinations: _{}, ^{}, or both
+                    let converted = content;
+                    
+                    // Pattern 1: _{...}^{...}X  (both subscript and superscript)
+                    converted = converted.replace(/(_\{[^}]+\})(\^\{[^}]+\})([A-Za-z]+)/g, (match, sub, sup, element) => {
+                        console.log('[LaTeX] Pattern 1:', match, '->', element + sub + sup);
+                        return element + sub + sup;
                     });
                     
-                    // Also handle cases with just subscript: _{Z}X -> X_{Z}
-                    content = content.replace(/_{([^}]+)}\s*(\w+)(?![_{^])/g, (match, sub, element) => {
-                        return element + '_{' + sub + '}';
+                    // Pattern 2: _{...}X  (just subscript)
+                    converted = converted.replace(/(_\{[^}]+\})([A-Za-z]+)(?!\^)/g, (match, sub, element) => {
+                        console.log('[LaTeX] Pattern 2:', match, '->', element + sub);
+                        return element + sub;
                     });
                     
-                    // And cases with just superscript: ^{A}X -> X^{A}
-                    content = content.replace(/\^{([^}]+)}\s*(\w+)(?![_{^])/g, (match, sup, element) => {
-                        return element + '^{' + sup + '}';
+                    // Pattern 3: ^{...}X  (just superscript)
+                    converted = converted.replace(/(\^\{[^}]+\})([A-Za-z]+)/g, (match, sup, element) => {
+                        console.log('[LaTeX] Pattern 3:', match, '->', element + sup);
+                        return element + sup;
                     });
                     
-                    result = result.substring(0, ceIndex) + content + result.substring(end + 1);
+                    console.log('[LaTeX] Converted:', converted);
+                    
+                    result = result.substring(0, ceIndex) + converted + result.substring(end + 1);
                     changed = true;
                 }
             }
