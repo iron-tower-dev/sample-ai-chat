@@ -8,13 +8,36 @@
 
 /* Inline math styling */
 .math-inline {
-    display: inline;
+    display: inline-block;
+    vertical-align: baseline;
     white-space: nowrap;
 }
 
 .math-inline .katex {
     display: inline;
-    white-space: normal;
+    vertical-align: baseline;
+}
+
+/* Fix subscript/superscript positioning in inline math */
+.math-inline .katex .msupsub {
+    position: relative;
+    top: 0.3em;
+}
+
+/* Individual adjustments for subscripts */
+.math-inline .katex .msupsub .vlist-t .vlist-r .vlist {
+    position: relative;
+}
+
+/* Lower subscripts that appear too high */
+.math-inline .katex .msupsub .vlist-t .vlist-r .vlist > span {
+    position: relative !important;
+}
+
+/* Adjust the entire vlist container */
+.math-inline .katex .vlist-t {
+    display: inline-table;
+    vertical-align: -0.3em;
 }
 
 /* Display math (block) styling */
